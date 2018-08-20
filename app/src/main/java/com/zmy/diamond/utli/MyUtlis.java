@@ -55,6 +55,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ServiceUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -2632,4 +2633,26 @@ public class MyUtlis {
         activity.getWindow().setAttributes(params);
     }
 
+    /**
+     * 打开客服QQ聊天
+     */
+    public static void openServiceQQ(Context context) {
+
+
+        if (AppUtils.isAppInstalled(AppConstant.PACKAGENAME_QQ)) {
+
+            try {
+                String url = "mqqwpa://im/chat?chat_type=wpa&uin="+context.getString(R.string.service_qq);
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            } catch (Exception e) {
+                e.printStackTrace();
+                ToastUtils.showShort("打开QQ失败");
+            }
+        } else {
+
+            ToastUtils.showShort("请先安装QQ");
+
+        }
+
+    }
 }

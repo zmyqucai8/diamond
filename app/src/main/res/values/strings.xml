@@ -3,7 +3,8 @@
     <!--电话号码-->
     <string name="service_tel">077-132949030</string>
     <string name="service_wechat">kuajingquan</string>
-    <string name="service_qq">132949030</string>
+    <!--客服QQ-->
+    <string name="service_qq">3496183659</string>
     <!--限制联系微信-->
     <string name="limit_wechat">yskjar01</string>
 

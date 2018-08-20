@@ -92,6 +92,8 @@ public class AppConstant {
     public static final int ACTION_ACCOUNT_RELEASE = 1;//发布
     public static final int ACTION_ACCOUNT_EDEITE = 2;//编辑
 
+    public static final String PACKAGENAME_QQ = "com.tencent.mobileqq";
+    public static final String PACKAGENAME_VX = "com.tencent.mm";
 
     //买账户
     public static final int DATA_TYPE_BUY_ACCOUNT = 2;

@@ -27,7 +27,6 @@ import com.zmy.diamond.activity.OpinionActivity;
 import com.zmy.diamond.activity.SettingActivity;
 import com.zmy.diamond.activity.VipActivity;
 import com.zmy.diamond.activity.WalletActivity;
-import com.zmy.diamond.activity.WebViewActivity;
 import com.zmy.diamond.base.MyBaseFragment;
 import com.zmy.diamond.utli.ApiUtlis;
 import com.zmy.diamond.utli.AppConstant;
@@ -401,7 +400,9 @@ public class MeFragment extends MyBaseFragment {
     @OnClick(R.id.rl_service)
     public void rl_service() {
 //        ToastUtils.showShort("联系客服");
-        WebViewActivity.start(getContext(), MyUtlis.HTML_JINSHUJU_contact_service, getString(R.string.service));
+//        WebViewActivity.start(getContext(), MyUtlis.HTML_JINSHUJU_contact_service, getString(R.string.service));
+        MyUtlis.openServiceQQ(getContext());
+
     }
 
     @OnClick(R.id.rl_feedback)
