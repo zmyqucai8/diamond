@@ -39,7 +39,7 @@ import butterknife.OnClick;
 
 /**
  * 钱包提现页面
- * Created by zhangmengyun on 2018/6/13.  测试22
+ * Created by zhangmengyun on 2018/6/13.  测试2233
  */
 
 public class WalletTiXianActivity extends MyBaseSwipeBackActivity {
