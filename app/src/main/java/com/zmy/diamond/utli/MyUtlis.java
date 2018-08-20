@@ -113,6 +113,8 @@ import xyz.bboylin.universialtoast.UniversalToast;
 public class MyUtlis {
 
 
+    //push一个开发分支
+
     //注册成功
     public final static int STATE_REGIST_YES = MyUtlis.STATE_YES;
     //注册失败
