@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!--按钮选项等使用的出白色背景-->
+    <item android:drawable="@color/graywhite" android:state_pressed="true" />
+    <item android:drawable="@color/graywhite" android:state_focused="true" />
+    <item android:drawable="@color/white" />
+
+</selector>

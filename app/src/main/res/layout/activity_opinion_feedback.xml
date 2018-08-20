@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/aliceblue"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/actionbar"></include>
+
+    <EditText
+        android:id="@+id/edit_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_border_blank_y"
+        android:gravity="left|top"
+        android:hint="请简要描述你的问题和意见"
+        android:maxHeight="200dp"
+        android:minHeight="200dp"
+        android:padding="10dp"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btn_commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/select_btn_gray_blue_30"
+        android:gravity="center"
+        android:text="提 交"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+
+</LinearLayout>

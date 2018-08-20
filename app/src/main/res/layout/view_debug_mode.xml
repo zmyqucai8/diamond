@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1.请输入正确的ip+port\n2.如果不输入,默认为:http://139.199.154.179:8080"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@id/edit_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:hint="http://139.199.154.179:8080"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="" />
+    <!--http://192.168.3.162:8080-->
+</LinearLayout>

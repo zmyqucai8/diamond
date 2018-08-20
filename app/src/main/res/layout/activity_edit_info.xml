@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/actionbar"></include>
+
+    <RelativeLayout
+        android:id="@+id/rl_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_select">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="头像:" />
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:layout_toLeftOf="@+id/tv_ttf_avatar_r"
+            android:src="@mipmap/img_avatar2" />
+
+        <TextView
+            android:id="@+id/tv_ttf_avatar_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="@string/ttf_right"
+            android:textColor="@color/color_text"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <View style="@style/view_line"></View>
+
+    <RelativeLayout
+
+        android:id="@+id/rl_name"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/item_select">
+
+
+        <TextView
+            android:id="@+id/tv_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="昵称:"
+            android:textColor="@color/color_text" />
+
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_name_title"
+            android:background="@null"
+            android:hint="请输入昵称"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/color_text"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/tv_ttf_name_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="@string/ttf_right"
+            android:textColor="@color/color_text"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <View style="@style/view_line"></View>
+
+</LinearLayout>

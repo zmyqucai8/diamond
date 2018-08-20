@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_logo"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/tv_platform_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="@string/ttf_wechat"
+            android:textColor="@color/select_text_white_color"
+            android:textSize="25sp" />
+
+
+        <TextView
+            android:id="@+id/tv_collect_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:text="@string/ttf_collect_setting"
+            android:textColor="@color/select_text_white_color"
+            android:textSize="25sp" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_actionbar"></android.support.v4.view.ViewPager>
+
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/rl_actionbar"
+        android:background="@color/white"
+        app:tl_indicator_color="@color/color_logo"
+        app:tl_indicator_height="3dp"
+        app:tl_indicator_width_equal_title="true"
+        app:tl_tab_padding="22dp"
+        app:tl_tab_space_equal="true"
+        app:tl_textSelectColor="@color/color_logo"
+        app:tl_textUnselectColor="@color/color_text"
+        app:tl_textsize="15sp"
+        app:tl_underline_color="@color/white"
+        app:tl_underline_height="1dp" />
+    <!--<com.flyco.tablayout.SlidingTabLayout-->
+    <!--android:id="@+id/tablayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="48dp"-->
+    <!--android:layout_below="@+id/rl_actionbar"-->
+    <!--android:background="#EEEEEE"-->
+    <!--app:tl_indicator_color="#000000"-->
+    <!--app:tl_indicator_style="TRIANGLE"-->
+    <!--app:tl_textSelectColor="#000000"-->
+    <!--app:tl_textUnselectColor="#66000000" />-->
+    <!--右下角菜单-->
+    <com.dingmouren.annularmenu.AnnularMenu
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical"
+        app:position="right_bottom"
+        app:radius="120dp"
+        app:toggleDuration="500">
+
+
+        <TextView
+            android:id="@+id/tv_menu_count"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/select_btn_blue"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/select_text_white_color"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/select_btn_blue"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="导出"
+            android:textColor="@color/select_text_white_color"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/select_btn_blue"
+            android:gravity="center"
+            android:text="清空"
+            android:textColor="@color/select_text_white_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/select_btn_blue"
+            android:gravity="center"
+            android:text="停止"
+            android:textColor="@color/select_text_white_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/select_btn_blue"
+            android:gravity="center"
+            android:text="开始"
+            android:textColor="@color/select_text_white_color"
+            android:textSize="14sp" />
+
+
+    </com.dingmouren.annularmenu.AnnularMenu>
+</RelativeLayout>

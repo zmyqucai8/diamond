@@ -1,0 +1,30 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+//apply from: "config.gradle" //这里表示引用config.gradle文件
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }//注意!!! RxCache 是托管于 jitpack 仓库的, 如果没有这一段代码将永远依赖不了 RxCache
+        maven { url "https://maven.google.com" }
+
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

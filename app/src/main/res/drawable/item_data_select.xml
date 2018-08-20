@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!--数据的item使用的浅白背景-->
+    <item android:drawable="@color/aliceblue_y" android:state_pressed="true" />
+    <item android:drawable="@color/aliceblue_y" android:state_focused="true" />
+    <item android:drawable="@color/aliceblue" />
+
+</selector>

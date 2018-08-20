@@ -1,0 +1,138 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+apply plugin: 'android-apt'
+android {
+    compileSdkVersion 26
+    buildToolsVersion "25.0.2"
+//    **兼容Android6.0系统所需，如果这句话报错，可在dependencies标签下使用compile 'cn.bmob.android:http-legacy:1.0'**
+//    useLibrary 'org.apache.http.legacy'
+    defaultConfig {
+        applicationId "com.zmy.diamond"
+        minSdkVersion 17
+        targetSdkVersion 26
+        versionCode 5
+        versionName "1.6"
+        multiDexEnabled = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    greendao {
+        schemaVersion 10
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    signingConfigs {
+        debug {
+            //加载资源
+            Properties properties = new Properties()
+            InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream();
+            properties.load(inputStream)
+            //读取文件
+            def sdkDir = properties.getProperty('key.file')
+            storeFile file(sdkDir)
+            //读取字段
+            def key_keyAlias = properties.getProperty('keyAlias')
+            def key_keyPassword = properties.getProperty('keyPassword');
+            def key_storePassword = properties.getProperty('storePassword');
+
+            storePassword key_storePassword
+            keyAlias key_keyAlias
+            keyPassword key_keyPassword
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.1'
+    //工具类
+    compile 'com.blankj:utilcode:1.16.4'
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    //积累
+    compile 'com.king.base:base:3.1.0'
+    //tablayout
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    //注解
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    //recyclerview
+    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
+    //recyclerview
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
+    //城市选择
+    compile 'com.zaaach:citypicker:2.0.2'
+    //webview
+    compile 'com.just.agentweb:agentweb:4.0.2'
+    //操作确认框等
+    compile 'com.bigkoo:alertview:1.0.3'
+    //数据库
+    compile 'org.greenrobot:greendao:3.2.2'
+    //toast
+    compile 'com.github.bboylin:UniversalToast:v1.0.8'
+    //相册选择
+    compile 'com.github.LuckSiege:PictureSelectorLight:v2.1.1'
+    //event
+    compile 'org.greenrobot:eventbus:3.1.1'
+    //百度地图
+    compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/IndoorscapeAlbumPlugin.jar')
+    //网络
+    compile 'com.lzy.net:okgo:3.0.4'
+    //JSON
+    compile 'com.google.code.gson:gson:2.8.5'
+    //获取手机联系人
+    compile 'com.github.tamir7.contacts:contacts:1.1.7'
+    //侧滑返回，自定义修复5.0bug
+    compile 'me.imid.swipebacklayout.lib:library:1.1.0'
+    //自动更新 https://github.com/AlexLiuSheng/CheckVersionLib
+    compile 'com.allenliu.versionchecklib:library:2.0.5'
+    //    compile 'com.nightonke:boommenu:2.1.1'
+    //旋转菜单
+    compile 'com.dingmouren.annularmenu:annularmenu:1.0.2'
+    //fab
+    compile 'com.github.clans:fab:1.6.4'
+//loading 文字
+//    compile 'com.elyeproj.libraries:loaderviewlibrary:1.4.1'
+//轮播广告
+    compile 'com.youth.banner:banner:1.4.10'
+//    compile 'com.github.maning0303:SwitcherView:v1.0.0'
+
+//    compile 'com.xiaosu:VerticalRollingTextView:2.0.9'
+
+//    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
+
+    //跑马灯
+    compile 'com.github.Brioal:ADTextView:1.9'
+
+    //UMeng
+    compile 'com.umeng.sdk:common:latest.integration'
+    compile 'com.umeng.sdk:analytics:latest.integration'
+
+    //PushSDK必须依赖基础组件库，所以需要加入对应依赖
+//    compile 'com.umeng.sdk:common:1.5.3'
+    //PushSDK必须依赖utdid库，所以需要加入对应依赖
+    compile 'com.umeng.sdk:utdid:latest.integration'
+    //PushSDK
+    compile 'com.umeng.sdk:push:latest.integration'
+//    沉浸式
+    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
+//银行卡工具类
+    compile 'com.github.nanchen2251:BankCardUtils:1.0.2'
+
+//loading
+    compile 'com.wang.avi:library:2.1.3'
+
+}

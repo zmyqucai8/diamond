@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--屏幕暗色 阴影背景-->
+    <color name="view_bg">#90000000</color>
+    <!--287ac0  5d5d5d-->
+    <color name="color_logo">#1296db</color>
+    <color name="color_logo_y">#9b1296db</color>
+
+
+    <color name="color_logo_account_action_title_bg">#141296db</color>
+
+
+
+    <color name="color_gray1">#c3c3c3</color>
+
+    <color name="color_text_n">#505050</color>
+    <color name="color_text">#505050</color>
+    <color name="color_text_y">#333</color>
+
+    <color name="item_divider">#ffbfcbd3</color>
+
+    <color name="holo_blue_bright">#ff00ddff</color>
+    <color name="holo_green_light">#ff99cc00</color>
+    <color name="holo_orange_light">#ffffbb33</color>
+    <color name="holo_red_light">#ffff4444</color>
+
+    <color name="graywhite">#F5F5F5</color>
+
+
+
+
+    <color name="aliceblue_y">#dce4eb</color>
+
+    <color name="color_button_default">#FFA000</color>
+    <color name="black">#000</color>
+    <color name="green">#8BC34A</color>
+
+</resources>

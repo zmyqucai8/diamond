@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+
+    <include layout="@layout/layout_actionbar"></include>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ttf_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ttf_phone"
+                android:textColor="@color/color_text"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edit_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="请输入手机号码"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textColorHint="@color/color_gray1"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/view_line"
+            android:layout_marginTop="2dp"></View>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ttf_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ttf_pwd"
+                android:textColor="@color/color_text"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edit_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textColorHint="@color/color_gray1"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/view_line"
+            android:layout_marginTop="2dp"></View>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ttf_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/ttf_code"
+                android:textColor="@color/color_text"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edit_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toLeftOf="@+id/tv_send_code"
+                android:layout_toRightOf="@+id/tv_ttf_code"
+                android:background="@null"
+                android:hint="请输入验证码"
+                android:text="8888"
+                android:inputType="number"
+                android:maxLength="6"
+                android:maxLines="1"
+                android:textColorHint="@color/color_gray1"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_send_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="发送验证码"
+                android:textColor="@drawable/select_text_blank_color" />
+
+        </RelativeLayout>
+
+        <View
+            style="@style/view_line"
+            android:layout_marginTop="2dp"></View>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ttf_recommended_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ttf_recommended"
+                android:textColor="@color/color_text"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edit_recommended_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="请输入推荐人手机号码(可不填)"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textColorHint="@color/color_gray1"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/view_line"
+            android:layout_marginTop="2dp"></View>
+
+        <com.zmy.diamond.utli.view.loading_button.customViews.CircularProgressButton
+            android:id="@+id/btn_regist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/problem_shape"
+            android:scaleType="fitCenter"
+            android:text="注 册"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:finalCornerAngle="50dp"
+            app:initialCornerAngle="0dp"
+            app:spinning_bar_color="@android:color/white"
+            app:spinning_bar_padding="8dp"
+            app:spinning_bar_width="4dp"></com.zmy.diamond.utli.view.loading_button.customViews.CircularProgressButton>
+
+
+        <TextView
+            android:id="@+id/tv_regist_agreement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="注册即表示同意"
+            android:textColor="@drawable/select_text_blank_color" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

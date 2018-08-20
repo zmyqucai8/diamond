@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <!--slategray-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_slategray_bg"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_ttf_bank_card_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="@string/ttf_logo"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_bank_card_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_ttf_bank_card_icon"
+            android:text="建设银行"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_bank_card_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_bank_card_name"
+            android:layout_toRightOf="@+id/tv_ttf_bank_card_icon"
+            android:text="储蓄卡"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/tv_bank_card_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_bank_card_type"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tv_ttf_bank_card_icon"
+            android:text="**** **** **** 2135"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/actionbar"></include>
+
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <!--采集范围-->
+            <RelativeLayout
+                android:id="@+id/rl_collect_city"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/tv_ttf_collect_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_address_detalis"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_title_collect_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_collect_city"
+                    android:text="@string/text_collect_city"
+                    android:textColor="@color/color_text" />
+
+
+                <TextView
+                    android:id="@+id/tv_ttf_collect_city_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_collect_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/tv_ttf_collect_city_r"
+                    android:text="深圳" />
+
+            </RelativeLayout>
+
+            <View style="@style/view_line"></View>
+            <!--采集关键词-->
+            <RelativeLayout
+
+                android:id="@+id/rl_collect_key"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/tv_ttf_collect_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_key"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_title_collect_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_collect_key"
+                    android:text="@string/text_collect_key"
+                    android:textColor="@color/color_text" />
+
+
+                <TextView
+                    android:id="@+id/tv_ttf_collect_key_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_collect_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/tv_ttf_collect_key_r"
+                    android:text="无" />
+
+            </RelativeLayout>
+
+            <View style="@style/view_line"></View>
+
+            <!--目标数据-->
+
+            <RelativeLayout
+
+                android:id="@+id/rl_data_phone_type"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_ttf_data_phone_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_data_phone_type"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_collect_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_data_phone_type"
+                    android:text="目标数据"
+                    android:textColor="@color/color_text" />
+
+
+                <TextView
+                    android:id="@+id/tv_ttf_data_phone_type_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_data_phone_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/tv_ttf_data_phone_type_r"
+                    android:text="全部数据" />
+
+            </RelativeLayout>
+
+            <View
+                style="@style/view_line"
+                android:visibility="gone"></View>
+
+
+            <!--目标数据的设置选项-->
+
+            <RadioGroup
+                android:id="@+id/radioGroup_data_phone_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="15dp"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:id="@+id/rb_all"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="全部数据"
+                    android:textColor="@drawable/select_text_blank_color" />
+
+
+                <View style="@style/view_line"></View>
+
+                <RadioButton
+                    android:id="@+id/rb_tel_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="固话+手机"
+                    android:textColor="@drawable/select_text_blank_color" />
+
+                <View style="@style/view_line"></View>
+
+                <RadioButton
+                    android:id="@+id/rb_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="只要手机"
+                    android:textColor="@drawable/select_text_blank_color" />
+
+                <View style="@style/view_line"></View>
+            </RadioGroup>
+
+
+            <!--采集速度-->
+
+            <RelativeLayout
+
+                android:id="@+id/rl_collect_speed"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_ttf_collect_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_collect_speed"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_collect_speed"
+                    android:text="@string/text_collect_speed"
+                    android:textColor="@color/color_text" />
+
+
+                <TextView
+                    android:id="@+id/tv_ttf_collect_speed_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_collect_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@id/tv_ttf_collect_speed_r"
+                    android:text="极速" />
+
+            </RelativeLayout>
+
+            <View
+                style="@style/view_line"
+                android:visibility="gone"></View>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>
