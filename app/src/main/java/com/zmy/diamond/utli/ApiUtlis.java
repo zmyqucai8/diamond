@@ -30,7 +30,7 @@ public class ApiUtlis {
      *
      * @return
      */
-    public static void login(Context context,final JsonCallBack<LoginResponseBean> callback)
+    public static void login(Context context, final JsonCallBack<LoginResponseBean> callback)
 
     {
         String macAddress = DeviceUtils.getMacAddress();
@@ -54,8 +54,16 @@ public class ApiUtlis {
                         userBean.setToken(data.getToken());
                         userBean.setIntegral(data.getIntegral());
                         userBean.setNickName(data.getUserName());
+                        userBean.setLastSignTime(data.getSigin_time());
+
                         userBean.setDownNumber(data.getDownNumber());
                         userBean.setSaveNumber(data.getSaveNumber());
+
+                        userBean.setVip_time(data.getVip_time());
+                        userBean.setVip_valid_time(MyUtlis.getVipValidTime(data.getVip_time()));
+                        userBean.setRigister_time(data.getRigister_time());
+                        userBean.setDown_number_time(data.getDown_number_time());
+
                         boolean addUser = DaoUtlis.addUser(userBean);
                         if (addUser) {
                             MyUtlis.setLoginUserId(userBean.getUserId());
@@ -82,8 +90,8 @@ public class ApiUtlis {
     /**
      * 登录获取数据更新后，关闭页面
      */
-    public static void loginUpdate(Context context,final JsonCallBack<LoginResponseBean> callBack) {
-        login(context,new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
+    public static void loginUpdate(Context context, final JsonCallBack<LoginResponseBean> callBack) {
+        login(context, new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
             @Override
             public void onSuccess(Response<LoginResponseBean> response) {
                 if (null != response.body() && null != response.body().getData() && null != DaoUtlis.getCurrentLoginUser()) {
@@ -102,7 +110,7 @@ public class ApiUtlis {
      * 登录获取数据更新后，不关闭页面
      */
     public static void loginUpdate(Context context) {
-        loginUpdate(context,null);
+        loginUpdate(context, null);
     }
 
     /**
@@ -110,7 +118,7 @@ public class ApiUtlis {
      *
      * @return
      */
-    public static void saveNumberUpdate(Context context,int saveNumber, String token, JsonCallBack<LoginResponseBean> callback) {
+    public static void saveNumberUpdate(Context context, int saveNumber, String token, JsonCallBack<LoginResponseBean> callback) {
         OkGo.<LoginResponseBean>post(AppConstant.Api.saveNumberUpdate)
                 .tag(context)
                 .params("token", token)
@@ -123,7 +131,7 @@ public class ApiUtlis {
      *
      * @return
      */
-    public static void downNumberUpdate(Context context,int downNumber, String token, JsonCallBack<LoginResponseBean> callback) {
+    public static void downNumberUpdate(Context context, int downNumber, String token, JsonCallBack<LoginResponseBean> callback) {
         OkGo.<LoginResponseBean>post(AppConstant.Api.downNumberUpdate)
                 .tag(context)
                 .params("token", token)
@@ -136,7 +144,7 @@ public class ApiUtlis {
      *
      * @return
      */
-    public static void opinion(Context context,String message, String token, JsonCallBack<PublicResponseBean> callback) {
+    public static void opinion(Context context, String message, String token, JsonCallBack<PublicResponseBean> callback) {
         OkGo.<PublicResponseBean>post(AppConstant.Api.opinion)
                 .tag(context)
                 .params("token", token)
@@ -149,7 +157,7 @@ public class ApiUtlis {
      *
      * @return
      */
-    public static void signIn(Context context,String token, JsonCallBack<LoginResponseBean> callback) {
+    public static void signIn(Context context, String token, JsonCallBack<LoginResponseBean> callback) {
         OkGo.<LoginResponseBean>post(AppConstant.Api.signIn)
                 .tag(context)
                 .params("token", token)
@@ -162,7 +170,7 @@ public class ApiUtlis {
      *
      * @return
      */
-    public static void aboutApp(Context context,String token, JsonCallBack<AboutAppBean> callback) {
+    public static void aboutApp(Context context, String token, JsonCallBack<AboutAppBean> callback) {
         OkGo.<AboutAppBean>post(AppConstant.Api.aboutApp)
                 .tag(context)
                 .params("token", token)
@@ -177,7 +185,7 @@ public class ApiUtlis {
      * @param token
      * @param callback
      */
-    public static void joinVIP(Context context,String token, int grade, String recomCode, JsonCallBack<JoinVipResponseBean> callback) {
+    public static void joinVIP(Context context, String token, int grade, String recomCode, JsonCallBack<JoinVipResponseBean> callback) {
         OkGo.<JoinVipResponseBean>post(AppConstant.Api.joinVIP)
                 .tag(context)
                 .params("token", token)
@@ -195,7 +203,7 @@ public class ApiUtlis {
      * @param page     页码
      * @param callback
      */
-    public static void getTrade(Context context,String token, int action, int page, JsonCallBack<TradingDataBean> callback) {
+    public static void getTrade(Context context, String token, int action, int page, JsonCallBack<TradingDataBean> callback) {
         OkGo.<TradingDataBean>post(AppConstant.Api.getTrade)
                 .tag(context)
                 .params("token", token)
@@ -214,7 +222,7 @@ public class ApiUtlis {
      * @param type     1=卖账号 2=买账号
      * @param callback {"msg":"成功","code":200,"data":null}
      */
-    public static void operationPublish(Context context,String token, int type, String weixin, int price, String trade_describe, String industry, String city, int friend_number, JsonCallBack<PublicResponseBean> callback) {
+    public static void operationPublish(Context context, String token, int type, String weixin, int price, String trade_describe, String industry, String city, int friend_number, JsonCallBack<PublicResponseBean> callback) {
         OkGo.<PublicResponseBean>post(AppConstant.Api.operationPublish)
                 .tag(context)
                 .params("token", token)
@@ -237,7 +245,7 @@ public class ApiUtlis {
      * @param token
      * @param callback
      */
-    public static void operationPublishModify(Context context,String token, String id, int type, String weixin, int price, String trade_describe, String industry, String city, int friend_number, JsonCallBack<MyTradingModifyBean> callback) {
+    public static void operationPublishModify(Context context, String token, String id, int type, String weixin, int price, String trade_describe, String industry, String city, int friend_number, JsonCallBack<MyTradingModifyBean> callback) {
         OkGo.<MyTradingModifyBean>post(AppConstant.Api.operationPublish)
                 .tag(context)
                 .params("token", token)
@@ -261,7 +269,7 @@ public class ApiUtlis {
      * @param token
      * @param callback
      */
-    public static void operationPublishDelete(Context context,String token, String id, JsonCallBack<PublicResponseBean> callback) {
+    public static void operationPublishDelete(Context context, String token, String id, JsonCallBack<PublicResponseBean> callback) {
         OkGo.<PublicResponseBean>post(AppConstant.Api.operationPublish)
                 .tag(context)
                 .params("token", token)
@@ -279,7 +287,7 @@ public class ApiUtlis {
      * @param token
      * @param callback
      */
-    public static void operationPublishQuery(Context context,String token, JsonCallBack<TradingDataBean> callback) {
+    public static void operationPublishQuery(Context context, String token, JsonCallBack<TradingDataBean> callback) {
         OkGo.<TradingDataBean>post(AppConstant.Api.operationPublish)
                 .tag(context)
                 .params("token", token)
@@ -294,7 +302,7 @@ public class ApiUtlis {
      * @param page
      * @param callback
      */
-    public static void walletDetails(Context context,String token, int page, JsonCallBack<WalletDetailsBean> callback) {
+    public static void walletDetails(Context context, String token, int page, JsonCallBack<WalletDetailsBean> callback) {
         //{"msg":"没有数据","code":201,"data":null}
 //        {"msg":"成功","code":200,"data":[{"user_id":235,"id":4,"message":"您发起的1000元提现申请正在审核中","status":0},{"user_id":235,"id":5,"message":"您发起的1000元提现申请正在审核中","status":0}]}
         OkGo.<WalletDetailsBean>post(AppConstant.Api.wallet)
@@ -313,7 +321,7 @@ public class ApiUtlis {
      * @param token
      * @param callback
      */
-    public static void orderQuery(Context context,String token, String orderId, JsonCallBack<VipOrderQueryBean> callback) {
+    public static void orderQuery(Context context, String token, String orderId, JsonCallBack<VipOrderQueryBean> callback) {
         OkGo.<VipOrderQueryBean>post(AppConstant.Api.orderQuery)
                 .tag(context)
                 .params("token", token)
@@ -329,7 +337,7 @@ public class ApiUtlis {
      * @param callBack
      */
 
-    public static void walletBankCardList(Context context,String token, JsonCallBack<BankCardBean> callBack) {
+    public static void walletBankCardList(Context context, String token, JsonCallBack<BankCardBean> callBack) {
         //        {"msg":"成功","code":200,"data":[{"user_id":245,"name":"张梦云","bank_name":"招商银行","phone_number":"137000000001","id":4,"card":"412121202010"}]}
         OkGo.<BankCardBean>post(AppConstant.Api.wallet)
                 .tag(context)
@@ -348,7 +356,7 @@ public class ApiUtlis {
      * @param name
      * @param bankName
      */
-    public static void walletBindingBankCard(Context context,String token, String cardCode, String phone, String name, String bankName, JsonCallBack<PublicResponseBean> callBack) {
+    public static void walletBindingBankCard(Context context, String token, String cardCode, String phone, String name, String bankName, JsonCallBack<PublicResponseBean> callBack) {
         // {"msg":"成功","code":200,"data":null}
         OkGo.<PublicResponseBean>post(AppConstant.Api.wallet)
                 .tag(context)
@@ -369,7 +377,7 @@ public class ApiUtlis {
      * @param cardId
      * @param callBack
      */
-    public static void walletUnBinDingBankCard(Context context,String token, String cardId, JsonCallBack<PublicResponseBean> callBack) {
+    public static void walletUnBinDingBankCard(Context context, String token, String cardId, JsonCallBack<PublicResponseBean> callBack) {
 
         OkGo.<PublicResponseBean>post(AppConstant.Api.wallet)
                 .tag(context)
@@ -385,7 +393,7 @@ public class ApiUtlis {
      * @param amount 提现金额
      * @param cardId 提现卡id
      */
-    public static void walletTiXian(Context context,String token, String amount, String cardId, JsonCallBack<LoginResponseBean> callBack) {
+    public static void walletTiXian(Context context, String token, String amount, String cardId, JsonCallBack<LoginResponseBean> callBack) {
 //        {"msg":"成功","code":200,"data":{"macAddress":"52:54:00:12:34:56","code":null,"money":99000.0,"integral":20,"grade":0,"downNumber":20,"recomCode":null,"id":235,"userName":null,"saveNumber":20,"token":null}}
         OkGo.<LoginResponseBean>post(AppConstant.Api.wallet)
                 .tag(context)

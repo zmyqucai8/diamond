@@ -52,7 +52,7 @@ public class TradingDataAdapter extends BaseQuickAdapter<TradingDataBean.DataBea
                 .setText(R.id.tv_city, item.getCity())
                 .setText(R.id.tv_friendCount, String.valueOf(item.getFriend_number()))
                 .setText(R.id.tv_price, String.valueOf(item.getPrice()))
-                .setText(R.id.tv_describe, item.getTrade_describe())
+                .setText(R.id.tv_describe, MyUtlis.isEmpty(item.getTrade_describe()))
                 .setText(R.id.tv_weixin, item.getWeixin())
 
                 .itemView.setOnClickListener(new View.OnClickListener() {

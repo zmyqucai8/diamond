@@ -132,7 +132,6 @@ public class MainActivity extends MyBaseActivity implements OnTabSelectListener 
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
         ActivityUtils.startActivity(intent, R.anim.a5, R.anim.a3);
     }
 

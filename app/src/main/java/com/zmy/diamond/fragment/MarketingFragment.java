@@ -67,8 +67,6 @@ public class MarketingFragment extends MyBaseFragment {
         if (event.eventType == MessageEvent.ADD_COLLECT_DATA_OK) {
 
             LogUtils.e("营销页面: 添加数据成功,开始刷新");
-
-
             refreshData();
 
         }

@@ -30,7 +30,7 @@ public class UserBean {
     @Index(unique = true)
     private String macAddress;
     private String code;//自己的推荐码
-    private double  money;//零钱
+    private double money;//零钱
     private int grade; //会员等级  1=黄金会员2=白金会员
     private String recomCode;//推荐人推荐码
     private String token;
@@ -40,6 +40,8 @@ public class UserBean {
     private String city;//城市
     private String province;//省份
     private String longitudeAndLatitude;//经纬度 ,分割
+
+    //    private String vipTime; //成为vip的时间
     //    private int vipDay;//VIP剩余天数
 //    private int vipDayTotal;//VIP总天数
 //    private int vipType;//VIP类型
@@ -49,28 +51,71 @@ public class UserBean {
     private int downNumber;//获取数据的累计总数
     private int saveNumber;//保存数据的累计总数
 
+    private long lastSignTime;//最后一次签到时间
 
-    private long lastSignTime;//最后一次签到时间 
+    public long getVip_time() {
+        return vip_time;
+    }
+
+    public void setVip_time(long vip_time) {
+        this.vip_time = vip_time;
+    }
+
+    public String getVip_valid_time() {
+        return vip_valid_time;
+    }
+
+    public void setVip_valid_time(String vip_valid_time) {
+        this.vip_valid_time = vip_valid_time;
+    }
+
+    public long getRigister_time() {
+        return rigister_time;
+    }
+
+    public void setRigister_time(long rigister_time) {
+        this.rigister_time = rigister_time;
+    }
+
+    public long getDown_number_time() {
+        return down_number_time;
+    }
+
+    public void setDown_number_time(long down_number_time) {
+        this.down_number_time = down_number_time;
+    }
+
+    private long vip_time;//成为vip的时间
+    private String vip_valid_time;//vip有效时间 2018-08-21
+    private long rigister_time;//注册时间
+    private long down_number_time;//最后一次更新下今日累计的时间
+
+
+
 
     //    private String recommendedPhone;//推荐人手机号
     @ToMany(joinProperties = {
             @JoinProperty(name = "userId", referencedName = "userId")
     })
     private List<DataBean> dataBeanList;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 83707551)
     private transient UserBeanDao myDao;
 
-    @Generated(hash = 1466487000)
-    public UserBean(Long id, @NotNull String userId, String phone,
-            String macAddress, String code, double money, int grade,
-            String recomCode, String token, String openId, String nickName,
-            String avatarUrl, String city, String province,
-            String longitudeAndLatitude, int integral, int downNumber,
-            int saveNumber, long lastSignTime) {
+    @Generated(hash = 1521059849)
+    public UserBean(Long id, @NotNull String userId, String phone, String macAddress,
+            String code, double money, int grade, String recomCode, String token,
+            String openId, String nickName, String avatarUrl, String city, String province,
+            String longitudeAndLatitude, int integral, int downNumber, int saveNumber,
+            long lastSignTime, long vip_time, String vip_valid_time, long rigister_time,
+            long down_number_time) {
         this.id = id;
         this.userId = userId;
         this.phone = phone;
@@ -90,6 +135,10 @@ public class UserBean {
         this.downNumber = downNumber;
         this.saveNumber = saveNumber;
         this.lastSignTime = lastSignTime;
+        this.vip_time = vip_time;
+        this.vip_valid_time = vip_valid_time;
+        this.rigister_time = rigister_time;
+        this.down_number_time = down_number_time;
     }
 
     @Generated(hash = 1203313951)
@@ -271,7 +320,9 @@ public class UserBean {
         return dataBeanList;
     }
 
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    /**
+     * Resets a to-many relationship, making the next get call to query for a fresh result.
+     */
     @Generated(hash = 160725530)
     public synchronized void resetDataBeanList() {
         dataBeanList = null;
@@ -320,6 +371,5 @@ public class UserBean {
         myDao = daoSession != null ? daoSession.getUserBeanDao() : null;
     }
 
-     
 
 }

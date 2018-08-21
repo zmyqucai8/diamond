@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ConvertUtils;
-import com.lzy.okgo.OkGo;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.zmy.diamond.R;
 
@@ -53,12 +52,12 @@ public class LoadingDialog extends Dialog {
         setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                if (null != context) {
-                    OkGo.getInstance().cancelTag(context);
-                }
-                if (null != loadingview) {
-                    loadingview.hide();
-                }
+//                if (null != context) {
+//                    OkGo.getInstance().cancelTag(context);
+//                }
+//                if (null != loadingview) {
+//                    loadingview.hide();
+//                }
             }
         });
     }

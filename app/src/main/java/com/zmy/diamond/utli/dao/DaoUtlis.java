@@ -263,6 +263,26 @@ public class DaoUtlis {
     }
 
     /**
+     * 更新用户数据
+     *
+     * @param userBean
+     * @return
+     */
+    public static boolean updateUser(UserBean userBean) {
+
+        try {
+            long lineId = getDaoSession().getUserBeanDao().insertOrReplace(userBean);
+            if (lineId > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+    /**
      * 添加一个用户,存在则更新
      *
      * @param userBean
@@ -281,7 +301,7 @@ public class DaoUtlis {
                 if (null != oldUser) {
                     userBean.setCity(oldUser.getCity());
                     userBean.setAvatarUrl(oldUser.getAvatarUrl());
-                    userBean.setLastSignTime(oldUser.getLastSignTime());
+//                    userBean.setLastSignTime(oldUser.getLastSignTime());
                     userBean.setProvince(oldUser.getProvince());
                     userBean.setPhone(oldUser.getPhone());
                     userBean.setLongitudeAndLatitude(oldUser.getLongitudeAndLatitude());
@@ -727,6 +747,27 @@ public class DaoUtlis {
 //            MyUtlis.eventRefreshMarketingFragmentData();
 //
 //        }
+    }
+
+    /**
+     * 删除一条采集记录
+     *
+     * @param collectId
+     * @param userId
+     * @return
+     */
+    public static boolean deleteCollectRecord(String collectId, String userId) {
+        try {
+            CollectRecordBean collectRecord = getCollectRecord(collectId, userId);
+            if (null != collectRecord) {
+                getDaoSession().getCollectRecordBeanDao().delete(collectRecord);
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
     }
 }
 

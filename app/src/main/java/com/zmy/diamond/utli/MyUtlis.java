@@ -585,13 +585,18 @@ public class MyUtlis {
      * @param text
      */
     public static void showShort(Context context, int state, String text, int toastType) {
-        UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, toastType)
+
+        try {
+            UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, toastType)
 //                .setGravity(gravity,xOffset,yOffset)
 //                .setBackground(drawable)//set the background drawable as you like
 //                .setColor(R.color.my_color)//set the background color as you like
-                .setIcon(state == STATE_YES ? R.drawable.ic_done_white_48dp : state == STATE_NO ? R.drawable.ic_error : R.drawable.ic_error2)// set the icon as you like (it's visibility is gone until you set icon)
+                    .setIcon(state == STATE_YES ? R.drawable.ic_done_white_48dp : state == STATE_NO ? R.drawable.ic_error : R.drawable.ic_error2)// set the icon as you like (it's visibility is gone until you set icon)
 //                .setClickCallBack(text,R.drawable.my_btn,onClickListener)
-                .show();
+                    .show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void showShort(Context context, String text) {
@@ -988,7 +993,7 @@ public class MyUtlis {
     /**
      * 刷新所有平台数据
      */
-    private static void eventUpdateHomeData() {
+    public static void eventUpdateHomeData() {
         MessageEvent event = new MessageEvent();
         event.eventType = MessageEvent.UPDATE_HOME_DATA;
 //        event.stringValue = avatarUrl;
@@ -1947,6 +1952,32 @@ public class MyUtlis {
 
 
     /**
+     * 获取vip到期时间（ 在年份上加1，返回2019-08-21）
+     *
+     * @return
+     */
+    public static String getVipValidTime(long vip_time) {
+        String vipValidTime = "2018-08-08";
+        try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(vip_time);
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH) + 1;
+            int date = calendar.get(Calendar.DATE);
+            LogUtils.e("year=" + year);
+            LogUtils.e("month=" + month);
+            LogUtils.e("date=" + date);
+            vipValidTime = (year + 1) + "-" + month + "-" + date;
+
+//            vipValidTime = TimeUtils.millis2String(time, new SimpleDateFormat("yyyy-MM-dd"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return vipValidTime;
+    }
+
+
+    /**
      * 判断字符串是否为null,如果是则返回一个默认字符串: 无
      *
      * @param text
@@ -2636,23 +2667,32 @@ public class MyUtlis {
     /**
      * 打开客服QQ聊天
      */
-    public static void openServiceQQ(Context context) {
+    public static void openServiceQQ(final Context context) {
 
+        new AlertView(getString(R.string.hint_text), getString(R.string.hint_start_service_qq_chat), null, new String[]{"开始聊天"}, new String[]{"取消"}, context,
+                AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                if (position == 0) {
+                    if (AppUtils.isAppInstalled(AppConstant.PACKAGENAME_QQ)) {
+                        try {
+                            String url = "mqqwpa://im/chat?chat_type=wpa&uin=" + context.getString(R.string.service_qq);
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            ToastUtils.showShort("打开QQ失败");
+                        }
+                    } else {
 
-        if (AppUtils.isAppInstalled(AppConstant.PACKAGENAME_QQ)) {
+                        ToastUtils.showShort("请先安装QQ");
 
-            try {
-                String url = "mqqwpa://im/chat?chat_type=wpa&uin="+context.getString(R.string.service_qq);
-                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-            } catch (Exception e) {
-                e.printStackTrace();
-                ToastUtils.showShort("打开QQ失败");
+                    }
+
+                }
+
             }
-        } else {
-
-            ToastUtils.showShort("请先安装QQ");
-
-        }
+        }).show();
 
     }
+
 }

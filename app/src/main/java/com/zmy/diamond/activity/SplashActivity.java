@@ -13,6 +13,7 @@ import com.bigkoo.alertview.OnItemClickListener;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.lzy.okgo.model.Response;
@@ -64,33 +65,34 @@ public class SplashActivity extends MyBaseActivity {
         if (AppConstant.DEBUG) {
 
 
-            View view = View.inflate(this, R.layout.view_debug_mode, null);
+            if (null == myAlertView) {
+                View view = View.inflate(this, R.layout.view_debug_mode, null);
 
-            final EditText edit_view = (EditText) view.findViewById(R.id.edit_view);
+                final EditText edit_view = (EditText) view.findViewById(R.id.edit_view);
 
-            String tip = "1.请输入正确的ip+port\n2.如果不输入,默认为:\nhttp://139.199.154.179:8080";
-            myAlertView = new MyAlertView("Debug模式", tip, null, new String[]{getString(R.string.hint_confirm)}, null, this,
-                    MyAlertView.Style.Alert, new OnItemClickListener() {
-                @Override
-                public void onItemClick(Object o, int position) {
+                String tip = "1.请输入正确的ip+port\n2.如果不输入,默认为:\nhttp://139.199.154.179:8080";
+                myAlertView = new MyAlertView("Debug模式", tip, null, new String[]{getString(R.string.hint_confirm)}, null, this,
+                        MyAlertView.Style.Alert, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Object o, int position) {
 
-                    String text = edit_view.getText().toString().trim();
+                        String text = edit_view.getText().toString().trim();
 
-                    if (TextUtils.isEmpty(text)) {
-                        myAlertView.dismiss();
-                        startLogin();
-                    } else if (!text.startsWith("http://")) {
-                        ToastUtils.showShort("请输入有效的地址");
-                    } else {
-                        AppConstant.HOST = text;
-                        myAlertView.dismiss();
-                        startLogin();
+                        if (TextUtils.isEmpty(text)) {
+                            myAlertView.dismiss();
+                            startLogin();
+                        } else if (!text.startsWith("http://")) {
+                            ToastUtils.showShort("请输入有效的地址");
+                        } else {
+                            AppConstant.HOST = text;
+                            myAlertView.dismiss();
+                            startLogin();
+                        }
+
                     }
+                }).addExtView(view);
 
-                }
-            }).addExtView(view);
-
-
+            }
             if (!myAlertView.isShowing())
                 myAlertView.show();
 
@@ -102,6 +104,7 @@ public class SplashActivity extends MyBaseActivity {
     }
 
     public void startLogin() {
+
         //权限检测
         PermissionUtils.permission(PermissionConstants.PHONE, PermissionConstants.LOCATION, PermissionConstants.STORAGE)
                 .rationale(new PermissionUtils.OnRationaleListener() {
@@ -139,6 +142,10 @@ public class SplashActivity extends MyBaseActivity {
 
     }
 
+
+    /**
+     * 登录
+     */
     private void login() {
         ApiUtlis.login(this, new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
             @Override
@@ -146,7 +153,17 @@ public class SplashActivity extends MyBaseActivity {
                 if (null != response.body()) {
                     if (response.body().getCode() == AppConstant.CODE_SUCCESS && null != DaoUtlis.getCurrentLoginUser()) {
 //                        //更新本地用户信息
-                        MainActivity.start(SplashActivity.this);
+                        boolean isShowGuide = SPUtils.getInstance().getBoolean(AppConstant.SPKey.IS_SHOW_GUIDE_PAGE);
+                        if (AppConstant.DEBUG) {
+                            isShowGuide = false;
+                        }
+                        if (!isShowGuide && AppConstant.isGuide) {
+                            GuideActivity.start(SplashActivity.this);
+
+                        } else {
+                            MainActivity.start(SplashActivity.this);
+                        }
+                        ActivityUtils.finishActivity(SplashActivity.this);
                     } else {
                         showLoginError("\ncode=" + response.body().getCode() + "\nmsg=" + response.body().getMsg());
                     }

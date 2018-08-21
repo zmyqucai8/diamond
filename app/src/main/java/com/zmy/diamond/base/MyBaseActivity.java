@@ -93,8 +93,10 @@ public abstract class MyBaseActivity extends BaseActivity {
         }
         mLoadingDialog.setCancelable(isCancelable);
         mLoadingDialog.setCanceledOnTouchOutside(isCancelable);
-        if (!mLoadingDialog.isShowing())
-            mLoadingDialog.showLoading();
+        if (mLoadingDialog.isShowing()) {
+            mLoadingDialog.hideLoading();
+        }
+        mLoadingDialog.showLoading();
     }
 
 
@@ -102,7 +104,7 @@ public abstract class MyBaseActivity extends BaseActivity {
      * 隐藏loading
      */
     public void hideLoading() {
-        if (null != mLoadingDialog && mLoadingDialog.isShowing()) {
+        if (null != mLoadingDialog) {
             mLoadingDialog.hideLoading();
         }
     }

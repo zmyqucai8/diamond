@@ -210,6 +210,8 @@
     <string name="text_bank_card_name">开户行：%s</string>
     <string name="text_bank_card_type">卡类型：%s</string>
     <string name="text_bank_card_code">卡号：%s</string>
+    <string name="hint_start_service_qq_chat">即将打开与客服的QQ聊天，\n是否立即前往？</string>
+    <string name="text_vip_valid_time">到期时间：%s</string>
 
 
 </resources>

@@ -43,7 +43,7 @@ public class DBHelper extends DaoMaster.OpenHelper {
                 CollectRecordBeanDao.createTable(db, true);
             }
 
-            if (oldVersion < 10) {
+            if (oldVersion < 11) {
                 DaoMaster.dropAllTables(db, true);
                 DaoMaster.createAllTables(db, true);
             }

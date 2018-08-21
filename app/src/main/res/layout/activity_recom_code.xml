@@ -2,88 +2,133 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
 
 
     <include layout="@layout/actionbar"></include>
 
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingTop="30dp"
-        android:text="选择支付方式" />
+        android:layout_height="match_parent">
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
-        <RadioButton
-            android:id="@+id/radio_zhifubao"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
-            android:checked="true"
-            android:drawableTop="@drawable/select_pay_zhifubao"
-            android:gravity="center"></RadioButton>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingTop="30dp"
+                android:text="选择支付方式" />
 
-        <RadioButton
-            android:id="@+id/radio_weixin"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@null"
-            android:drawableTop="@drawable/select_pay_weixin"
-            android:gravity="center"></RadioButton>
-
-    </RadioGroup>
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingTop="30dp"
-        android:text="请输入推荐码" />
+                <RadioButton
+                    android:id="@+id/radio_zhifubao"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableTop="@drawable/select_pay_zhifubao"
+                    android:gravity="center"></RadioButton>
+
+                <RadioButton
+                    android:id="@+id/radio_weixin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/select_pay_weixin"
+                    android:gravity="center"></RadioButton>
+
+            </RadioGroup>
 
 
-    <EditText
-        android:id="@+id/edit_recom_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:hint="请输入推荐码（可选）"
-        android:maxLines="1"
-        android:padding="15dp"
-        android:singleLine="true"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/tv_tip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="15dp"
-        android:text="会员输入推荐码可减免1000元费用" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingTop="30dp"
+                android:text="请输入推荐码" />
 
 
-    <Button
-        android:id="@+id/btn_pay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="50dp"
-        android:background="@drawable/select_btn_blue"
-        android:text="支付"
-        android:textColor="@color/select_text_white_color"
-        android:textSize="16sp" />
+            <EditText
+                android:id="@+id/edit_recom_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:hint="请输入推荐码（可选）"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:singleLine="true"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:text="会员输入推荐码可减免1000元费用" />
 
 
+            <TextView
+                android:id="@+id/tv_ttf_pay_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:paddingLeft="15dp"
+                android:text="&#xe608; 支付提示："
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp">
+
+                <TextView
+                    android:id="@+id/tv_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请在五分钟内完成支付，"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="如有疑问，请联系客服"
+                    android:textColor="@color/select_text_blue_color"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btn_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="50dp"
+                android:background="@drawable/select_btn_blue"
+                android:text="支付"
+                android:textColor="@color/select_text_white_color"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

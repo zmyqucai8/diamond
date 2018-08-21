@@ -153,9 +153,24 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
             public void onItemClick(Object o, int position) {
                 //0=好的
                 if (position == 0) {
-                    DaoUtlis.deleteAllData(currentData);
-                    DaoUtlis.updateCollectRecordDataCount(collectId, userId, currentData.size());
-                    clearCurrentData();
+
+                    boolean b = DaoUtlis.deleteAllData(mAllData);
+                    if (b) {
+                        clearCurrentData();
+                        DaoUtlis.deleteCollectRecord(collectId, userId);
+                        MyUtlis.eventRefreshMarketingFragmentData();
+                        MyUtlis.eventUpdateHomeData();
+                        ToastUtils.showShort("删除成功");
+
+                        ActivityUtils.finishActivity(MarketingDataActivity.this);
+                    } else {
+                        MyUtlis.showShortNo(MarketingDataActivity.this, "删除失败");
+                    }
+//                    DaoUtlis.deleteAllData(currentData);
+
+
+//                    DaoUtlis.updateCollectRecordDataCount(collectId, userId, currentData.size());
+//                    clearCurrentData();
                 }
 
             }
@@ -166,26 +181,31 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
 
 
     /**
-     * 删除当前数据 并更新UI
+     * 删除当前数据 并更新UI ,删除全部数据
      *
      * @return
      */
     public void clearCurrentData() {
 
-        switch (mCurrentFilterType) {
-            case AppConstant.SHOW_TYPE_ALL:
-                mAllData.clear();
-                mAdapter.setNewData(mAllData);
-                break;
-            case AppConstant.SHOW_TYPE_PHONE:
-                mPhoneData.clear();
-                mAdapter.setNewData(mPhoneData);
-                break;
-            case AppConstant.SHOW_TYPE_TEL:
-                mTelData.clear();
-                mAdapter.setNewData(mTelData);
-                break;
-        }
+
+//        switch (mCurrentFilterType) {
+//            case AppConstant.SHOW_TYPE_ALL:
+        if (null != mAllData)
+            mAllData.clear();
+//                mAdapter.setNewData(mAllData);
+//                break;
+//            case AppConstant.SHOW_TYPE_PHONE:
+        if (null != mPhoneData)
+            mPhoneData.clear();
+//                mAdapter.setNewData(mPhoneData);
+//                break;
+//            case AppConstant.SHOW_TYPE_TEL:
+//        mTelData.clear();
+        if (null != mTelData)
+            mTelData.clear();
+        mAdapter.setNewData(mAllData);
+//                break;
+//        }
 
 
     }

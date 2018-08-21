@@ -15,6 +15,7 @@ import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.Utils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -198,12 +199,11 @@ public class MeFragment extends MyBaseFragment {
 
             if (grade == AppConstant.VIP_GRADE_1) {
                 tv_vip.setText("黄金会员");
-                tv_vip_time.setText("到期时间：2018-08-19 11:19:48");
+                tv_vip_time.setText(Utils.getApp().getString(R.string.text_vip_valid_time, currentLoginUser.getVip_valid_time()));
                 tv_vip_time.setVisibility(View.VISIBLE);
             } else if (grade == AppConstant.VIP_GRADE_2) {
-
                 tv_vip.setText("白金会员");
-                tv_vip_time.setText("到期时间：2018-08-19 11:19:48");
+                tv_vip_time.setText(Utils.getApp().getString(R.string.text_vip_valid_time, currentLoginUser.getVip_valid_time()));
                 tv_vip_time.setVisibility(View.VISIBLE);
             } else {
                 tv_vip.setText("升级为会员");
@@ -284,8 +284,6 @@ public class MeFragment extends MyBaseFragment {
         if (isSign) {
             MyUtlis.showShort(getActivity(), getString(R.string.hint_sign_rep));
         } else {
-
-
             ApiUtlis.signIn(getActivity(), MyUtlis.getToken(), new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
                 @Override
                 public void onSuccess(Response<LoginResponseBean> response) {
@@ -295,7 +293,7 @@ public class MeFragment extends MyBaseFragment {
                             UserBean user = DaoUtlis.getCurrentLoginUser();
                             user.setIntegral(response.body().getData().getIntegral());
                             user.setLastSignTime(TimeUtils.getNowMills());
-                            boolean b = DaoUtlis.addUser(user);
+                            boolean b = DaoUtlis.updateUser(user);
 //                            if (b) {
                             MyUtlis.clickEvent(AppConstant.CLICK.umeng_sign);
                             updateSignState();
@@ -400,9 +398,7 @@ public class MeFragment extends MyBaseFragment {
     @OnClick(R.id.rl_service)
     public void rl_service() {
 //        ToastUtils.showShort("联系客服");
-//        WebViewActivity.start(getContext(), MyUtlis.HTML_JINSHUJU_contact_service, getString(R.string.service));
-        MyUtlis.openServiceQQ(getContext());
-
+        MyUtlis.openServiceQQ(getActivity());
     }
 
     @OnClick(R.id.rl_feedback)

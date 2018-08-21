@@ -100,9 +100,11 @@ public class VipActivity extends MyBaseSwipeBackActivity {
             if (grade == AppConstant.VIP_GRADE_1) {
                 tv_vip_time.setVisibility(View.GONE);
                 tv_vip.setText("您当前已是黄金会员");
+                ActivityUtils.finishActivity(this);
             } else if (grade == AppConstant.VIP_GRADE_2) {
                 tv_vip_time.setVisibility(View.GONE);
                 tv_vip.setText("您当前已是白金会员");
+                ActivityUtils.finishActivity(this);
             } else {
                 tv_vip.setText("您还不是会员");
                 tv_vip_time.setText("您可以选择购买会员");

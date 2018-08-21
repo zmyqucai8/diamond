@@ -15,8 +15,11 @@ public class AppConstant {
     /**
      * 日志开关
      */
-    public final static boolean LOG = true;
-
+    public final static boolean LOG = false;
+    /**
+     * 是否启用引导  没有图片，暂时false
+     */
+    public final static boolean isGuide = false;
 
     /**
      * 是否开启体验模式（使用时间计时限制） 默认false
@@ -153,6 +156,15 @@ public class AppConstant {
      */
     public static class Api {
 
+
+        /**
+         * 获取系统时间
+         * 参数 token
+         *
+         */
+        public static final String getSystemTime = "api/getSystemTime";
+
+
         /**
          * 获取验证码
          * 参数: 无
@@ -222,6 +234,11 @@ public class AppConstant {
          * 文档: https://www.paypayzhu.com/doc/#_4
          */
         public static final String paypayzhuPay = "https://www.paypayzhu.com/api/pay";
+        /**
+         * 支付接口
+         * https://www.paypayzhu.com/doc/#_6
+         */
+        public static final String paypayzhuPayJson = "https://www.paypayzhu.com/api/pay_json";
 
         /**
          * 订单查询
@@ -346,6 +363,12 @@ public class AppConstant {
      * SharedPreferences key
      */
     public static class SPKey {
+
+        /**
+         * 是否显示过引导页面，默认false，没有显示，
+         */
+        public static final String IS_SHOW_GUIDE_PAGE = "is_show_guide_page";
+
         /**
          * 最后一个登录的用户 , value= phone 或者是 userid
          */
