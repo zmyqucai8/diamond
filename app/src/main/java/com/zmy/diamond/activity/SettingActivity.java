@@ -48,6 +48,10 @@ public class SettingActivity extends MyBaseSwipeBackActivity {
     TextView tv_ttf_macAddress;
     @BindView(R.id.tv_macAddress)
     TextView tv_macAddress;
+    @BindView(R.id.tv_ttf_my_file)
+    TextView tv_ttf_my_file;
+    @BindView(R.id.tv_ttf_my_file_r)
+    TextView tv_ttf_my_file_r;
 
 
     @Override
@@ -56,6 +60,8 @@ public class SettingActivity extends MyBaseSwipeBackActivity {
         super.initUI();
         tv_title.setText(getString(R.string.title_setting));
         tv_back.setTypeface(MyUtlis.getTTF());
+        tv_ttf_my_file.setTypeface(MyUtlis.getTTF());
+        tv_ttf_my_file_r.setTypeface(MyUtlis.getTTF());
         tv_ttf_chace.setTypeface(MyUtlis.getTTF());
         tv_ttf_macAddress.setTypeface(MyUtlis.getTTF());
         tv_ttf_chace_r.setTypeface(MyUtlis.getTTF());
@@ -94,10 +100,6 @@ public class SettingActivity extends MyBaseSwipeBackActivity {
         context.startActivity(intent);
     }
 
-    @OnClick(R.id.btn_login_out)
-    public void btn_login_out() {
-        MyUtlis.userLoginOut(this, true);
-    }
 
     @OnClick(R.id.rl_data)
     public void rl_data() {
@@ -133,6 +135,16 @@ public class SettingActivity extends MyBaseSwipeBackActivity {
 
     @OnClick(R.id.rl_macAddress)
     public void rl_macAddress() {
+
+    }
+
+    @OnClick(R.id.rl_my_file)
+    public void rl_my_file() {
+
+
+
+
+        MyFileActivity.start(this);
 
     }
 

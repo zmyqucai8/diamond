@@ -277,7 +277,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
                 LogUtils.e(position);
                 if (position == 0) {
                     //导出到手机通讯录
-                    MyUtlis.addContacts(getActivity(), fragment.dataAdapter.getData());
+                    MyUtlis.addContacts(getActivity(), fragment.dataAdapter.getData(),null);
                 } else if (position == 1) {
                     //导出csv文件
                     //存储到哪里.

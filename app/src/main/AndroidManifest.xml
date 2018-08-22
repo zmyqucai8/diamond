@@ -128,6 +128,7 @@
         <activity android:name=".activity.BankCardAddActivity"></activity>
         <activity android:name=".activity.PayActivity"></activity>
         <activity android:name=".activity.GuideActivity"></activity>
+        <activity android:name=".activity.MyFileActivity"></activity>
         <activity
             android:name=".activity.CollectSettingActivity"
             android:theme="@style/MyCityPickerTheme"></activity>

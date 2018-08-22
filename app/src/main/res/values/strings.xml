@@ -132,6 +132,7 @@
     <string name="ttf_data_phone_type">&#xe612;</string>
     <string name="ttf_collect_speed">&#xe6e2;</string>
     <string name="hint_confirm_export_current_platform_data">鱼塘数量:%2$d\n当前鱼塘:%1$s\n确定要全部导出吗?</string>
+    <string name="hint_confirm_export_current_platform_data_marketing">导出数量:%d\n确定要全部导出吗?</string>
     <string name="hint_export_contact">导出到手机通讯录</string>
     <string name="hint_export_csv">导出.csv文件</string>
     <string name="hint_export_txt">导出.txt文件</string>
@@ -212,6 +213,9 @@
     <string name="text_bank_card_code">卡号：%s</string>
     <string name="hint_start_service_qq_chat">即将打开与客服的QQ聊天，\n是否立即前往？</string>
     <string name="text_vip_valid_time">到期时间：%s</string>
+    <string name="ttf_file">&#xe638;</string>
+    <string name="title_file">我的导出文件</string>
+    <string name="ttf_exl">&#xe61d;</string>
 
 
 </resources>

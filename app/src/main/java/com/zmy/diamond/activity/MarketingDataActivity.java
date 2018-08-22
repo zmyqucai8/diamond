@@ -18,6 +18,7 @@ import com.zmy.diamond.adapter.HomeDataAdapter;
 import com.zmy.diamond.base.MyBaseSwipeBackActivity;
 import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.MyUtlis;
+import com.zmy.diamond.utli.OnAddContactListener;
 import com.zmy.diamond.utli.bean.DataBean;
 import com.zmy.diamond.utli.bean.PlatformBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
@@ -229,6 +230,10 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
         return new ArrayList<>();
     }
 
+
+    public int handler_msg_update_progress;
+
+
     /**
      * 数据导出
      */
@@ -243,15 +248,25 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
             return;
         }
 
-
-        new AlertView(getString(R.string.hint_text), getString(R.string.hint_confirm_export_current_platform_data, currentData.get(0).name, currentData.size()), null, new String[]{getString(R.string.hint_export_contact), getString(R.string.hint_export_excel)}, new String[]{getString(R.string.hint_cancel)}, this,
+        new AlertView(getString(R.string.hint_text), getString(R.string.hint_confirm_export_current_platform_data_marketing, currentData.size()), null, new String[]{getString(R.string.hint_export_contact), getString(R.string.hint_export_excel)}, new String[]{getString(R.string.hint_cancel)}, this,
                 AlertView.Style.Alert, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {
                 LogUtils.e(position);
                 if (position == 0) {
                     //导出到手机通讯录
-                    MyUtlis.addContacts(MarketingDataActivity.this, currentData);
+                    MyUtlis.addContacts(MarketingDataActivity.this, currentData, new OnAddContactListener() {
+                        @Override
+                        public void onStart() {
+
+                            showLoading(false, "正在保存...");
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            hideLoading();
+                        }
+                    });
                 } else if (position == 1) {
                     //导出csv文件
                     //存储到哪里.

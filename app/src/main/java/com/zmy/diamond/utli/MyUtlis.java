@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -72,6 +73,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.umeng.analytics.MobclickAgent;
+import com.zmy.diamond.BuildConfig;
 import com.zmy.diamond.R;
 import com.zmy.diamond.activity.LoginActivity;
 import com.zmy.diamond.service.LocationService;
@@ -98,6 +100,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1478,7 +1481,7 @@ public class MyUtlis {
 //        values.put(ContactsContract.CommonDataKinds.Note., ContactsContract.CommonDataKinds.SipAddress.TYPE_WORK);
                             Utils.getApp().getContentResolver().insert(ContactsContract.Data.CONTENT_URI,
                                     values);
-                            showShortYes(context, getString(R.string.hint_addContact_yes));
+                            ToastUtils.showShort(getString(R.string.hint_addContact_yes));
                             clickEvent(AppConstant.CLICK.umeng_save_single_contact);
                             updateSaveDataCount(1);
                             if (context instanceof Activity && isCloseActivity) {
@@ -1488,7 +1491,7 @@ public class MyUtlis {
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            showShortNo(context, getString(R.string.hint_addContact_no));
+                            ToastUtils.showShort(getString(R.string.hint_addContact_no));
                         }
 
                     }
@@ -1508,17 +1511,18 @@ public class MyUtlis {
 
 
     /**
-     * 更新保存通讯录的 数据的总数量
+     * 更新保存通讯录的 数据的总数量   (取消了保存数量的统计）
      *
      * @param saveDataCount
      */
     public static void updateSaveDataCount(int saveDataCount) {
-        UserBean user = DaoUtlis.getUser(getLoginUserId());
-        user.setSaveNumber(user.getSaveNumber() + saveDataCount);
-        boolean b = DaoUtlis.addUser(user);
-        if (b) {
-            eventUpdateSaveDataCount(user.getSaveNumber());
-        }
+
+//        UserBean user = DaoUtlis.getUser(getLoginUserId());
+//        user.setSaveNumber(user.getSaveNumber() + saveDataCount);
+//        boolean b = DaoUtlis.addUser(user);
+//        if (b) {
+//            eventUpdateSaveDataCount(user.getSaveNumber());
+//        }
     }
 
 
@@ -1539,11 +1543,13 @@ public class MyUtlis {
     /**
      * 批量添加通讯录
      */
-    public static void addContacts(final Context context, final List<DataBean> list) {
+    public static void addContacts(final Context context, final List<DataBean> list, final OnAddContactListener listener) {
 
         if (null == list || list.isEmpty()) {
             return;
         }
+
+
         PermissionUtils.permission(PermissionConstants.CONTACTS, PermissionConstants.STORAGE)
                 .rationale(new PermissionUtils.OnRationaleListener() {
                     @Override
@@ -1554,6 +1560,11 @@ public class MyUtlis {
                 .callback(new PermissionUtils.FullCallback() {
                     @Override
                     public void onGranted(List<String> permissionsGranted) {
+
+                        if (null != listener) {
+                            listener.onStart();
+                        }
+
                         ThreadUtils.executeByFixed(AppConstant.THREAD_SIZE, new ThreadUtils.SimpleTask<Boolean>() {
                             @Override
                             public Boolean doInBackground() {
@@ -1561,8 +1572,8 @@ public class MyUtlis {
                                 int rawContactInsertIndex = 0;
 
                                 boolean isOk = false;
-                                for (DataBean contact : list) {
 
+                                for (DataBean contact : list) {
                                     try {
 
                                         if (contact == null || (TextUtils.isEmpty(contact.phone) && TextUtils.isEmpty(contact.tel))) {
@@ -1668,8 +1679,12 @@ public class MyUtlis {
                                 return isOk;
                             }
 
+
                             @Override
                             public void onSuccess(Boolean result) {
+                                if (null != listener) {
+                                    listener.onComplete();
+                                }
                                 if (result) {
                                     showShortYes(context, getString(R.string.hint_addContact_yes));
                                     clickEvent(AppConstant.CLICK.umeng_export_all_contact);
@@ -1677,6 +1692,8 @@ public class MyUtlis {
                                     showShortNo(context, getString(R.string.hint_addContact_no));
 
                                 }
+
+
                             }
 
 
@@ -2033,7 +2050,8 @@ public class MyUtlis {
                                     //获取文件存储路径
                                     String appFileDirPath = getAppFileDirPath();
                                     //生成文件名称  金刚钻_百度地图_2018-06-26_123_111122121.csv
-                                    String fileName = getString(R.string.app_name) + "_" + platformBean.name + dataBeanList.get(0).getCity() + dataBeanList.get(0).getKey() + "_" + TimeUtils.getNowString(new SimpleDateFormat("yyyyMMddHHmmss")) + "_" + dataBeanList.size() + ".csv";
+                                    String fileName = getString(R.string.app_name) + "_" + platformBean.name + "_" + dataBeanList.get(0).getCity() + dataBeanList.get(0).getKey() + "_" + TimeUtils.getNowString(new SimpleDateFormat("yyyyMMddHHmmss")) + "_" + dataBeanList.size() + ".csv";
+                                    fileName = fileName.replace(" ", "");
                                     filePath = appFileDirPath + File.separator + fileName;
                                     StringBuffer sb = new StringBuffer();
                                     String dataSeparator = ",";
@@ -2060,6 +2078,7 @@ public class MyUtlis {
                                             sb.append(isEmpty(dataBean.tel));
                                             sb.append(dataSeparator);
                                             sb.append(isEmpty(dataBean.phone));
+                                            sb.append("\t");//处理手机号码在wps office上被格式成科学计数法
                                             sb.append(dataSeparator);
                                             sb.append(isEmpty(dataBean.province));
                                             sb.append(dataSeparator);
@@ -2695,4 +2714,66 @@ public class MyUtlis {
 
     }
 
+
+    /**
+     * 格式化获取文件大小
+     *
+     * @param fileS
+     * @return
+     */
+    public static String fromatFileSize(long fileS) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        String fileSizeString = "";
+        String wrongSize = "0B";
+        if (fileS == 0) {
+            return wrongSize;
+        }
+        if (fileS < 1024) {
+            fileSizeString = fileS + "B";
+        } else if (fileS < 1048576) {
+            fileSizeString = df.format((double) fileS / 1024) + "KB";
+        } else if (fileS < 1073741824) {
+            fileSizeString = df.format((double) fileS / 1048576) + "MB";
+        } else {
+            fileSizeString = df.format((double) fileS / 1073741824) + "GB";
+        }
+        return fileSizeString;
+
+
+    }
+
+    public static void openMyFile(Context context, File file) {
+        if (null == file || (null != file && file.length() == 0)) {
+            ToastUtils.showShort("无效的文件");
+            return;
+        }
+
+        if (!file.exists()) {
+            ToastUtils.showShort("文件不存在");
+            return;
+        }
+        Intent intent = new Intent();
+        //设置intent的Action属性
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        //获取文件file的MIME类型
+        String types = "application/vnd.ms-excel";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri contentUri = FileProvider.getUriForFile(Utils.getApp(), BuildConfig.APPLICATION_ID + ".fileProvider", file);
+            //设置intent的data和Type属性。
+            intent.setDataAndType(contentUri, types);
+        } else {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(Uri.fromFile(file), types);
+        }
+        //跳转
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtils.showShort("找不到合适的程序打开此文件");
+        }
+
+    }
 }

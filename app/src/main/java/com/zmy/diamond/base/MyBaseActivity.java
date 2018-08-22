@@ -87,10 +87,11 @@ public abstract class MyBaseActivity extends BaseActivity {
      *
      * @param isCancelable 是否可以手动取消
      */
-    public void showLoading(boolean isCancelable) {
+    public void showLoading(boolean isCancelable, String text) {
         if (null == mLoadingDialog) {
             mLoadingDialog = new LoadingDialog(this);
         }
+        mLoadingDialog.setText(text);
         mLoadingDialog.setCancelable(isCancelable);
         mLoadingDialog.setCanceledOnTouchOutside(isCancelable);
         if (mLoadingDialog.isShowing()) {
@@ -99,6 +100,17 @@ public abstract class MyBaseActivity extends BaseActivity {
         mLoadingDialog.showLoading();
     }
 
+
+    public void setLoadingText(String text) {
+        if (null != mLoadingDialog) {
+            mLoadingDialog.setText(text);
+        }
+    }
+
+
+    public void showLoading(boolean isCancelable) {
+        showLoading(isCancelable, "");
+    }
 
     /**
      * 隐藏loading

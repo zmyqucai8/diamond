@@ -193,6 +193,11 @@ public class WalletTiXianActivity extends MyBaseSwipeBackActivity {
 
         try {
             double amountDounble = Double.valueOf(amount);
+
+            if (amountDounble == 0) {
+                //金额=0 直接拦截
+                return;
+            }
             if (amountDounble > user.getMoney()) {
                 MyUtlis.showShort(this, "超出零钱余额");
                 return;

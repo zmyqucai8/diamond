@@ -22,13 +22,15 @@ import com.zmy.diamond.R;
 public class LoadingDialog extends Dialog {
 
 
+    public String text_defult = "正在加载...";
+
     /**
      * 是否可以按取消键关闭 ，点击其他地方是否关闭， 默认true=可以
      */
     boolean isCanceled = true;
 
     AVLoadingIndicatorView loadingview;
-
+    TextView tv_text;
 
     private void initView(final Context context, final String text) {
 
@@ -40,7 +42,8 @@ public class LoadingDialog extends Dialog {
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.gravity = Gravity.CENTER;
 
-        TextView tv_text = view.findViewById(R.id.tv_text);
+
+        tv_text = view.findViewById(R.id.tv_text);
         lp.y = -ConvertUtils.dp2px(50);
         window.setAttributes(lp);
 //        setCancelable(isCanceled);//设置进度条是否可以按退回键取消 ,可以点击空白取消;
@@ -70,7 +73,7 @@ public class LoadingDialog extends Dialog {
     public LoadingDialog(@NonNull final Context context) {
         super(context, R.style.loading_style);
         this.isCanceled = true;
-        initView(context, "正在加载...");
+        initView(context, text_defult);
     }
 
     /**
@@ -116,4 +119,11 @@ public class LoadingDialog extends Dialog {
         this.dismiss();
     }
 
+    public void setText(String text) {
+        if (!TextUtils.isEmpty(text)) {
+            tv_text.setText(text);
+        } else {
+            tv_text.setText(text_defult);
+        }
+    }
 }
