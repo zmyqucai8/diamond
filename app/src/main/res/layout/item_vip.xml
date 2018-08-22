@@ -36,14 +36,16 @@
 
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/checkbox"
+
+        <TextView
+            android:id="@+id/tv_ttf_vip_r"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:clickable="false"
-            android:focusable="false" />
+            android:text="@string/ttf_right"
+            android:textColor="@color/color_text"
+            android:textSize="18sp" />
 
 
     </RelativeLayout>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -44,6 +45,10 @@ public class MainActivity extends MyBaseActivity implements OnTabSelectListener 
     //    InfoFragment infoFragment;
     @BindView(R.id.tablayout)
     CommonTabLayout tablayout;
+
+    @BindView(R.id.view_bg)
+    public View view_bg;
+
 
     private void initTab() {
 

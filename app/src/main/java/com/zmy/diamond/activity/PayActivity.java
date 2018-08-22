@@ -124,12 +124,8 @@ public class PayActivity extends MyBaseSwipeBackActivity {
                             @Override
                             public void onSuccess(Response<LoginResponseBean> response) {
                                 String tip = "";
-                                if (response.body().getData().getGrade() == AppConstant.VIP_GRADE_1) {
-                                    tip = "恭喜您购买白金会员成功";
-                                    ToastUtils.showShort(tip);
-                                    MyUtlis.finishActivity(PayActivity.this);
-                                } else if (response.body().getData().getGrade() == AppConstant.VIP_GRADE_2) {
-                                    tip = "恭喜您购买黄金会员成功";
+                                if (response.body().getData().getGrade() == AppConstant.VIP_GRADE_1 || response.body().getData().getGrade() == AppConstant.VIP_GRADE_2) {
+                                    tip = "恭喜您购买" + MyUtlis.getVipName(response.body().getData().getGrade()) + "成功";
                                     ToastUtils.showShort(tip);
                                     MyUtlis.finishActivity(PayActivity.this);
                                 } else {

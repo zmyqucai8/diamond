@@ -10,12 +10,12 @@ public class AppConstant {
     /**
      * debug 模式=true ,发布版本一定要关闭
      */
-    public final static boolean DEBUG = false;
+    public final static boolean DEBUG = true;
 
     /**
      * 日志开关
      */
-    public final static boolean LOG = false;
+    public final static boolean LOG = DEBUG;
     /**
      * 是否启用引导  没有图片，暂时false
      */
@@ -27,7 +27,7 @@ public class AppConstant {
     public final static boolean isExperienceMode = false;
 
 
-    //白金=1 黄金=2
+//   1=黄金会员2=白金会员
     public static final int VIP_GRADE_1 = 1;
     public static final int VIP_GRADE_2 = 2;
 

@@ -330,7 +330,7 @@ public class MyUtlis {
     public static List<VipBean> getVipItemData() {
         List<VipBean> vipBeanList = new ArrayList<>();
         String[] names = {"黄金会员", "白金会员"};
-        String[] price_des = {"998/年，每天可采集1万条数据", "1998/年，每天可采集6万条数据"};
+        String[] price_des = {"1998/年，每天可采集1万条数据", "2998/年，每天可采集6万条数据"};
         int[] grade = {1, 2};
         int[] monthCount = {12, 12};
         int[] price = {998, 1998};
@@ -2775,5 +2775,26 @@ public class MyUtlis {
             ToastUtils.showShort("找不到合适的程序打开此文件");
         }
 
+    }
+
+    /**
+     * 获取vip名称
+     *
+     * @param grade
+     * @return
+     */
+    public static String getVipName(int grade, String defaultStr) {
+
+        if (grade == AppConstant.VIP_GRADE_1) {
+            return "黄金会员";
+        } else if (grade == AppConstant.VIP_GRADE_2) {
+            return "白金会员";
+        }
+
+        return defaultStr;
+    }
+
+    public static String getVipName(int grade) {
+        return getVipName(grade, "");
     }
 }

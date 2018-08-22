@@ -7,6 +7,15 @@ package com.zmy.diamond.utli.bean;
 public class LoginResponseBean {
 
 
+    @Override
+    public String toString() {
+        return "LoginResponseBean{" +
+                "msg='" + msg + '\'' +
+                ", code=" + code +
+                ", data=" + (null != data ? data.toString() : "null") +
+                '}';
+    }
+
     /**
      * msg : 成功
      * code : 200
@@ -61,6 +70,28 @@ public class LoginResponseBean {
 
     public static class DataBean {
         private String code;
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "code='" + code + '\'' +
+                    ", vip_time=" + vip_time +
+                    ", sigin_time=" + sigin_time +
+                    ", rigister_time=" + rigister_time +
+                    ", userName='" + userName + '\'' +
+                    ", down_number_time=" + down_number_time +
+                    ", saveNumber=" + saveNumber +
+                    ", token='" + token + '\'' +
+                    ", macAddress='" + macAddress + '\'' +
+                    ", money=" + money +
+                    ", integral=" + integral +
+                    ", grade=" + grade +
+                    ", downNumber=" + downNumber +
+                    ", recomCode='" + recomCode + '\'' +
+                    ", id='" + id + '\'' +
+                    '}';
+        }
+
         private long vip_time;
         private long sigin_time;
         private long rigister_time;

@@ -3,7 +3,6 @@ package com.zmy.diamond.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -15,7 +14,6 @@ import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
-import com.blankj.utilcode.util.Utils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -37,6 +35,7 @@ import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.bean.LoginResponseBean;
 import com.zmy.diamond.utli.bean.UserBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
+import com.zmy.diamond.utli.view.VipInfoPop;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -194,22 +193,8 @@ public class MeFragment extends MyBaseFragment {
     private void setVip() {
 
         if (null != currentLoginUser) {
-
-            int grade = currentLoginUser.getGrade();
-
-            if (grade == AppConstant.VIP_GRADE_1) {
-                tv_vip.setText("黄金会员");
-                tv_vip_time.setText(Utils.getApp().getString(R.string.text_vip_valid_time, currentLoginUser.getVip_valid_time()));
-                tv_vip_time.setVisibility(View.VISIBLE);
-            } else if (grade == AppConstant.VIP_GRADE_2) {
-                tv_vip.setText("白金会员");
-                tv_vip_time.setText(Utils.getApp().getString(R.string.text_vip_valid_time, currentLoginUser.getVip_valid_time()));
-                tv_vip_time.setVisibility(View.VISIBLE);
-            } else {
-                tv_vip.setText("升级为会员");
-                tv_vip_time.setText("您可以选择购买会员");
-                tv_vip_time.setVisibility(View.GONE);
-            }
+            String vipName = MyUtlis.getVipName(currentLoginUser.getGrade(), "升级为会员");
+            tv_vip.setText(vipName);
         }
 
 
@@ -245,10 +230,10 @@ public class MeFragment extends MyBaseFragment {
     }
 
 
-    @OnClick(R.id.iv_avatar)
-    public void iv_avatar() {
+//    @OnClick(R.id.iv_avatar)
+//    public void iv_avatar() {
 //        MyUtlis.openPhoto(this, 1);
-    }
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -375,9 +360,14 @@ public class MeFragment extends MyBaseFragment {
     @OnClick(R.id.rl_vip)
     public void rl_vip() {
         //还不是vip才可以点击
-        if (!MyUtlis.isVip()) {
-            MyUtlis.clickEvent(AppConstant.CLICK.umeng_vip);
+        if (MyUtlis.isVip()) {
+
+            VipInfoPop vipInfoPop = new VipInfoPop(this, currentLoginUser);
+            vipInfoPop.show();
+
+        } else {
             VipActivity.start(getContext());
+            MyUtlis.clickEvent(AppConstant.CLICK.umeng_vip);
         }
 
 
