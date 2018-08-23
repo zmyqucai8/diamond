@@ -19,6 +19,8 @@ import com.zmy.diamond.utli.MyUtlis;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -84,8 +86,22 @@ public class MyFileActivity extends MyBaseSwipeBackActivity {
         if (null == files) {
             files = new ArrayList<>();
         }
+        if (files.size() > 1) {
+            //排序
+            Collections.sort(files, new Comparator<File>() {
+                @Override
+                public int compare(File dt1, File dt2) {
+                    if (dt1.lastModified() > dt2.lastModified()) {
+                        return -1;
+                    } else if (dt1.lastModified() < dt2.lastModified()) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
+        }
         return files;
-
     }
 
     @Override
@@ -102,6 +118,8 @@ public class MyFileActivity extends MyBaseSwipeBackActivity {
                 .callback(new PermissionUtils.FullCallback() {
                     @Override
                     public void onGranted(List<String> permissionsGranted) {
+
+
                         List<File> fileListData = getFileListData();
                         mAdapter.setNewData(fileListData);
                     }

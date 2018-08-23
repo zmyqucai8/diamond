@@ -1,5 +1,6 @@
 package com.zmy.diamond.fragment;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -41,6 +42,9 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
 
     public static DataFragment getInstance(PlatformBean bean) {
         DataFragment fragment = new DataFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("data", bean);
+        fragment.setArguments(bundle);
         fragment.bean = bean;
 
         return fragment;
@@ -65,8 +69,10 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
 
     @Override
     public void initData() {
-
-        dataAdapter = new HomeDataAdapter(DaoUtlis.getDataByPlatformId(null!=bean?bean.platformId:0));
+        if (null == bean) {
+            bean = (PlatformBean) getArguments().getSerializable("data");
+        }
+        dataAdapter = new HomeDataAdapter(DaoUtlis.getDataByPlatformId(null != bean ? bean.platformId : 0));
         dataAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         dataAdapter.setEmptyView(MyUtlis.getEmptyView(getContext(), getString(R.string.hint_no_data, bean.name)));
         dataAdapter.setHeaderAndEmpty(true);

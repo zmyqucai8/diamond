@@ -2760,7 +2760,7 @@ public class MyUtlis {
         String types = "application/vnd.ms-excel";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Uri contentUri = FileProvider.getUriForFile(Utils.getApp(), BuildConfig.APPLICATION_ID + ".fileProvider", file);
+            Uri contentUri = FileProvider.getUriForFile(Utils.getApp(), BuildConfig.APPLICATION_ID + ".provider", file);
             //设置intent的data和Type属性。
             intent.setDataAndType(contentUri, types);
         } else {
