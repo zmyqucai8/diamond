@@ -1,17 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
 
-    <include layout="@layout/actionbar"></include>
+    <include
+        android:id="@+id/action_bar"
+        layout="@layout/actionbar"></include>
 
 
     <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/action_bar"
         android:scrollbars="vertical"></com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
 
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/view_no_data"
+        android:visibility="gone"
+        android:layout_below="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_ttf_nodata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:text="@string/ttf_no_data_icon"
+            android:textSize="45sp" />
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="暂无文件" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

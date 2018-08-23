@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.TextView;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.FileUtils;
@@ -46,6 +49,15 @@ public class MyFileActivity extends MyBaseSwipeBackActivity {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
+    @BindView(R.id.tv_right)
+    TextView tv_right;
+
+
+    @BindView(R.id.view_no_data)
+    View view_no_data;
+
+    @BindView(R.id.tv_ttf_nodata)
+    TextView tv_ttf_nodata;
 
     @BindView(R.id.recyclerView)
     SwipeMenuRecyclerView mRecyclerView;
@@ -57,20 +69,15 @@ public class MyFileActivity extends MyBaseSwipeBackActivity {
         super.initUI();
         tv_title.setText(getString(R.string.title_file));
         tv_back.setTypeface(MyUtlis.getTTF());
-
-
+        tv_ttf_nodata.setTypeface(MyUtlis.getTTF());
+        tv_right.setText(getString(R.string.text_all_delete));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
         mRecyclerView.setLayoutManager(linearLayoutManager);
-
-
         mAdapter = new MyFileAdapter(this, new ArrayList<File>());
+        updateDeleteBtnState(0);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-        mAdapter.setEmptyView(MyUtlis.getEmptyView(this, "暂无文件"));
-
-
+//        mAdapter.setEmptyView(MyUtlis.getEmptyView(this, "暂无文件"));
         //侧滑菜单
         mRecyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
 // 菜单点击监听。
@@ -93,9 +100,9 @@ public class MyFileActivity extends MyBaseSwipeBackActivity {
                 if (FileUtils.deleteFile(mAdapter.getData().get(menuBridge.getAdapterPosition()))) {
                     mAdapter.remove(menuBridge.getAdapterPosition());
                 }
+                updateDeleteBtnState(mAdapter.getData().size());
             } catch (Exception e) {
                 e.printStackTrace();
-
                 MyUtlis.showShort(MyFileActivity.this, "删除失败");
             }
 
@@ -178,6 +185,7 @@ public class MyFileActivity extends MyBaseSwipeBackActivity {
 
 
                         List<File> fileListData = getFileListData();
+                        updateDeleteBtnState(fileListData.size());
                         mAdapter.setNewData(fileListData);
                     }
 
@@ -206,5 +214,40 @@ public class MyFileActivity extends MyBaseSwipeBackActivity {
         ActivityUtils.finishActivity(this, true);
     }
 
+
+    /**
+     * 更新删除按钮显示状态，如果有数据，显示，没有则不显示
+     *
+     * @param dataSize
+     */
+    public void updateDeleteBtnState(int dataSize) {
+        tv_right.setVisibility(dataSize > 0 ? View.VISIBLE : View.GONE);
+        view_no_data.setVisibility(dataSize == 0 ? View.VISIBLE : View.GONE);
+    }
+
+
+    @OnClick(R.id.tv_right)
+    public void tv_right() {
+        //全部删除
+        new AlertView(getString(R.string.hint_text), getString(R.string.hint_delete_all_file_data, mAdapter.getData().size()), null, new String[]{"确定删除"}, new String[]{"取消"}, MyFileActivity.this,
+                AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                if (position == 0) {
+                    for (File file : mAdapter.getData()) {
+                        try {
+                            FileUtils.deleteFile(file);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            continue;
+                        }
+                    }
+
+                    initData();
+                }
+            }
+        }).show();
+
+    }
 
 }
