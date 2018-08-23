@@ -8,104 +8,29 @@ public class AppVersionBean {
 
 
     /**
-     * code : 105
-     * error : invalid field name: bl!ng
+     * msg : 成功
+     * code : 200
+     * data : {"need_update":false,"down_url":"www.yscoco.com","id":1,"new_version":23,"message":"fdsfdsfdsf???"}
      */
 
+    private String msg;
     private int code;
-    private String error;
     /**
-     * app_size : 16MB
-     * createdAt : 2018-06-29 16:07:29
-     * objectId : bC5RAAAU
-     * update_content : 1.集成bmob后端云
-     * updatedAt : 2018-06-29 16:08:21
-     * version_code : 2
-     * version_name : 1.1
-     * version_time : 2018年06月29日
+     * need_update : false
+     * down_url : www.yscoco.com
+     * id : 1
+     * new_version : 23
+     * message : fdsfdsfdsf???
      */
 
-    private String app_size;
+    private DataBean data;
 
-    public String getDownloadUrl() {
-        return downloadUrl;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl;
-    }
-
-    private String downloadUrl;
-    private String createdAt;
-    private String objectId;
-    private String update_content;
-    private String updatedAt;
-    private int version_code;
-    private String version_name;
-    private String version_time;
-
-    public String getApp_size() {
-        return app_size;
-    }
-
-    public void setApp_size(String app_size) {
-        this.app_size = app_size;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
-
-    public String getUpdate_content() {
-        return update_content;
-    }
-
-    public void setUpdate_content(String update_content) {
-        this.update_content = update_content;
-    }
-
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public int getVersion_code() {
-        return version_code;
-    }
-
-    public void setVersion_code(int version_code) {
-        this.version_code = version_code;
-    }
-
-    public String getVersion_name() {
-        return version_name;
-    }
-
-    public void setVersion_name(String version_name) {
-        this.version_name = version_name;
-    }
-
-    public String getVersion_time() {
-        return version_time;
-    }
-
-    public void setVersion_time(String version_time) {
-        this.version_time = version_time;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public int getCode() {
@@ -116,11 +41,59 @@ public class AppVersionBean {
         this.code = code;
     }
 
-    public String getError() {
-        return error;
+    public DataBean getData() {
+        return data;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setData(DataBean data) {
+        this.data = data;
+    }
+
+    public static class DataBean {
+        private boolean need_update;
+        private String down_url;
+        private int id;
+        private int new_version;
+        private String message;
+
+        public boolean isNeed_update() {
+            return need_update;
+        }
+
+        public void setNeed_update(boolean need_update) {
+            this.need_update = need_update;
+        }
+
+        public String getDown_url() {
+            return down_url;
+        }
+
+        public void setDown_url(String down_url) {
+            this.down_url = down_url;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getNew_version() {
+            return new_version;
+        }
+
+        public void setNew_version(int new_version) {
+            this.new_version = new_version;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 }

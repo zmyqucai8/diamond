@@ -28,7 +28,7 @@ public class AppConstant {
     public final static boolean isExperienceMode = false;
 
 
-//   1=黄金会员2=白金会员
+    //   1=黄金会员2=白金会员
     public static final int VIP_GRADE_1 = 1;
     public static final int VIP_GRADE_2 = 2;
 
@@ -161,9 +161,8 @@ public class AppConstant {
         /**
          * 获取系统时间
          * 参数 token
-         *
          */
-        public static final String getSystemTime = "api/getSystemTime";
+        public static final String getSystemTime = HOST + "/poi/api/getSystemTime";
 
 
         /**
@@ -171,7 +170,7 @@ public class AppConstant {
          * 参数: 无
          * 返回: {"msg":"成功","code":200,"data":"5811"}
          */
-        public static final String getCode = "/poi/api/getCode";
+        public static final String getCode = HOST + "/poi/api/getCode";
         /**
          * 注册
          * 参数: String macAddress=mac地址 String code=验证码
@@ -279,7 +278,7 @@ public class AppConstant {
         /**
          * token、version（当前版本）
          */
-        public static final String updateApp = HOST + "/poi/api/version";
+        public static final String getAppVersion = HOST + "/poi/api/version";
 
 
         /**
@@ -412,6 +411,10 @@ public class AppConstant {
          * 推送设备id token
          */
         public static final String PUSH_DEVICE_TOKEN = "push_device_token";
+        /**
+         * 服务端系统时间 value long
+         */
+        public static final String SYSTEM_TIME = "system_time";
     }
 
 

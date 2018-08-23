@@ -344,7 +344,7 @@ public class MeFragment extends MyBaseFragment {
         UserBean user = DaoUtlis.getUser(MyUtlis.getLoginUserId());
         if (null != user) {
             long lastSignTime = user.getLastSignTime();
-            boolean today = TimeUtils.isToday(lastSignTime);
+            boolean today = MyUtlis.isToday(lastSignTime);
             isSign = today;
             if (isSign) {
                 //已签到

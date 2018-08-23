@@ -18,8 +18,10 @@ import com.zmy.diamond.fragment.HomeFragment;
 import com.zmy.diamond.fragment.MarketingFragment;
 import com.zmy.diamond.fragment.MeFragment;
 import com.zmy.diamond.fragment.TradingFragment;
+import com.zmy.diamond.utli.ApiUtlis;
 import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.MyUtlis;
+import com.zmy.diamond.utli.UpdateAppUtlis;
 
 import java.util.ArrayList;
 
@@ -95,8 +97,8 @@ public class MainActivity extends MyBaseActivity implements OnTabSelectListener 
 
     @Override
     public void initData() {
-        MyUtlis.checkAppUpdate(this);
-
+        ApiUtlis.getSystemTime(this, MyUtlis.getToken());
+        UpdateAppUtlis.checkAppUpdate(this);
         if (AppConstant.isExperienceMode) {
             BaseApp.getInstance().startUseTiming();
         }

@@ -8,11 +8,13 @@ import com.blankj.utilcode.util.LogUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.zmy.diamond.utli.bean.AboutAppBean;
+import com.zmy.diamond.utli.bean.AppVersionBean;
 import com.zmy.diamond.utli.bean.BankCardBean;
 import com.zmy.diamond.utli.bean.JoinVipResponseBean;
 import com.zmy.diamond.utli.bean.LoginResponseBean;
 import com.zmy.diamond.utli.bean.MyTradingModifyBean;
 import com.zmy.diamond.utli.bean.PublicResponseBean;
+import com.zmy.diamond.utli.bean.SystemTimeBean;
 import com.zmy.diamond.utli.bean.TradingDataBean;
 import com.zmy.diamond.utli.bean.UserBean;
 import com.zmy.diamond.utli.bean.VipOrderQueryBean;
@@ -401,6 +403,42 @@ public class ApiUtlis {
                 .params("action", 1)
                 .params("amount", amount)
                 .params("card_id", cardId)
+                .execute(callBack);
+    }
+
+
+    /**
+     * 获取服务器系统时间
+     * {"msg":"成功","code":200,"data":1535016406242}
+     *
+     * @param context
+     * @param token
+     */
+    public static void getSystemTime(Context context, String token) {
+        OkGo.<SystemTimeBean>post(AppConstant.Api.getSystemTime)
+                .tag(context)
+                .params("token", token)
+                .execute(new JsonCallBack<SystemTimeBean>(SystemTimeBean.class) {
+                    @Override
+                    public void onSuccess(Response<SystemTimeBean> response) {
+                        if (null != response.body()) {
+                            MyUtlis.setSystemTime(response.body().getData());
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 获取app版本
+     *
+     * @param context
+     * @param token
+     */
+    public static void getAppVersion(Context context, String token, JsonCallBack<AppVersionBean> callBack) {
+        OkGo.<AppVersionBean>post(AppConstant.Api.getAppVersion)
+                .tag(context)
+                .params("token", token)
                 .execute(callBack);
     }
 }

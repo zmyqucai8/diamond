@@ -35,14 +35,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.allenliu.versionchecklib.v2.AllenVersionChecker;
-import com.allenliu.versionchecklib.v2.builder.UIData;
-import com.allenliu.versionchecklib.v2.callback.ForceUpdateListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.Poi;
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.blankj.utilcode.constant.PermissionConstants;
+import com.blankj.utilcode.constant.TimeConstants;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -77,7 +75,6 @@ import com.zmy.diamond.BuildConfig;
 import com.zmy.diamond.R;
 import com.zmy.diamond.activity.LoginActivity;
 import com.zmy.diamond.service.LocationService;
-import com.zmy.diamond.utli.bean.AppVersionBean;
 import com.zmy.diamond.utli.bean.DataBean;
 import com.zmy.diamond.utli.bean.InfoBannerBean;
 import com.zmy.diamond.utli.bean.InfoBean;
@@ -2134,6 +2131,8 @@ public class MyUtlis {
 
     }
 
+
+
     /**
      * 获取本app文件存储路径,没有则创建文件夹 ,  /diamond/file
      *
@@ -2212,66 +2211,8 @@ public class MyUtlis {
 
     }
 
-    /**
-     * 检测APP更新
-     *
-     * @param activity
-     */
-    public static void checkAppUpdate(final Activity activity) {
-        String url = "https://api.bmob.cn/1/classes/app_version/bC5RAAAU";
-        OkGo.<String>get(url).tag(activity)
-                .headers("X-Bmob-Application-Id", AppConstant.BMOB_ID)
-                .headers("X-Bmob-REST-API-Key", AppConstant.BMOB_KEY)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        String json = response.body().toString();
-                        AppVersionBean bean = new Gson().fromJson(json, AppVersionBean.class);
-                        if (null != bean) {
-                            int version_code = bean.getVersion_code();
-                            int appVersionCode = AppUtils.getAppVersionCode();
-                            if (version_code > appVersionCode && !TextUtils.isEmpty(bean.getDownloadUrl())) {
-                                String update_content = bean.getUpdate_content();
-                                String updateContent = update_content.replace("\\n", "\n");
-                                //服务端版本大于当前版本 更新,暂时统一强制更新
-                                StringBuilder sb = new StringBuilder();
-                                sb.append("最新版本:");
-                                sb.append(bean.getVersion_name());
-                                sb.append("\n大小:");
-                                sb.append(bean.getApp_size());
-                                sb.append("\n更新内容:\n");
-                                sb.append(updateContent);
-                                AllenVersionChecker
-                                        .getInstance()
-                                        .downloadOnly(
-                                                UIData.create().setDownloadUrl(bean.getDownloadUrl())
-                                                        .setTitle("版本更新")
-                                                        .setContent(sb.toString())
 
 
-                                        )
-                                        .setForceUpdateListener(new ForceUpdateListener() {
-                                            @Override
-                                            public void onShouldForceUpdate() {
-
-                                            }
-                                        })
-                                        .setDownloadAPKPath(MyUtlis.getAppFileDirPath())
-                                        .excuteMission(activity);
-                            } else {
-
-                                //服务端版本 等于或者小于当前版本,不更新
-                            }
-
-
-                        }
-
-
-                    }
-                });
-
-
-    }
 
     /**
      * 设置采集范围 : 城市
@@ -2777,6 +2718,37 @@ public class MyUtlis {
 
     }
 
+
+    /**
+     * 设置服务端系统时间
+     */
+    public static void setSystemTime(long systemTime) {
+        if (systemTime > 0)
+            SPUtils.getInstance().put(AppConstant.SPKey.SYSTEM_TIME, systemTime);
+    }
+
+    /**
+     * 获取服务端系统时间
+     */
+    public static long getSystemTime() {
+        long time = SPUtils.getInstance().getLong(AppConstant.SPKey.SYSTEM_TIME);
+        if (time <= 0) {
+            time = TimeUtils.getNowMills();
+        }
+        return time;
+    }
+
+    /**
+     * Return whether it is today.
+     *
+     * @param millis The milliseconds.
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    public static boolean isToday(final long millis) {
+        long wee = getSystemTime();
+        return millis >= wee && millis < wee + TimeConstants.DAY;
+    }
+
     /**
      * 获取vip名称
      *
@@ -2797,4 +2769,6 @@ public class MyUtlis {
     public static String getVipName(int grade) {
         return getVipName(grade, "");
     }
+
+
 }
