@@ -1,5 +1,6 @@
 package com.zmy.diamond.utli;
 
+import com.zmy.diamond.BuildConfig;
 import com.zmy.diamond.R;
 
 /**
@@ -10,7 +11,7 @@ public class AppConstant {
     /**
      * debug 模式=true ,发布版本一定要关闭
      */
-    public final static boolean DEBUG = true;
+    public final static boolean DEBUG = BuildConfig.DEBUG;
 
     /**
      * 日志开关

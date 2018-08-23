@@ -13,7 +13,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 5
-        versionName "1.7"
+        versionName "1.0"
         multiDexEnabled = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -141,4 +141,7 @@ dependencies {
 
     //支付宝微信支付
     compile 'com.github.didikee:AndroidDonate:0.1.0'
+
+//侧滑菜单
+    compile 'com.yanzhenjie:recyclerview-swipe:1.1.4'
 }

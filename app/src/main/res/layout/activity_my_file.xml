@@ -8,10 +8,10 @@
     <include layout="@layout/actionbar"></include>
 
 
-    <android.support.v7.widget.RecyclerView
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
+        android:scrollbars="vertical"></com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
 
 </LinearLayout>

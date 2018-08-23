@@ -2,8 +2,9 @@ package com.zmy.diamond.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.constant.PermissionConstants;
@@ -11,6 +12,12 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuBridge;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuItemClickListener;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import com.zmy.diamond.R;
 import com.zmy.diamond.adapter.MyFileAdapter;
 import com.zmy.diamond.base.MyBaseSwipeBackActivity;
@@ -26,6 +33,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+
 /**
  * 我的导出文件
  * Created by zhangmengyun on 2018/6/16.
@@ -39,7 +48,7 @@ public class MyFileActivity extends MyBaseSwipeBackActivity {
 
 
     @BindView(R.id.recyclerView)
-    RecyclerView mRecyclerView;
+    SwipeMenuRecyclerView mRecyclerView;
     MyFileAdapter mAdapter;
 
     @Override
@@ -60,8 +69,56 @@ public class MyFileActivity extends MyBaseSwipeBackActivity {
         mAdapter = new MyFileAdapter(this, new ArrayList<File>());
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mAdapter.setEmptyView(MyUtlis.getEmptyView(this, "暂无文件"));
+
+
+        //侧滑菜单
+        mRecyclerView.setSwipeMenuCreator(mSwipeMenuCreator);
+// 菜单点击监听。
+        mRecyclerView.setSwipeMenuItemClickListener(mMenuItemClickListener);
+
         mRecyclerView.setAdapter(mAdapter);
     }
+
+    // 菜单点击监听。
+    SwipeMenuItemClickListener mMenuItemClickListener = new SwipeMenuItemClickListener() {
+        @Override
+        public void onItemClick(SwipeMenuBridge menuBridge) {
+            // 任何操作必须先关闭菜单，否则可能出现Item菜单打开状态错乱。
+            menuBridge.closeMenu();
+//            int direction = menuBridge.getDirection(); // 左侧还是右侧菜单。
+//            int adapterPosition = menuBridge.getAdapterPosition() ; // RecyclerView的Item的position。
+//            int menuPosition = menuBridge.getPosition(); // 菜单在RecyclerView的Item中的Position。
+
+            try {
+                if (FileUtils.deleteFile(mAdapter.getData().get(menuBridge.getAdapterPosition()))) {
+                    mAdapter.remove(menuBridge.getAdapterPosition());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                MyUtlis.showShort(MyFileActivity.this, "删除失败");
+            }
+
+
+        }
+    };
+
+    // 创建菜单：
+    SwipeMenuCreator mSwipeMenuCreator = new SwipeMenuCreator() {
+        @Override
+        public void onCreateMenu(SwipeMenu leftMenu, SwipeMenu rightMenu, int viewType) {
+            SwipeMenuItem deleteItem = new SwipeMenuItem(MyFileActivity.this);
+            // 注意：哪边不想要菜单，那么不要添加即可。
+            // 各种文字和图标属性设置。
+            rightMenu.addMenuItem(deleteItem); // 在Item右侧添加一个菜单。
+            deleteItem.setBackgroundColor(ContextCompat.getColor(MyFileActivity.this, R.color.holo_red_light));
+            deleteItem.setText("　　删除　　");
+            deleteItem.setTextSize(15);
+            deleteItem.setTextColor(Color.WHITE);
+            deleteItem.setHeight(MATCH_PARENT);
+
+        }
+    };
 
     /**
      * 获取导出的文件数据
