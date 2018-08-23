@@ -18,7 +18,6 @@ import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
 import com.allenliu.versionchecklib.v2.callback.ForceUpdateListener;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.lzy.okgo.model.Response;
 import com.zmy.diamond.R;
@@ -79,7 +78,8 @@ public class UpdateAppUtlis {
                                         //强制时取消更新
                                         AppUtils.exitApp();
                                     } else {
-                                        ToastUtils.showShort("取消更新");
+                                        LogUtils.e("取消更新");
+//                                        ToastUtils.showShort("取消更新");
                                     }
 
                                 }
@@ -124,7 +124,7 @@ public class UpdateAppUtlis {
                 baseDialog.setCanceledOnTouchOutside(false);
                 baseDialog.setCancelable(false);
 
-                View btn_cancel = baseDialog.findViewById(R.id.btn_cancel);
+                View btn_cancel = baseDialog.findViewById(R.id.versionchecklib_version_dialog_cancel);
 
                 if (need_update) {
                     //强制更新

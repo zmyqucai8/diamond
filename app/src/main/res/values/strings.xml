@@ -218,6 +218,7 @@
     <string name="ttf_exl">&#xe61d;</string>
     <string name="text_all_delete">全部删除</string>
     <string name="hint_delete_all_file_data">删除后无法恢复，\n确定要删除这%d个数据文件吗？</string>
+    <string name="title_sms_batch">短信群发</string>
 
 
 </resources>
