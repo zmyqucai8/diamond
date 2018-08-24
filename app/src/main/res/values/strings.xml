@@ -219,6 +219,19 @@
     <string name="text_all_delete">全部删除</string>
     <string name="hint_delete_all_file_data">删除后无法恢复，\n确定要删除这%d个数据文件吗？</string>
     <string name="title_sms_batch">短信群发</string>
+    <string name="text_buy_account">我要买账号</string>
+    <string name="text_sell_account">求购信息</string>
+    <string name="text_release">发布</string>
+    <string name="text_edit_info">修改信息</string>
+    <string name="text_complete">完成</string>
+    <string name="text_data_error">数据错误</string>
+    <string name="hint_input_city">请输入城市</string>
+    <string name="hint_input_industry">请输入行业</string>
+    <string name="hint_input_friend_count">请输入好友数量</string>
+    <string name="hint_input_friend_count_2">请输入有效的好友数量</string>
+    <string name="hint_input_price">请输入价格</string>
+    <string name="hint_input_price_2">请输入有效的价格</string>
+    <string name="hint_input_weixin">请输入微信号</string>
 
 
 </resources>

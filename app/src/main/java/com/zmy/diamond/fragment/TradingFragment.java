@@ -82,7 +82,7 @@ public class TradingFragment extends MyBaseFragment implements OnTabSelectListen
         tabLayout.setViewPager(viewPager);
         tabLayout.setOnTabSelectListener(this);
         viewPager.addOnPageChangeListener(this);
-        viewPager.setCurrentItem(0);  //初始化显示第一个页面
+//        viewPager.setCurrentItem(0);  //初始化显示第一个页面
     }
 
     @Override

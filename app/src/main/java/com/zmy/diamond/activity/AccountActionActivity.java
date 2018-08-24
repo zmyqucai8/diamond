@@ -100,11 +100,11 @@ public class AccountActionActivity extends MyBaseSwipeBackActivity {
             //发布模式
             dataType = getIntent().getIntExtra(AppConstant.ExtraKey.DATA_TYPE, AppConstant.DATA_TYPE_BUY_ACCOUNT);
             if (dataType == AppConstant.DATA_TYPE_BUY_ACCOUNT) {
-                tv_title.setText("我要买账号");
+                tv_title.setText(getString(R.string.text_buy_account));
             } else {
-                tv_title.setText("求购信息");
+                tv_title.setText(getString(R.string.text_sell_account));
             }
-            tv_menu_2.setText("发布");
+            tv_menu_2.setText(getString(R.string.text_release));
         } else if (actionType == AppConstant.ACTION_ACCOUNT_EDEITE) {
 
             dataBean = (TradingDataBean.DataBean) getIntent().getSerializableExtra(AppConstant.ExtraKey.DATA_BEAN);
@@ -112,8 +112,8 @@ public class AccountActionActivity extends MyBaseSwipeBackActivity {
             //编辑模式 显示删除按钮
             tv_menu_1.setVisibility(View.VISIBLE);
             tv_menu_1.setTypeface(MyUtlis.getTTF());
-            tv_title.setText("修改信息");
-            tv_menu_2.setText("完成");
+            tv_title.setText(getString(R.string.text_edit_info));
+            tv_menu_2.setText(getString(R.string.text_complete));
             setDefaultData();
         }
     }
@@ -131,7 +131,7 @@ public class AccountActionActivity extends MyBaseSwipeBackActivity {
             edit_price.setText(String.valueOf(dataBean.getPrice()));
             edit_weixin.setText(dataBean.getWeixin());
         } else {
-            MyUtlis.showShortNo(this, "数据错误");
+            MyUtlis.showShortNo(this, getString(R.string.text_data_error));
         }
     }
 
@@ -145,7 +145,7 @@ public class AccountActionActivity extends MyBaseSwipeBackActivity {
         //删除
         KeyboardUtils.hideSoftInput(this);
 
-        new AlertView(getString(R.string.hint_text), getString(R.string.hint_delete_trading), null, new String[]{"确定"}, new String[]{"取消"}, this,
+        new AlertView(getString(R.string.hint_text), getString(R.string.hint_delete_trading), null, new String[]{getString(R.string.hint_confirm)}, new String[]{getString(R.string.hint_cancel)}, this,
                 AlertView.Style.Alert, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {
@@ -198,13 +198,13 @@ public class AccountActionActivity extends MyBaseSwipeBackActivity {
         String city = edit_city.getText().toString().trim();
 
         if (TextUtils.isEmpty(city)) {
-            MyUtlis.showShort(this, "请输入城市");
+            MyUtlis.showShort(this, getString(R.string.hint_input_city));
             return;
         }
         String industry = edit_industry.getText().toString().trim();
 
         if (TextUtils.isEmpty(industry)) {
-            MyUtlis.showShort(this, "请输入行业");
+            MyUtlis.showShort(this, getString(R.string.hint_input_industry));
             return;
         }
 
@@ -215,12 +215,12 @@ public class AccountActionActivity extends MyBaseSwipeBackActivity {
 
             friendCountInt = Integer.valueOf(friendCount);
             if (TextUtils.isEmpty(friendCount) || friendCountInt <= 0) {
-                MyUtlis.showShort(this, "请输入好友数量");
+                MyUtlis.showShort(this, getString(R.string.hint_input_friend_count));
                 return;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            MyUtlis.showShort(this, "请输入有效的好友数量");
+            MyUtlis.showShort(this, getString(R.string.hint_input_friend_count_2));
             return;
         }
 
@@ -231,19 +231,19 @@ public class AccountActionActivity extends MyBaseSwipeBackActivity {
 
             priceInt = Integer.valueOf(price);
             if (TextUtils.isEmpty(price) || priceInt <= 0) {
-                MyUtlis.showShort(this, "请输入价格");
+                MyUtlis.showShort(this, getString(R.string.hint_input_price));
                 return;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            MyUtlis.showShort(this, "请输入有效的价格");
+            MyUtlis.showShort(this, getString(R.string.hint_input_price_2));
             return;
         }
 
         String weixin = edit_weixin.getText().toString().trim();
 
         if (TextUtils.isEmpty(weixin)) {
-            MyUtlis.showShort(this, "请输入微信号");
+            MyUtlis.showShort(this, getString(R.string.hint_input_weixin));
             return;
         }
         String describe = edit_describe.getText().toString().trim();
@@ -344,14 +344,5 @@ public class AccountActionActivity extends MyBaseSwipeBackActivity {
         intent.putExtra(AppConstant.ExtraKey.ACTION_TYPE, AppConstant.ACTION_ACCOUNT_EDEITE);
         intent.putExtra(AppConstant.ExtraKey.DATA_BEAN, dataBean);
         context.startActivity(intent);
-    }
-
-
-    @Override
-    protected void onDestroy() {
-
-
-        super.onDestroy();
-
     }
 }
