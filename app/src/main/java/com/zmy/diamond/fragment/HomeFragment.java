@@ -278,7 +278,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
                 LogUtils.e(position);
                 if (position == 0) {
                     //导出到手机通讯录
-                    MyUtlis.addContacts(getActivity(), fragment.dataAdapter.getData(),null);
+                    MyUtlis.addContacts(getActivity(), fragment.dataAdapter.getData(), null);
                 } else if (position == 1) {
                     //导出csv文件
                     //存储到哪里.
@@ -301,7 +301,10 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
         } else {
             showPlatformMenu(true);
         }
-        TestActivity.start(getContext());
+
+        if (AppConstant.DEBUG) {
+            TestActivity.start(getContext());
+        }
     }
 
 
