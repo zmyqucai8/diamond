@@ -6,17 +6,41 @@
 
     <include layout="@layout/actionbar"></include>
 
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/mmap"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"></com.baidu.mapapi.map.MapView>
+
+    <EditText
+        android:id="@+id/edit_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="城市" />
+
+    <EditText
+        android:id="@+id/edit_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="关键词" />
 
 
+    <Button
+        android:id="@+id/btn_get_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取城市经纬度(中心和边界）" />
 
+    <Button
+        android:id="@+id/btn_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="根据经纬度将城市分成固定的很多小块" />
 
-
-
-
-
-
-
-
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开始循环采集，并且记录当前挖到第几块" />
 
 
 </LinearLayout>

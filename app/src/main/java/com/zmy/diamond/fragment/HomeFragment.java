@@ -15,6 +15,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.zmy.diamond.R;
 import com.zmy.diamond.activity.CollectSettingActivity;
+import com.zmy.diamond.activity.TestActivity;
 import com.zmy.diamond.adapter.HomePagerAdapter;
 import com.zmy.diamond.base.MyBaseFragment;
 import com.zmy.diamond.utli.AppConstant;
@@ -300,7 +301,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
         } else {
             showPlatformMenu(true);
         }
-//        TestActivity.start(getContext());
+        TestActivity.start(getContext());
     }
 
 

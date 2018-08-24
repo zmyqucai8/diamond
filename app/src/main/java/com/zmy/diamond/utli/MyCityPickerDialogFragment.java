@@ -11,18 +11,16 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.zaaach.citypicker.adapter.CityListAdapter;
 import com.zaaach.citypicker.adapter.InnerListener;
 import com.zaaach.citypicker.adapter.OnPickListener;
@@ -44,7 +42,7 @@ import java.util.List;
  * @Date: 2018/2/6 20:50
  */
 public class MyCityPickerDialogFragment extends AppCompatDialogFragment implements TextWatcher,
-        View.OnClickListener, SideIndexBar.OnIndexTouchedChangedListener, InnerListener, TextView.OnEditorActionListener {
+        View.OnClickListener, SideIndexBar.OnIndexTouchedChangedListener, InnerListener {
     private View mContentView;
     private RecyclerView mRecyclerView;
     private View mEmptyView;
@@ -175,9 +173,9 @@ public class MyCityPickerDialogFragment extends AppCompatDialogFragment implemen
         mSearchBox = mContentView.findViewById(com.zaaach.citypicker.R.id.cp_search_box);
         mSearchBox.setSingleLine();
         mSearchBox.setMaxLines(1);
-        mSearchBox.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//        mSearchBox.setImeOptions(EditorInfo.IME_ACTION_DONE);
         mSearchBox.addTextChangedListener(this);
-        mSearchBox.setOnEditorActionListener(this);
+//        mSearchBox.setOnEditorActionListener(this);
 
         mCancelBtn = mContentView.findViewById(com.zaaach.citypicker.R.id.cp_cancel);
         mClearAllBtn = mContentView.findViewById(com.zaaach.citypicker.R.id.cp_clear_all);
@@ -260,6 +258,7 @@ public class MyCityPickerDialogFragment extends AppCompatDialogFragment implemen
 
     @Override
     public void dismiss(int position, City data) {
+        KeyboardUtils.hideSoftInput(mSearchBox);
         dismiss();
         if (mOnPickListener != null) {
             mOnPickListener.onPick(position, data);
@@ -277,24 +276,24 @@ public class MyCityPickerDialogFragment extends AppCompatDialogFragment implemen
         this.mOnPickListener = listener;
     }
 
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-
-        LogUtils.e(actionId);
-        if (actionId == EditorInfo.IME_ACTION_DONE) {
-            String s = v.getText().toString();
+//    @Override
+//    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//
+//
+//        LogUtils.e(actionId);
+//        if (actionId == EditorInfo.IME_ACTION_DONE) {
+//            String s = v.getText().toString();
 //            if (!RegexUtils.isZh(s)) {
 //                MyUtlis.showShort(getContext(), getString(R.string.hint_input_zh));
 //                return false;
 //            }
-
-            if (!TextUtils.isEmpty(s) && s.length() > 1 && mOnPickListener != null) {
-                dismiss();
-                mOnPickListener.onPick(0, new City(s, "", "", ""));
-            }
-        }
-
-        return false;
-    }
+//
+//            if (!TextUtils.isEmpty(s) && s.length() > 1 && mOnPickListener != null) {
+//                dismiss();
+//                mOnPickListener.onPick(0, new City(s, "", "", ""));
+//            }
+//        }
+//
+//        return false;
+//    }
 }
