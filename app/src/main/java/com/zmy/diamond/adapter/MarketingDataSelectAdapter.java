@@ -146,6 +146,7 @@ public class MarketingDataSelectAdapter extends BaseMultiItemQuickAdapter<MultiI
                     public void onClick(View v) {
 
                         if (mType == TYPE_SELECT) {
+                            //组 选择模式
                             groupBean.isCheck = !groupBean.isCheck;
                             ((CheckBox) helper.getView(R.id.checkbox)).setChecked(groupBean.isCheck);
 
@@ -160,6 +161,15 @@ public class MarketingDataSelectAdapter extends BaseMultiItemQuickAdapter<MultiI
                                 subItems.get(i).isCheck = groupBean.isCheck;
 
                                 notifyDataSetChanged();
+                            }
+                        }else {
+                            //组 删除模式点击
+                            if (groupBean.isExpanded()) {
+                                //展开就关闭
+                                collapse(helper.getAdapterPosition());
+                            } else {
+                                //关闭就展开
+                                expand(helper.getAdapterPosition());
                             }
                         }
                         ToastUtils.showShort(groupBean.name);
