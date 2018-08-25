@@ -218,7 +218,7 @@
     <string name="ttf_exl">&#xe61d;</string>
     <string name="text_all_delete">全部删除</string>
     <string name="hint_delete_all_file_data">删除后无法恢复，\n确定要删除这%d个数据文件吗？</string>
-    <string name="title_sms_batch">短信群发</string>
+    <string name="title_sms_batch">群发短信</string>
     <string name="text_buy_account">我要买账号</string>
     <string name="text_sell_account">求购信息</string>
     <string name="text_release">发布</string>
@@ -232,6 +232,13 @@
     <string name="hint_input_price">请输入价格</string>
     <string name="hint_input_price_2">请输入有效的价格</string>
     <string name="hint_input_weixin">请输入微信号</string>
+    <string name="text_select_count">已选择%d个</string>
+    <string name="text_select_data">选择数据</string>
+    <string name="ttf_sms">&#xe88d;</string>
+
+    <!--右-->
+    <string name="ttf_right2">&#xeb11;</string>
+    <string name="ttf_down2">&#xe65e;</string>
 
 
 </resources>

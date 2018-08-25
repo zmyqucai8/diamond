@@ -313,6 +313,47 @@
             </RelativeLayout>
 
             <View style="@style/view_line"></View>
+            <RelativeLayout
+
+                android:id="@+id/rl_sms"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
+
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/tv_ttf_sms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_sms"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_sms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_sms"
+                    android:text="群发短信"
+                    android:textColor="@color/color_text" />
+
+                <TextView
+                    android:id="@+id/tv_ttf_sms_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <View style="@style/view_line"></View>
 
 
             <RelativeLayout

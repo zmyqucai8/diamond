@@ -129,6 +129,8 @@
         <activity android:name=".activity.PayActivity"></activity>
         <activity android:name=".activity.GuideActivity"></activity>
         <activity android:name=".activity.MyFileActivity"></activity>
+        <activity android:name=".activity.SMSBatchActivity"></activity>
+        <activity android:name=".activity.MarketingDataSelectActivity"></activity>
         <activity
             android:name=".activity.CollectSettingActivity"
             android:theme="@style/MyCityPickerTheme"></activity>

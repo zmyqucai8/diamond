@@ -23,6 +23,7 @@ import com.zmy.diamond.R;
 import com.zmy.diamond.activity.ExplainAppActivity;
 import com.zmy.diamond.activity.MyTradingActivity;
 import com.zmy.diamond.activity.OpinionActivity;
+import com.zmy.diamond.activity.SMSBatchActivity;
 import com.zmy.diamond.activity.SettingActivity;
 import com.zmy.diamond.activity.VipActivity;
 import com.zmy.diamond.activity.WalletActivity;
@@ -95,6 +96,10 @@ public class MeFragment extends MyBaseFragment {
     TextView tv_ttf_trading;
     @BindView(R.id.tv_ttf_trading_r)
     TextView tv_ttf_trading_r;
+    @BindView(R.id.tv_ttf_sms)
+    TextView tv_ttf_sms;
+    @BindView(R.id.tv_ttf_sms_r)
+    TextView tv_ttf_sms_r;
 
     @BindView(R.id.tv_vip)
     TextView tv_vip;
@@ -111,6 +116,8 @@ public class MeFragment extends MyBaseFragment {
     public void initUI() {
         super.initUI();
         EventBus.getDefault().register(this);
+        tv_ttf_sms_r.setTypeface(MyUtlis.getTTF());
+        tv_ttf_sms.setTypeface(MyUtlis.getTTF());
         tv_ttf_trading.setTypeface(MyUtlis.getTTF());
         tv_ttf_trading_r.setTypeface(MyUtlis.getTTF());
         tv_ttf_wallet.setTypeface(MyUtlis.getTTF());
@@ -421,6 +428,12 @@ public class MeFragment extends MyBaseFragment {
     public void rl_trading() {
 //        ToastUtils.showShort("我的交易");
         MyTradingActivity.start(getContext());
+    }
+
+    @OnClick(R.id.rl_sms)
+    public void rl_sms() {
+//        ToastUtils.showShort("短信群发");
+        SMSBatchActivity.start(getContext());
     }
 
 

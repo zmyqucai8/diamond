@@ -129,6 +129,12 @@ public class MessageEvent {
      */
     public static final int TIXIAN_OK = 17;
     /**
+     * 选择营销数据完成  objectValue = data -> look  MarketingDataSelectActivity.class
+     */
+    public static final int SELECT_MARKETING_DATA_COMPLETE = 18;
+
+
+    /**
      * 事件类型
      */
     public int eventType;

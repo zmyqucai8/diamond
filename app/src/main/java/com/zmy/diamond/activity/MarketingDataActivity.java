@@ -124,7 +124,7 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
                     if (0 == position) {
                         dataExport();
                     } else if (1 == position) {
-                        ToastUtils.showShort("群发短信，功能开发中");
+                        SMSBatchActivity.start(MarketingDataActivity.this,userId,platformId,key,city);
                     } else if (2 == position) {
                         dataClear();
                     }
