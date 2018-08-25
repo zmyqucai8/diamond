@@ -157,7 +157,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
             //重置所有平台数据
             for (int i = 0; i < mFragments.size(); i++) {
                 DataFragment dataFragment = (DataFragment) mFragments.get(i);
-                dataFragment.refreshData();
+                dataFragment.refreshData(null);
             }
 //            dataAdapter.setNewData(new ArrayList<DataBean>());
         } else if (event.eventType == MessageEvent.UPDATE_LOCATION) {

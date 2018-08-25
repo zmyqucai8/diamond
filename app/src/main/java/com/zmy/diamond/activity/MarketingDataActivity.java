@@ -160,7 +160,7 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
                         clearCurrentData();
                         DaoUtlis.deleteCollectRecord(collectId, userId);
                         MyUtlis.eventRefreshMarketingFragmentData();
-                        MyUtlis.eventUpdateHomeData();
+//                        MyUtlis.eventUpdateHomeData();
                         ToastUtils.showShort("删除成功");
 
                         ActivityUtils.finishActivity(MarketingDataActivity.this);

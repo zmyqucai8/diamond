@@ -977,7 +977,10 @@ public class MyUtlis {
             public void onItemClick(Object o, int position) {
                 if (position == 0) {
                     boolean b1 = DaoUtlis.deleteAllData(allData);
+
                     if (b1) {
+                        DaoUtlis.deleteCollectRecord();
+                        eventRefreshMarketingFragmentData();
                         eventUpdateHomeData();
                         showShortYes(context, getString(R.string.hint_delete_yes));
                         clickEvent(AppConstant.CLICK.umeng_delete_all_data);
@@ -2132,7 +2135,6 @@ public class MyUtlis {
     }
 
 
-
     /**
      * 获取本app文件存储路径,没有则创建文件夹 ,  /diamond/file
      *
@@ -2210,8 +2212,6 @@ public class MyUtlis {
 
 
     }
-
-
 
 
     /**

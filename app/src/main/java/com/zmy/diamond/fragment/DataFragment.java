@@ -10,7 +10,6 @@ import com.zmy.diamond.R;
 import com.zmy.diamond.adapter.HomeDataAdapter;
 import com.zmy.diamond.base.BaseApp;
 import com.zmy.diamond.base.MyBaseFragment;
-import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.CollectUtlis;
 import com.zmy.diamond.utli.MessageEvent;
 import com.zmy.diamond.utli.MyLinearLayoutManager;
@@ -24,6 +23,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -73,6 +73,7 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
             bean = (PlatformBean) getArguments().getSerializable("data");
         }
         dataAdapter = new HomeDataAdapter(DaoUtlis.getDataByPlatformId(null != bean ? bean.platformId : 0));
+//        dataAdapter = new HomeDataAdapter(new ArrayList<DataBean>());
         dataAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         dataAdapter.setEmptyView(MyUtlis.getEmptyView(getContext(), getString(R.string.hint_no_data, bean.name)));
         dataAdapter.setHeaderAndEmpty(true);
@@ -82,10 +83,15 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
     }
 
     /**
-     * 从数据库重新获取数据
+     * 从数据库重新获取数据 (刷新不走数据库）
      */
-    public void refreshData() {
-        dataAdapter.setNewData(DaoUtlis.getDataByPlatformId(bean.platformId));
+    public void refreshData(List<DataBean> list) {
+//        DaoUtlis.getDataByPlatformId(bean.platformId)
+
+        if (list == null) {
+            list = new ArrayList<>();
+        }
+        dataAdapter.setNewData(list);
         MyUtlis.eventUpdatePlatfromDataCount();
     }
 
@@ -153,14 +159,15 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
      * 删除当前平台所有数据
      */
     public void clearData() {
-        boolean b = DaoUtlis.deleteAllData(MyUtlis.getLoginUserId(), bean.platformId);
-        if (b) {
-            MyUtlis.showShortSimple(getActivity(), getString(R.string.hint_delete_platform_data_ok, bean.name));
-            refreshData();
-            MyUtlis.clickEvent(AppConstant.CLICK.umeng_home_clear_data);
-        } else {
-            MyUtlis.showShortSimple(getActivity(), getString(R.string.hint_delete_platform_data_no, bean.name));
-        }
+
+//        boolean b = DaoUtlis.deleteAllData(MyUtlis.getLoginUserId(), bean.platformId);
+//        if (b) {
+//            MyUtlis.showShortSimple(getActivity(), getString(R.string.hint_delete_platform_data_ok, bean.name));
+        refreshData(null);
+//            MyUtlis.clickEvent(AppConstant.CLICK.umeng_home_clear_data);
+//        } else {
+//            MyUtlis.showShortSimple(getActivity(), getString(R.string.hint_delete_platform_data_no, bean.name));
+//        }
 
 
     }

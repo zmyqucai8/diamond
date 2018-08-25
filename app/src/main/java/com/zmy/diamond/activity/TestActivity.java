@@ -19,6 +19,8 @@ import com.baidu.mapapi.search.district.DistrictResult;
 import com.baidu.mapapi.search.district.DistrictSearch;
 import com.baidu.mapapi.search.district.DistrictSearchOption;
 import com.baidu.mapapi.search.district.OnGetDistricSearchResultListener;
+import com.baidu.mapapi.utils.AreaUtil;
+import com.baidu.mapapi.utils.SpatialRelationUtil;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.zmy.diamond.R;
@@ -81,20 +83,24 @@ public class TestActivity extends MyBaseSwipeBackActivity {
 
 
         LocationBean location = DaoUtlis.getLocation();
-        //定位
-        // 开启定位图层
-        mBaiduMap.setMyLocationEnabled(true);
+
+        if (null != location) {
+
+
+            //定位
+            // 开启定位图层
+            mBaiduMap.setMyLocationEnabled(true);
 
 // 构造定位数据
-        MyLocationData locData = new MyLocationData.Builder()
-                .accuracy(location.getRadius())
-                // 此处设置开发者获取到的方向信息，顺时针0-360
-                .direction(100).latitude(location.getLatitude())
-                .longitude(location.getLontitude()).build();
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(location.getRadius())
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(100).latitude(location.getLatitude())
+                    .longitude(location.getLontitude()).build();
 
 // 设置定位数据
-        mBaiduMap.setMyLocationData(locData);
-
+            mBaiduMap.setMyLocationData(locData);
+        }
 // 设置定位图层的配置（定位模式，是否允许方向信息，用户自定义定位图标）
 //        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
 //                .fromResource(R.drawable.d_img_logo);
@@ -147,7 +153,6 @@ public class TestActivity extends MyBaseSwipeBackActivity {
 
                 LatLng centerPt = districtResult.getCenterPt();//获取行政区中心坐标点
 
-                LogUtils.e("中心坐标=" + centerPt.longitude + "," + centerPt.latitude);
 
                 districtResult.getCityName();//获取行政区域名称
                 //获取行政区域边界坐标点
@@ -169,7 +174,6 @@ public class TestActivity extends MyBaseSwipeBackActivity {
 
                     List<LatLng> latLngs = polyLines.get(i);
 
-
                     sb.append("第" + i + "组数据*******\n");
 
                     PolylineOptions ooPolyline11 = new PolylineOptions().width(2)
@@ -190,6 +194,27 @@ public class TestActivity extends MyBaseSwipeBackActivity {
 
                 LogUtils.e(sb.toString());
 
+                LogUtils.e("中心坐标=" + centerPt.longitude + "," + centerPt.latitude);
+
+                //获取四个角坐标
+                LatLngBounds build = builder.build();
+                LatLng northeast = build.northeast;//东北角
+                LatLng southwest = build.southwest;//西南角
+
+                LogUtils.e("东北角=" + northeast.longitude + "," + northeast.latitude);
+                LogUtils.e("西南角=" + southwest.longitude + "," + southwest.latitude);
+
+                LogUtils.e("东=" + northeast.longitude);
+                LogUtils.e("南=" + southwest.latitude);
+                LogUtils.e("西=" + southwest.longitude);
+                LogUtils.e("北=" + northeast.latitude);
+
+
+                double v = AreaUtil.calculateArea(northeast, southwest);
+
+                LogUtils.e("面积=" + v + "平方米");
+
+
             } else {
 
                 ToastUtils.showShort("行政区域获取错误！！！");
@@ -197,6 +222,35 @@ public class TestActivity extends MyBaseSwipeBackActivity {
 
         }
     };
+
+
+    /**
+     * 判断点pt是否在mPoints构成的多边形内。 默认不存在
+     *
+     * @param polyLines
+     * @param pt
+     * @return
+     */
+    public boolean isPolygonContainsPoint2(List<List<LatLng>> polyLines, LatLng pt) {
+        for (List<LatLng> latLngs : polyLines) {
+            if (isPolygonContainsPoint(latLngs, pt)) {
+                //存在
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断点pt是否在mPoints构成的多边形内。 默认不存在
+     *
+     * @param latLngs
+     * @param pt
+     * @return
+     */
+    public boolean isPolygonContainsPoint(List<LatLng> latLngs, LatLng pt) {
+        return SpatialRelationUtil.isPolygonContainsPoint(latLngs, pt);
+    }
 
     @OnClick(R.id.btn_block)
     public void btn_block() {
@@ -214,7 +268,6 @@ public class TestActivity extends MyBaseSwipeBackActivity {
         //1.获取城市的行政区域边界数据
         //2.通过固定的算法， 将区域划分为若干个小格， 暂定小格范围 2km*2km
         //3.采集数据时，从中心往外扩散采集， 并且记录采集的位置，下次从该位置往后继续采集。
-
 
         //方案2
         //1.四叉树切割， 获取全城数据，大于400，进行切割成4块，开启线程继续递归，直到小于400
@@ -234,5 +287,6 @@ public class TestActivity extends MyBaseSwipeBackActivity {
     public void btn_start() {
 
     }
+
 
 }

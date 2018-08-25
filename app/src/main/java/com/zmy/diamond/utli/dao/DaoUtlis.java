@@ -56,7 +56,7 @@ public class DaoUtlis {
 
             if (null == user)
                 return list;
-            list = getDaoSession().getDataBeanDao().queryBuilder().where(DataBeanDao.Properties.UserId.eq(user.getPhone())).build().list();
+            list = getDaoSession().getDataBeanDao().queryBuilder().where(DataBeanDao.Properties.UserId.eq(user.getUserId())).build().list();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -748,6 +748,25 @@ public class DaoUtlis {
 //
 //        }
     }
+
+
+    /**
+     * 删除用户的所有采集记录
+     *
+     * @param
+     * @return
+     */
+    public static boolean deleteCollectRecord() {
+
+        try {
+            getDaoSession().getCollectRecordBeanDao().deleteAll();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     /**
      * 删除一条采集记录
