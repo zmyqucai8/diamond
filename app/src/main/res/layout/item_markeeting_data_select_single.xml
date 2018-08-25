@@ -53,7 +53,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/tv_down"
                 android:orientation="vertical">
 
                 <TextView
@@ -71,7 +70,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/tv_down"
                     android:text="15356105789" />
 
                 <TextView
@@ -80,7 +78,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/tv_down"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="广东省xxx路xxxx街道"
