@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.ContactsContract;
+import android.provider.Telephony;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -2771,4 +2772,44 @@ public class MyUtlis {
     }
 
 
+
+
+    public  static void setDefaultSms(Context context){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+            return;
+        //申请成为默认短信
+        Intent intent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+        intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, AppUtils.getAppPackageName());
+        context.startActivity(intent);
+
+    }
+
+    /**
+     * 判断当前应用是否为默认短信应用
+     * @param context
+     * @return
+     */
+    public static boolean isDefaultSms(Context context) {
+        if (context == null) {
+            return false;
+        }
+//判断是否为4.4以上的系统
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return true;
+        }
+//获取默认的短信应用的包名
+
+        String packageName = Telephony.Sms.getDefaultSmsPackage(context);
+//判断是否为空
+        if (TextUtils.isEmpty(packageName)) {
+            return false;
+        }
+//获取当前的应用包名
+        String pName = context.getPackageName();
+        if (TextUtils.isEmpty(pName)) {
+            return false;
+        }
+//判断当前app是否为默认短信应用
+        return packageName.equalsIgnoreCase(pName);
+    }
 }

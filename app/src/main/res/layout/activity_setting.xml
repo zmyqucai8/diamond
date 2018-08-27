@@ -2,292 +2,342 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="50dp">
 
 
     <include layout="@layout/actionbar"></include>
 
 
-    <RelativeLayout
-
-        android:id="@+id/rl_collect_setting"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/item_select"
+        android:layout_height="match_parent">
 
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_ttf_collect_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_collect_setting"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
+            <RelativeLayout
 
-        <TextView
-            android:id="@+id/tv_collect_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_ttf_collect_setting"
-            android:text="@string/title_collect_setting"
-            android:textColor="@color/color_text" />
+                android:id="@+id/rl_collect_setting"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
 
-        <TextView
-            android:id="@+id/tv_ttf_collect_setting_r"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_right"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
-    </RelativeLayout>
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
-    <View style="@style/view_line"></View>
+                <TextView
+                    android:id="@+id/tv_ttf_collect_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_collect_setting"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
 
+                <TextView
+                    android:id="@+id/tv_collect_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_collect_setting"
+                    android:text="@string/title_collect_setting"
+                    android:textColor="@color/color_text" />
 
-    <View
-        style="@style/view_line"
-        android:layout_marginTop="10dp"></View>
+                <TextView
+                    android:id="@+id/tv_ttf_collect_setting_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+            </RelativeLayout>
 
-    <RelativeLayout
-
-        android:id="@+id/rl_chace"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-
-        android:background="@drawable/item_select"
-
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-
-        <TextView
-            android:id="@+id/tv_ttf_chace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_chace"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_ttf_chace"
-            android:text="清除缓存"
-            android:textColor="@color/color_text" />
+            <View style="@style/view_line"></View>
 
 
-        <TextView
-            android:id="@+id/tv_chace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/tv_ttf_chace_r"
-            android:text="0M" />
+            <RelativeLayout
 
-        <TextView
-            android:id="@+id/tv_ttf_chace_r"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_right"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
-    </RelativeLayout>
+                android:id="@+id/rl_my_file"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_weight="0.01"
+                android:background="@drawable/item_select"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
-    <View style="@style/view_line"></View>
+                <TextView
+                    android:id="@+id/tv_ttf_my_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_file"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
 
+                <TextView
+                    android:id="@+id/tv_my_file"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_my_file"
+                    android:text="我的导出文件"
+                    android:textColor="@color/color_text" />
 
-    <RelativeLayout
+                <TextView
+                    android:id="@+id/tv_ttf_my_file_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+            </RelativeLayout>
 
-        android:id="@+id/rl_data"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/item_select"
+            <View style="@style/view_line"></View>
 
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+            <View
+                style="@style/view_line"
+                android:layout_marginTop="10dp"></View>
 
-        <TextView
-            android:id="@+id/tv_ttf_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_data"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
+            <RelativeLayout
 
-        <TextView
-            android:id="@+id/tv_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_ttf_data"
-            android:text="删除数据"
-            android:textColor="@color/color_text" />
+                android:id="@+id/rl_chace"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
 
-        <TextView
-            android:id="@+id/tv_ttf_data_r"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_right"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
-    </RelativeLayout>
+                android:background="@drawable/item_select"
 
-    <View style="@style/view_line"></View>
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
-    <RelativeLayout
+                <TextView
+                    android:id="@+id/tv_ttf_chace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_chace"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
 
-        android:id="@+id/rl_delete_contact"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/item_select"
-
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-
-        <TextView
-            android:id="@+id/tv_ttf_delete_contact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_delete_contact"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tv_delete_contact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_ttf_delete_contact"
-            android:text="删除联系人"
-            android:textColor="@color/color_text" />
-
-        <TextView
-            android:id="@+id/tv_ttf_delete_contact_r"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_right"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
-    <View style="@style/view_line"></View>
-
-    <View
-        style="@style/view_line"
-        android:layout_marginTop="10dp"></View>
-
-    <RelativeLayout
-
-        android:id="@+id/rl_my_file"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/item_select"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp">
-
-        <TextView
-            android:id="@+id/tv_ttf_my_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_file"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tv_my_file"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_ttf_my_file"
-            android:text="我的导出文件"
-            android:textColor="@color/color_text" />
-
-        <TextView
-            android:id="@+id/tv_ttf_my_file_r"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_right"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
-    <View style="@style/view_line"></View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_chace"
+                    android:text="清除缓存"
+                    android:textColor="@color/color_text" />
 
 
-    <RelativeLayout
-        android:id="@+id/rl_macAddress"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="@drawable/item_select"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:visibility="gone">
+                <TextView
+                    android:id="@+id/tv_chace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/tv_ttf_chace_r"
+                    android:text="0K" />
 
-        <TextView
-            android:id="@+id/tv_ttf_macAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/ttf_phone"
-            android:textColor="@color/color_text"
-            android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/tv_ttf_chace_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+            </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_ttf_macAddress"
-            android:text="设备唯一识别码"
-            android:textColor="@color/color_text" />
+            <View style="@style/view_line"></View>
 
 
-        <TextView
-            android:id="@+id/tv_macAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="" />
+            <RelativeLayout
 
-        <!--<TextView-->
-        <!--android:id="@+id/tv_ttf_macAddress_r"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:text="@string/ttf_right"-->
-        <!--android:textColor="@color/color_text"-->
-        <!--android:textSize="18sp" />-->
-    </RelativeLayout>
+                android:id="@+id/rl_data"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
 
-    <View
-        style="@style/view_line"
-        android:visibility="gone"></View>
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
+                <TextView
+                    android:id="@+id/tv_ttf_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_data"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_data"
+                    android:text="删除数据"
+                    android:textColor="@color/color_text" />
+
+                <TextView
+                    android:id="@+id/tv_ttf_data_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <View style="@style/view_line"></View>
+
+            <RelativeLayout
+
+                android:id="@+id/rl_delete_contact"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
+
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/tv_ttf_delete_contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_delete_contact"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_delete_contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_delete_contact"
+                    android:text="删除联系人"
+                    android:textColor="@color/color_text" />
+
+                <TextView
+                    android:id="@+id/tv_ttf_delete_contact_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <View style="@style/view_line"></View>
+
+
+            <View
+                style="@style/view_line"
+                android:layout_marginTop="10dp"></View>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_share"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
+
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/tv_ttf_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_share"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_share"
+                    android:text="分享APP"
+                    android:textColor="@color/color_text" />
+
+                <TextView
+                    android:id="@+id/tv_ttf_share_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+
+            </RelativeLayout>
+
+            <View style="@style/view_line"></View>
+
+            <RelativeLayout
+
+                android:id="@+id/rl_explain_app"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
+
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/tv_ttf_explain_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_explain_app"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_explain_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_explain_app"
+                    android:text="关于我们"
+                    android:textColor="@color/color_text" />
+
+                <TextView
+                    android:id="@+id/tv_ttf_explain_app_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <View style="@style/view_line"></View>
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

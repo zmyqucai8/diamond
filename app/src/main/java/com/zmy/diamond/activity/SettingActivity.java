@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.IntentUtils;
 import com.zmy.diamond.R;
 import com.zmy.diamond.base.MyBaseSwipeBackActivity;
 import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.MyUtlis;
-import com.zmy.diamond.utli.bean.UserBean;
-import com.zmy.diamond.utli.dao.DaoUtlis;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,15 +43,20 @@ public class SettingActivity extends MyBaseSwipeBackActivity {
     @BindView(R.id.tv_ttf_collect_setting_r)
     TextView tv_ttf_collect_setting_r;
 
-    @BindView(R.id.tv_ttf_macAddress)
-    TextView tv_ttf_macAddress;
-    @BindView(R.id.tv_macAddress)
-    TextView tv_macAddress;
+
     @BindView(R.id.tv_ttf_my_file)
     TextView tv_ttf_my_file;
     @BindView(R.id.tv_ttf_my_file_r)
     TextView tv_ttf_my_file_r;
 
+    @BindView(R.id.tv_ttf_share)
+    TextView tv_ttf_share;
+    @BindView(R.id.tv_ttf_share_r)
+    TextView tv_ttf_share_r;
+    @BindView(R.id.tv_ttf_explain_app_r)
+    TextView tv_ttf_explain_app_r;
+    @BindView(R.id.tv_ttf_explain_app)
+    TextView tv_ttf_explain_app;
 
     @Override
     public void initUI() {
@@ -63,7 +67,6 @@ public class SettingActivity extends MyBaseSwipeBackActivity {
         tv_ttf_my_file.setTypeface(MyUtlis.getTTF());
         tv_ttf_my_file_r.setTypeface(MyUtlis.getTTF());
         tv_ttf_chace.setTypeface(MyUtlis.getTTF());
-        tv_ttf_macAddress.setTypeface(MyUtlis.getTTF());
         tv_ttf_chace_r.setTypeface(MyUtlis.getTTF());
         tv_ttf_collect_setting.setTypeface(MyUtlis.getTTF());
         tv_ttf_collect_setting_r.setTypeface(MyUtlis.getTTF());
@@ -71,27 +74,16 @@ public class SettingActivity extends MyBaseSwipeBackActivity {
         tv_ttf_data_r.setTypeface(MyUtlis.getTTF());
         tv_ttf_delete_contact.setTypeface(MyUtlis.getTTF());
         tv_ttf_delete_contact_r.setTypeface(MyUtlis.getTTF());
+
+        tv_ttf_explain_app.setTypeface(MyUtlis.getTTF());
+        tv_ttf_explain_app_r.setTypeface(MyUtlis.getTTF());
+        tv_ttf_share.setTypeface(MyUtlis.getTTF());
+        tv_ttf_share_r.setTypeface(MyUtlis.getTTF());
     }
 
     @Override
     public void initData() {
-
-
         setChaceSize();
-        setMacAddress();
-    }
-
-
-    /**
-     * 设置mac地址
-     */
-    private void setMacAddress() {
-        UserBean user = DaoUtlis.getCurrentLoginUser();
-        if (null != user) {
-            tv_macAddress.setText(user.getMacAddress());
-        } else {
-            tv_macAddress.setText("no");
-        }
     }
 
 
@@ -133,20 +125,27 @@ public class SettingActivity extends MyBaseSwipeBackActivity {
     }
 
 
-    @OnClick(R.id.rl_macAddress)
-    public void rl_macAddress() {
-
-    }
-
     @OnClick(R.id.rl_my_file)
     public void rl_my_file() {
-
-
-
-
         MyFileActivity.start(this);
-
     }
+
+    @OnClick(R.id.rl_explain_app)
+    public void rl_explain_app() {
+        ExplainAppActivity.start(this);
+    }
+
+    @OnClick(R.id.rl_share)
+    public void rl_share() {
+        try {
+            ActivityUtils.startActivity(IntentUtils.getShareTextIntent(getString(R.string.text_app_share_url)));
+            MyUtlis.clickEvent(AppConstant.CLICK.umeng_share);
+        } catch (Exception e) {
+            e.printStackTrace();
+            MyUtlis.showShort(this, getString(R.string.hint_share_error));
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

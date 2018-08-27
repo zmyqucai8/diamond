@@ -35,8 +35,8 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/ttf_delete"
-                android:textColor="@drawable/select_text_blank_color"
-                android:textSize="25sp" />
+                android:textColor="@color/select_text_blue_color"
+                android:textSize="18sp" />
 
         </RelativeLayout>
 

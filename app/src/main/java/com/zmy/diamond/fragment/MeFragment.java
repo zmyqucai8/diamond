@@ -8,9 +8,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -20,7 +18,6 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.zmy.diamond.R;
-import com.zmy.diamond.activity.ExplainAppActivity;
 import com.zmy.diamond.activity.MyTradingActivity;
 import com.zmy.diamond.activity.OpinionActivity;
 import com.zmy.diamond.activity.SMSBatchActivity;
@@ -58,8 +55,6 @@ public class MeFragment extends MyBaseFragment {
     TextView tv_ttf_sign;
     @BindView(R.id.tv_ttf_vip)
     TextView tv_ttf_vip;
-    @BindView(R.id.tv_ttf_share)
-    TextView tv_ttf_share;
     @BindView(R.id.tv_ttf_service)
     TextView tv_ttf_service;
     @BindView(R.id.tv_ttf_feedback)
@@ -68,14 +63,7 @@ public class MeFragment extends MyBaseFragment {
     TextView tv_ttf_feedback_r;
     @BindView(R.id.tv_ttf_service_r)
     TextView tv_ttf_service_r;
-    @BindView(R.id.tv_ttf_share_r)
-    TextView tv_ttf_share_r;
-    //    @BindView(R.id.tv_ttf_vip_r)
-//    TextView tv_ttf_vip_r;
-    @BindView(R.id.tv_ttf_explain_app_r)
-    TextView tv_ttf_explain_app_r;
-    @BindView(R.id.tv_ttf_explain_app)
-    TextView tv_ttf_explain_app;
+
     @BindView(R.id.tv_ttf_setting)
     TextView tv_ttf_setting;
     @BindView(R.id.tv_ttf_setting_r)
@@ -124,14 +112,10 @@ public class MeFragment extends MyBaseFragment {
         tv_ttf_wallet_r.setTypeface(MyUtlis.getTTF());
         tv_ttf_setting.setTypeface(MyUtlis.getTTF());
         tv_ttf_setting_r.setTypeface(MyUtlis.getTTF());
-        tv_ttf_explain_app.setTypeface(MyUtlis.getTTF());
-        tv_ttf_explain_app_r.setTypeface(MyUtlis.getTTF());
         tv_ttf_service.setTypeface(MyUtlis.getTTF());
         tv_ttf_feedback.setTypeface(MyUtlis.getTTF());
         tv_ttf_sign.setTypeface(MyUtlis.getTTF());
         tv_ttf_vip.setTypeface(MyUtlis.getTTF());
-        tv_ttf_share.setTypeface(MyUtlis.getTTF());
-        tv_ttf_share_r.setTypeface(MyUtlis.getTTF());
         tv_ttf_service_r.setTypeface(MyUtlis.getTTF());
         tv_ttf_feedback_r.setTypeface(MyUtlis.getTTF());
     }
@@ -376,63 +360,37 @@ public class MeFragment extends MyBaseFragment {
             VipActivity.start(getContext());
             MyUtlis.clickEvent(AppConstant.CLICK.umeng_vip);
         }
-
-
-    }
-
-    @OnClick(R.id.rl_share)
-    public void rl_share() {
-//        MyUtlis.showShort(getActivity(), "分享app");
-        try {
-            ActivityUtils.startActivity(IntentUtils.getShareTextIntent(getString(R.string.text_app_share_url)));
-            MyUtlis.clickEvent(AppConstant.CLICK.umeng_share);
-        } catch (Exception e) {
-            e.printStackTrace();
-            MyUtlis.showShort(getActivity(), getString(R.string.hint_share_error));
-        }
     }
 
     @OnClick(R.id.rl_service)
     public void rl_service() {
-//        ToastUtils.showShort("联系客服");
         MyUtlis.openServiceQQ(getActivity());
     }
 
     @OnClick(R.id.rl_feedback)
     public void rl_feedback() {
-//        ToastUtils.showShort("意见反馈");
         OpinionActivity.start(getContext());
 //        WebViewActivity.start(getContext(), MyUtlis.HTML_JINSHUJU_feedback, getString(R.string.feedback));
     }
 
 
-    @OnClick(R.id.rl_explain_app)
-    public void rl_explain_app() {
-//        ToastUtils.showShort("关于APP");
-        ExplainAppActivity.start(getContext());
-    }
-
     @OnClick(R.id.rl_setting)
     public void rl_setting() {
-//        ToastUtils.showShort("设置");
         SettingActivity.start(getContext());
     }
 
     @OnClick(R.id.rl_wallet)
     public void rl_wallet() {
-//        ToastUtils.showShort("钱包");
         WalletActivity.start(getContext());
     }
 
     @OnClick(R.id.rl_trading)
     public void rl_trading() {
-//        ToastUtils.showShort("我的交易");
         MyTradingActivity.start(getContext());
     }
 
     @OnClick(R.id.rl_sms)
     public void rl_sms() {
-//        ToastUtils.showShort("短信群发");
         SMSBatchActivity.start(getContext());
     }
 

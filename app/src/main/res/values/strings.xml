@@ -88,7 +88,7 @@
     <string name="hint_pwd_edit_ok">修改密码成功</string>
     <string name="hint_user_no">用户不存在</string>
     <string name="text_send_code">发送验证码</string>
-    <string name="title_explain_app">关于APP</string>
+    <string name="title_explain_app">关于我们</string>
     <string name="text_app_version">当前版本:%s</string>
     <string name="hint_input_phone">请输入有效的手机号码</string>
     <string name="hint_input_pwd">请输入密码</string>
@@ -237,8 +237,8 @@
     <string name="ttf_sms">&#xe88d;</string>
 
     <!--右-->
-    <string name="ttf_right2">&#xeb11;</string>
-    <string name="ttf_down2">&#xe65e;</string>
+    <string name="ttf_right2">&#xe66e;</string>
+    <string name="ttf_down2">&#xe639;</string>
 
 
 </resources>

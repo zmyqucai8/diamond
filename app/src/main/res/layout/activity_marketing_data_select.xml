@@ -38,7 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/tv_select_count"
@@ -46,22 +47,31 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:paddingLeft="15dp"
-            android:text="已选择0个" />
+            android:text="已选择0个"
+            android:textSize="15sp" />
 
 
-        <Button
+        <TextView
             android:id="@+id/btn_complete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="确定" />
+            android:layout_marginRight="10dp"
+            android:background="@drawable/problem_shape"
+            android:padding="10dp"
+            android:text="  确定  "
+            android:textColor="@color/select_text_white_color" />
 
-        <Button
+        <TextView
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/btn_complete"
-            android:text="取消" />
+            android:background="@drawable/weith_shape"
+            android:padding="10dp"
+            android:text="  取消  "
+            android:textColor="@color/select_text_blue_color" />
 
     </RelativeLayout>
 

@@ -4,7 +4,6 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
@@ -115,7 +114,7 @@ public class MarketingDataSelectAdapter extends BaseMultiItemQuickAdapter<MultiI
                     public void onClick(View v) {
                         try {
                             //删除
-                            ToastUtils.showShort("删除整组=" + groupBean.name);
+//                            ToastUtils.showShort("删除整组=" + groupBean.name);
 
                             remove(helper.getAdapterPosition());
                             if (null != mDeleteListener) {
@@ -172,7 +171,7 @@ public class MarketingDataSelectAdapter extends BaseMultiItemQuickAdapter<MultiI
                                 expand(helper.getAdapterPosition());
                             }
                         }
-                        ToastUtils.showShort(groupBean.name);
+//                        ToastUtils.showShort(groupBean.name);
 
                     }
                 });
@@ -209,7 +208,7 @@ public class MarketingDataSelectAdapter extends BaseMultiItemQuickAdapter<MultiI
                     public void onClick(View v) {
                         try {
                             //删除
-                            ToastUtils.showShort("删除单个=" + singleBean.name);
+//                            ToastUtils.showShort("删除单个=" + singleBean.name);
 
 // 获取当前父级数据
                             int groupPosition = getParentPosition(singleBean);
@@ -276,7 +275,7 @@ public class MarketingDataSelectAdapter extends BaseMultiItemQuickAdapter<MultiI
                         }
 
 
-                        ToastUtils.showShort(singleBean.name);
+//                        ToastUtils.showShort(singleBean.name);
                     }
                 });
 

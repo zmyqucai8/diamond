@@ -36,8 +36,8 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="10dp"
                 android:text="@string/ttf_delete"
-                android:textColor="@drawable/select_text_blank_color"
-                android:textSize="25sp" />
+                android:textColor="@color/select_text_blue_color"
+                android:textSize="18sp" />
         </RelativeLayout>
 
 
@@ -58,8 +58,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/tv_more"
-
-                android:text="深圳美食 【20人】" />
+                android:text="深圳美食 【20人】"
+                android:textColor="@color/black" />
 
 
             <TextView
@@ -68,10 +68,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingLeft="30dp"
+                android:paddingLeft="15dp"
                 android:text="@string/ttf_down2"
                 android:textColor="@drawable/select_text_blank_color"
-                android:textSize="25sp" />
+                android:textSize="16sp" />
 
 
         </RelativeLayout>
