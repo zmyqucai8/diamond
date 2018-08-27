@@ -21,6 +21,7 @@ import com.baidu.mapapi.search.district.DistrictSearchOption;
 import com.baidu.mapapi.search.district.OnGetDistricSearchResultListener;
 import com.baidu.mapapi.utils.AreaUtil;
 import com.baidu.mapapi.utils.SpatialRelationUtil;
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.zmy.diamond.R;
@@ -53,10 +54,16 @@ public class TestActivity extends MyBaseSwipeBackActivity {
     EditText edit_city;
 
 
+
     @BindView(R.id.mmap)
     MapView mMapView;
     private BaiduMap mBaiduMap;
 
+
+    @OnClick(R.id.tv_back)
+    public void tv_back() {
+        ActivityUtils.finishActivity(this);
+    }
 
     public static void start(Context context) {
         Intent intent = new Intent(context, TestActivity.class);

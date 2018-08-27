@@ -59,7 +59,7 @@ public class OpinionActivity extends MyBaseSwipeBackActivity {
 //        MyUtlis.showShort(this, "提交");
         String message = edit_view.getText().toString().trim();
         if (TextUtils.isEmpty(message)) {
-            MyUtlis.showShort(this, "内容不能为空");
+            MyUtlis.showShort(this, "反馈内容不能为空");
             return;
         }
         ApiUtlis.opinion(OpinionActivity.this, message, MyUtlis.getToken(), new JsonCallBack<PublicResponseBean>(PublicResponseBean.class) {

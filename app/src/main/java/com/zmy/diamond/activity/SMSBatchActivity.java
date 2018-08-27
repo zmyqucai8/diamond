@@ -13,6 +13,7 @@ import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.PhoneUtils;
@@ -140,6 +141,7 @@ public class SMSBatchActivity extends MyBaseSwipeBackActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        KeyboardUtils.hideSoftInput(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -341,6 +343,8 @@ public class SMSBatchActivity extends MyBaseSwipeBackActivity {
     public void tv_back() {
         ActivityUtils.finishActivity(this, true);
     }
+
+
 
 
 }

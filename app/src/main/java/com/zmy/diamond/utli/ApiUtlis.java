@@ -21,6 +21,9 @@ import com.zmy.diamond.utli.bean.VipOrderQueryBean;
 import com.zmy.diamond.utli.bean.WalletDetailsBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
  * api工具类
  * Created by zhangmengyun on 2018/8/3.
@@ -37,8 +40,11 @@ public class ApiUtlis {
     {
         String macAddress = DeviceUtils.getMacAddress();
         LogUtils.e("macAddress=" + macAddress);
+
         OkGo.<LoginResponseBean>post(AppConstant.Api.login)
-                .tag(context).params("macAddress", macAddress).execute(new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
+                .tag(context)
+//                .params("sign", SignUtli.getSignature(new String[]{macAddress}))
+                .params("macAddress", macAddress).execute(new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
             @Override
             public void onSuccess(Response<LoginResponseBean> response) {
                 MyUtlis.clickEvent(AppConstant.CLICK.umeng_login);
@@ -121,8 +127,15 @@ public class ApiUtlis {
      * @return
      */
     public static void saveNumberUpdate(Context context, int saveNumber, String token, JsonCallBack<LoginResponseBean> callback) {
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("saveNumber", String.valueOf(saveNumber));
+
+        String sign = SignUtli.getSignature(map);
         OkGo.<LoginResponseBean>post(AppConstant.Api.saveNumberUpdate)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("saveNumber", saveNumber)
                 .execute(callback);
@@ -134,8 +147,15 @@ public class ApiUtlis {
      * @return
      */
     public static void downNumberUpdate(Context context, int downNumber, String token, JsonCallBack<LoginResponseBean> callback) {
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("downNumber", String.valueOf(downNumber));
+
+        String sign = SignUtli.getSignature(map);
         OkGo.<LoginResponseBean>post(AppConstant.Api.downNumberUpdate)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("downNumber", downNumber)
                 .execute(callback);
@@ -147,12 +167,21 @@ public class ApiUtlis {
      * @return
      */
     public static void opinion(Context context, String message, String token, JsonCallBack<PublicResponseBean> callback) {
+
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+
+        map.put("message", message);
+        String sign = SignUtli.getSignature(map);
         OkGo.<PublicResponseBean>post(AppConstant.Api.opinion)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("message", message)
                 .execute(callback);
     }
+
 
     /**
      * 签到
@@ -160,8 +189,13 @@ public class ApiUtlis {
      * @return
      */
     public static void signIn(Context context, String token, JsonCallBack<LoginResponseBean> callback) {
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+
+        String sign = SignUtli.getSignature(map);
         OkGo.<LoginResponseBean>post(AppConstant.Api.signIn)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .execute(callback);
     }
@@ -173,9 +207,14 @@ public class ApiUtlis {
      * @return
      */
     public static void aboutApp(Context context, String token, JsonCallBack<AboutAppBean> callback) {
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+
+        String sign = SignUtli.getSignature(map);
         OkGo.<AboutAppBean>post(AppConstant.Api.aboutApp)
                 .tag(context)
                 .params("token", token)
+                .params("sign", sign)
                 .execute(callback);
     }
 
@@ -188,9 +227,15 @@ public class ApiUtlis {
      * @param callback
      */
     public static void joinVIP(Context context, String token, int grade, String recomCode, JsonCallBack<JoinVipResponseBean> callback) {
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("grade", String.valueOf(grade));
+        map.put("recomCode", recomCode);
+        String sign = SignUtli.getSignature(map);
         OkGo.<JoinVipResponseBean>post(AppConstant.Api.joinVIP)
                 .tag(context)
                 .params("token", token)
+                .params("sign", sign)
                 .params("grade", grade)
                 .params("recomCode", recomCode)
                 .execute(callback);
@@ -206,9 +251,15 @@ public class ApiUtlis {
      * @param callback
      */
     public static void getTrade(Context context, String token, int action, int page, JsonCallBack<TradingDataBean> callback) {
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("action", String.valueOf(action));
+        map.put("page", String.valueOf(page));
+        String sign = SignUtli.getSignature(map);
         OkGo.<TradingDataBean>post(AppConstant.Api.getTrade)
                 .tag(context)
                 .params("token", token)
+                .params("sign", sign)
                 .params("action", action)
                 .params("page", page)
                 .execute(callback);
@@ -225,8 +276,23 @@ public class ApiUtlis {
      * @param callback {"msg":"成功","code":200,"data":null}
      */
     public static void operationPublish(Context context, String token, int type, String weixin, int price, String trade_describe, String industry, String city, int friend_number, JsonCallBack<PublicResponseBean> callback) {
+
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("action", String.valueOf(1));
+        map.put("weixin", weixin);
+        map.put("price", String.valueOf(price));
+        map.put("trade_describe", trade_describe);
+        map.put("industry", industry);
+        map.put("city", city);
+        map.put("friend_number", String.valueOf(friend_number));
+        map.put("type", String.valueOf(type));
+        String sign = SignUtli.getSignature(map);
+
         OkGo.<PublicResponseBean>post(AppConstant.Api.operationPublish)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("action", 1)
                 .params("weixin", weixin)
@@ -248,8 +314,21 @@ public class ApiUtlis {
      * @param callback
      */
     public static void operationPublishModify(Context context, String token, String id, int type, String weixin, int price, String trade_describe, String industry, String city, int friend_number, JsonCallBack<MyTradingModifyBean> callback) {
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("id", id);
+        map.put("action", String.valueOf(2));
+        map.put("weixin", weixin);
+        map.put("price", String.valueOf(price));
+        map.put("trade_describe", trade_describe);
+        map.put("industry", industry);
+        map.put("city", city);
+        map.put("friend_number", String.valueOf(friend_number));
+        map.put("type", String.valueOf(type));
+        String sign = SignUtli.getSignature(map);
         OkGo.<MyTradingModifyBean>post(AppConstant.Api.operationPublish)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("id", id)
                 .params("action", 2)
@@ -272,8 +351,15 @@ public class ApiUtlis {
      * @param callback
      */
     public static void operationPublishDelete(Context context, String token, String id, JsonCallBack<PublicResponseBean> callback) {
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("id", id);
+        map.put("action", String.valueOf(3));
+        String sign = SignUtli.getSignature(map);
         OkGo.<PublicResponseBean>post(AppConstant.Api.operationPublish)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("action", 3)
                 .params("id", id)
@@ -290,8 +376,14 @@ public class ApiUtlis {
      * @param callback
      */
     public static void operationPublishQuery(Context context, String token, JsonCallBack<TradingDataBean> callback) {
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("action", String.valueOf(4));
+        String sign = SignUtli.getSignature(map);
         OkGo.<TradingDataBean>post(AppConstant.Api.operationPublish)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("action", 4)
                 .execute(callback);
@@ -307,8 +399,14 @@ public class ApiUtlis {
     public static void walletDetails(Context context, String token, int page, JsonCallBack<WalletDetailsBean> callback) {
         //{"msg":"没有数据","code":201,"data":null}
 //        {"msg":"成功","code":200,"data":[{"user_id":235,"id":4,"message":"您发起的1000元提现申请正在审核中","status":0},{"user_id":235,"id":5,"message":"您发起的1000元提现申请正在审核中","status":0}]}
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("action", String.valueOf(2));
+        map.put("page", String.valueOf(page));
+        String sign = SignUtli.getSignature(map);
         OkGo.<WalletDetailsBean>post(AppConstant.Api.wallet)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("action", 2)
                 .params("page", page)
@@ -324,8 +422,14 @@ public class ApiUtlis {
      * @param callback
      */
     public static void orderQuery(Context context, String token, String orderId, JsonCallBack<VipOrderQueryBean> callback) {
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("orderId", orderId);
+        String sign = SignUtli.getSignature(map);
         OkGo.<VipOrderQueryBean>post(AppConstant.Api.orderQuery)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("orderId", orderId)
                 .execute(callback);
@@ -340,9 +444,14 @@ public class ApiUtlis {
      */
 
     public static void walletBankCardList(Context context, String token, JsonCallBack<BankCardBean> callBack) {
-        //        {"msg":"成功","code":200,"data":[{"user_id":245,"name":"张梦云","bank_name":"招商银行","phone_number":"137000000001","id":4,"card":"412121202010"}]}
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("action", String.valueOf(4));
+        String sign = SignUtli.getSignature(map);
+
         OkGo.<BankCardBean>post(AppConstant.Api.wallet)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("action", 4)
                 .execute(callBack);
@@ -360,8 +469,18 @@ public class ApiUtlis {
      */
     public static void walletBindingBankCard(Context context, String token, String cardCode, String phone, String name, String bankName, JsonCallBack<PublicResponseBean> callBack) {
         // {"msg":"成功","code":200,"data":null}
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("action", String.valueOf(3));
+        map.put("card", cardCode);
+        map.put("phone_number", phone);
+        map.put("name", name);
+        map.put("bank_name", bankName);
+        String sign = SignUtli.getSignature(map);
         OkGo.<PublicResponseBean>post(AppConstant.Api.wallet)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("action", 3)
                 .params("card", cardCode)
@@ -381,8 +500,15 @@ public class ApiUtlis {
      */
     public static void walletUnBinDingBankCard(Context context, String token, String cardId, JsonCallBack<PublicResponseBean> callBack) {
 
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("action", String.valueOf(5));
+        map.put("card_id", cardId);
+        String sign = SignUtli.getSignature(map);
+
         OkGo.<PublicResponseBean>post(AppConstant.Api.wallet)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("action", 5)
                 .params("card_id", cardId)
@@ -397,8 +523,16 @@ public class ApiUtlis {
      */
     public static void walletTiXian(Context context, String token, String amount, String cardId, JsonCallBack<LoginResponseBean> callBack) {
 //        {"msg":"成功","code":200,"data":{"macAddress":"52:54:00:12:34:56","code":null,"money":99000.0,"integral":20,"grade":0,"downNumber":20,"recomCode":null,"id":235,"userName":null,"saveNumber":20,"token":null}}
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("action", String.valueOf(1));
+        map.put("card_id", cardId);
+        map.put("amount", amount);
+        String sign = SignUtli.getSignature(map);
         OkGo.<LoginResponseBean>post(AppConstant.Api.wallet)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .params("action", 1)
                 .params("amount", amount)
@@ -415,8 +549,14 @@ public class ApiUtlis {
      * @param token
      */
     public static void getSystemTime(Context context, String token) {
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        String sign = SignUtli.getSignature(map);
+
         OkGo.<SystemTimeBean>post(AppConstant.Api.getSystemTime)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .execute(new JsonCallBack<SystemTimeBean>(SystemTimeBean.class) {
                     @Override
@@ -436,8 +576,13 @@ public class ApiUtlis {
      * @param token
      */
     public static void getAppVersion(Context context, String token, JsonCallBack<AppVersionBean> callBack) {
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        String sign = SignUtli.getSignature(map);
         OkGo.<AppVersionBean>post(AppConstant.Api.getAppVersion)
                 .tag(context)
+                .params("sign", sign)
                 .params("token", token)
                 .execute(callBack);
     }
