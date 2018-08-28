@@ -385,6 +385,11 @@ public class CollectUtlis {
             for (int i = 0; i < results.size(); i++) {
                 try {
                     JsonBean_BaiDuMap.ResultsBean resultsBean = results.get(i);
+
+                    if (!resultsBean.getCity().contains(city)) {
+                        //搜索结果的city 不包含搜索city，直接去下一块数据
+                        return getBaiDuMapData(cityBlockLatLng, collectCityBean, userId, platformBean, city, key, phoneType, 0, true);
+                    }
                     DataBean dataBean = new DataBean();
                     dataBean.setDataId(platformBean.platformId + resultsBean.getUid());
                     dataBean.setUserId(userId);
@@ -536,7 +541,15 @@ public class CollectUtlis {
             List<DataBean> dataBeanList = new ArrayList<DataBean>();
             for (int i = 0; i < results.size(); i++) {
                 try {
+
                     JsonBean_GaoDeMap.PoisBean poisBean = results.get(i);
+
+                    if (!poisBean.getCityname().contains(city)) {
+                        //搜索结果的city 不包含搜索city，直接去下一块数据
+                        return getGaoDeMapData(cityBlockLatLng, collectCityBean, userId, platformBean, city, key, phoneType, 0, true);
+
+                    }
+
                     DataBean dataBean = new DataBean();
                     dataBean.setDataId(platformBean.platformId + poisBean.getId());
                     dataBean.setUserId(userId);
