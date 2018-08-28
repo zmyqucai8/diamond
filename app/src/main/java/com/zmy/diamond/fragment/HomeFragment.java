@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.LogUtils;
 import com.dingmouren.annularmenu.AnnularMenu;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.zmy.diamond.R;
 import com.zmy.diamond.activity.CollectSettingActivity;
 import com.zmy.diamond.activity.TestActivity;
@@ -49,6 +50,10 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
     TextView tv_menu_count;
     @BindView(R.id.tv_collect_setting)
     TextView tv_collect_setting;
+
+    @BindView(R.id.loading)
+    AVLoadingIndicatorView loadingView;
+
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     HomePagerAdapter mAdapter;
     //平台菜单是否显示
@@ -68,7 +73,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
     public void initUI() {
         super.initUI();
         EventBus.getDefault().register(this);
-
+        loadingView.hide();
         tv_collect_setting.setTypeface(MyUtlis.getTTF());
         platformBeanList = MyUtlis.getPlatformBeanList();
         for (int i = 0; i < platformBeanList.size(); i++) {
@@ -170,6 +175,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
             LogUtils.e("首页刷新定位数据=" + event.locationBean.getAddr());
         } else if (event.eventType == MessageEvent.COLLECT_COMPLETE) {
             isCollectIng = false;
+            loadingView.hide();
         } else if (event.eventType == MessageEvent.HOME_MENU_VISIBILITY) {
             if (event.booleanValue) {
                 showPlatformMenu();
@@ -180,6 +186,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
             setPlatformDataCount();
         } else if (event.eventType == MessageEvent.COLLECT_ERROR) {
             isCollectIng = false;
+            loadingView.hide();
         }
     }
 
@@ -210,7 +217,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
             return;
         }
 
-        //先判断是否是今天,如果是，需要置零 ：todo:
+        //先判断是否是今天,如果是，需要置零
 
 
 
@@ -263,6 +270,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
 
         hidePlatformMenu();
         isCollectIng = true;
+        loadingView.show();
         //获取当前平台id
         int currentItem = viewPager.getCurrentItem();
         DataFragment fragment = (DataFragment) mFragments.get(currentItem);

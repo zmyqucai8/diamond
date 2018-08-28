@@ -330,10 +330,10 @@ public class MyUtlis {
     public static List<VipBean> getVipItemData() {
         List<VipBean> vipBeanList = new ArrayList<>();
         String[] names = {"黄金会员", "白金会员"};
-        String[] price_des = {"1998/年，每天可采集1万条数据", "2998/年，每天可采集5万条数据"};
+        String[] price_des = {"1998/年，每天可采集1万条数据", "2998/年，每天可采集3万条数据"};
         int[] grade = {1, 2};
         int[] monthCount = {12, 12};
-        int[] price = {998, 1998};
+        int[] price = {1998, 2998};
         for (int i = 0; i < names.length; i++) {
             VipBean bean = new VipBean();
             bean.name = names[i];

@@ -46,7 +46,7 @@ public class AppConstant {
     /**
      * vip 2 白金会员每天可采集5万
      */
-    public static final int VIP_2_COLLECT_COUNT = 50000;
+    public static final int VIP_2_COLLECT_COUNT = 30000;
 
 
     /**
