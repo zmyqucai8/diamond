@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.TextView;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.IntentUtils;
 import com.zmy.diamond.R;
 import com.zmy.diamond.base.MyBaseSwipeBackActivity;
@@ -57,12 +60,18 @@ public class SettingActivity extends MyBaseSwipeBackActivity {
     TextView tv_ttf_explain_app_r;
     @BindView(R.id.tv_ttf_explain_app)
     TextView tv_ttf_explain_app;
+    @BindView(R.id.tv_ttf_close_app)
+    TextView tv_ttf_close_app;
+    @BindView(R.id.tv_ttf_close_app_r)
+    TextView tv_ttf_close_app_r;
 
     @Override
     public void initUI() {
         setContentView(R.layout.activity_setting);
         super.initUI();
         tv_title.setText(getString(R.string.title_setting));
+        tv_ttf_close_app.setTypeface(MyUtlis.getTTF());
+        tv_ttf_close_app_r.setTypeface(MyUtlis.getTTF());
         tv_back.setTypeface(MyUtlis.getTTF());
         tv_ttf_my_file.setTypeface(MyUtlis.getTTF());
         tv_ttf_my_file_r.setTypeface(MyUtlis.getTTF());
@@ -133,6 +142,21 @@ public class SettingActivity extends MyBaseSwipeBackActivity {
     @OnClick(R.id.rl_explain_app)
     public void rl_explain_app() {
         ExplainAppActivity.start(this);
+    }
+
+    @OnClick(R.id.rl_close_app)
+    public void rl_close_app() {
+        new AlertView("提示", "确定要关闭应用吗？", null, new String[]{"确定"}, new String[]{"取消"}, SettingActivity.this,
+                AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                if (position == 0) {
+                    AppUtils.exitApp();
+                }
+            }
+        }).show();
+
+
     }
 
     @OnClick(R.id.rl_share)

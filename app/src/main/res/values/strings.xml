@@ -239,6 +239,7 @@
     <!--右-->
     <string name="ttf_right2">&#xe66e;</string>
     <string name="ttf_down2">&#xe639;</string>
+    <string name="ttf_close">&#xe62c;</string>
 
 
 </resources>

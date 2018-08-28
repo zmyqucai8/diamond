@@ -336,6 +336,52 @@
             <View style="@style/view_line"></View>
 
 
+            <View
+                style="@style/view_line"
+                android:layout_marginTop="10dp"></View>
+
+            <RelativeLayout
+
+                android:id="@+id/rl_close_app"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/item_select"
+
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:id="@+id/tv_ttf_close_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_close"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_close_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_ttf_close_app"
+                    android:text="关闭应用"
+                    android:textColor="@color/color_text" />
+
+                <TextView
+                    android:id="@+id/tv_ttf_close_app_r"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/ttf_right"
+                    android:textColor="@color/color_text"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <View style="@style/view_line"></View>
+
         </LinearLayout>
 
     </ScrollView>
