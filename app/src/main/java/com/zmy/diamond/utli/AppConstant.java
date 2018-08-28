@@ -17,10 +17,37 @@ public class AppConstant {
      * 日志开关
      */
     public final static boolean LOG = DEBUG;
+
+
     /**
      * 是否启用引导  没有图片，暂时false
      */
     public final static boolean isGuide = false;
+
+
+    /**
+     * 城市分块的总数量，暂定1000
+     */
+    public static final int CITY_BLOCK_COUNT = 1000;
+    /**
+     * 城市分块的2点间距，大约2公里
+     */
+    public static final double CITY_BLOCK_MARGIN = 0.018409;
+
+
+    /**
+     * 非vip 每天采集数量
+     */
+    public static final int VIP_0_COLLECT_COUNT = 100;
+    /**
+     * vip 1 黄金会员每天可采集1万
+     */
+    public static final int VIP_1_COLLECT_COUNT = 10000;
+    /**
+     * vip 2 白金会员每天可采集5万
+     */
+    public static final int VIP_2_COLLECT_COUNT = 50000;
+
 
     /**
      * 是否开启体验模式（使用时间计时限制） 默认false

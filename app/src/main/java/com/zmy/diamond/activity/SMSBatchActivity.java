@@ -70,6 +70,7 @@ public class SMSBatchActivity extends MyBaseSwipeBackActivity {
         setContentView(R.layout.activity_sms_batch);
         super.initUI();
         EventBus.getDefault().register(this);
+        user = DaoUtlis.getCurrentLoginUser();
         tv_back.setTypeface(MyUtlis.getTTF());
         tv_ttf_add.setTypeface(MyUtlis.getTTF());
         tv_title.setText(getString(R.string.title_sms_batch));
@@ -78,7 +79,7 @@ public class SMSBatchActivity extends MyBaseSwipeBackActivity {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        mAdapter = new MarketingDataSelectAdapter(getdefultData(), MarketingDataSelectAdapter.TYPE_DELETE);
+        mAdapter = new MarketingDataSelectAdapter(user, getdefultData(), MarketingDataSelectAdapter.TYPE_DELETE);
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mAdapter.setEmptyView(MyUtlis.getEmptyView(this, "暂无接收者"));
         recyclerView.setAdapter(mAdapter);
@@ -110,7 +111,7 @@ public class SMSBatchActivity extends MyBaseSwipeBackActivity {
                     }
                     MarketingDataSelectSingleBean singleBean = new MarketingDataSelectSingleBean();
                     singleBean.name = dataBean.getName();
-                    singleBean.phone = dataBean.getPhone();
+                    singleBean.phone = MyUtlis.getPhoneByVip(dataBean.getPhone(), user.getGrade());
                     singleBean.address = dataBean.getAddress();
                     groupBean.addSubItem(singleBean);
 
@@ -129,10 +130,7 @@ public class SMSBatchActivity extends MyBaseSwipeBackActivity {
 
     @Override
     public void initData() {
-
         mSmsManager = SmsManager.getDefault();
-        user = DaoUtlis.getCurrentLoginUser();
-
 
     }
 
@@ -343,8 +341,6 @@ public class SMSBatchActivity extends MyBaseSwipeBackActivity {
     public void tv_back() {
         ActivityUtils.finishActivity(this, true);
     }
-
-
 
 
 }

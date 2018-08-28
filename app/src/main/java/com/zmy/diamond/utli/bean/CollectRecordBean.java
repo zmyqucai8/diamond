@@ -40,8 +40,12 @@ public class CollectRecordBean {
     //最后一次更新时间
     public long updateTime;
 
+
+
     //数据数量
     public int count;
+
+
 
     @Generated(hash = 926693603)
     public CollectRecordBean(Long id, String collectId, @NotNull String key,
@@ -58,81 +62,122 @@ public class CollectRecordBean {
         this.count = count;
     }
 
+
+
     @Generated(hash = 2046816929)
     public CollectRecordBean() {
     }
+
+
 
     public Long getId() {
         return this.id;
     }
 
+
+
     public void setId(Long id) {
         this.id = id;
     }
+
+
 
     public String getCollectId() {
         return this.collectId;
     }
 
+
+
     public void setCollectId(String collectId) {
         this.collectId = collectId;
     }
+
+
 
     public String getKey() {
         return this.key;
     }
 
+
+
     public void setKey(String key) {
         this.key = key;
     }
+
+
 
     public String getCity() {
         return this.city;
     }
 
+
+
     public void setCity(String city) {
         this.city = city;
     }
+
+
 
     public int getPlatformId() {
         return this.platformId;
     }
 
+
+
     public void setPlatformId(int platformId) {
         this.platformId = platformId;
     }
+
+
 
     public String getUserId() {
         return this.userId;
     }
 
+
+
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+
 
     public String getSource() {
         return this.source;
     }
 
+
+
     public void setSource(String source) {
         this.source = source;
     }
+
+
 
     public long getUpdateTime() {
         return this.updateTime;
     }
 
+
+
     public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
     }
+
+
 
     public int getCount() {
         return this.count;
     }
 
+
+
     public void setCount(int count) {
         this.count = count;
     }
- 
+
+
+
+
 
 }

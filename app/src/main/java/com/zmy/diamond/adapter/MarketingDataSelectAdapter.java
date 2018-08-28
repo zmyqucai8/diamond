@@ -11,6 +11,7 @@ import com.zmy.diamond.R;
 import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.bean.MarketingDataSelectGroupBean;
 import com.zmy.diamond.utli.bean.MarketingDataSelectSingleBean;
+import com.zmy.diamond.utli.bean.UserBean;
 
 import java.util.List;
 
@@ -32,6 +33,9 @@ public class MarketingDataSelectAdapter extends BaseMultiItemQuickAdapter<MultiI
     //1= 选择模式 2=删除模式，默认选择
     public int mType = TYPE_SELECT;
 
+
+
+    public UserBean mUser;
 
     public OnSelectListener mSelectListener;
     public OnDeleteListener mDeleteListener;
@@ -61,9 +65,10 @@ public class MarketingDataSelectAdapter extends BaseMultiItemQuickAdapter<MultiI
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public MarketingDataSelectAdapter(List<MultiItemEntity> data, int type) {
+    public MarketingDataSelectAdapter(UserBean user,List<MultiItemEntity> data, int type) {
         super(data);
         this.mType = type;
+        this.mUser=user;
         addItemType(TYPE_LEVEL_GROUP, R.layout.item_markeeting_data_select_group);
         addItemType(TYPE_LEVEL_SINGLE, R.layout.item_markeeting_data_select_single);
 
@@ -183,7 +188,7 @@ public class MarketingDataSelectAdapter extends BaseMultiItemQuickAdapter<MultiI
                 //设置UI
 
                 helper.setText(R.id.tv_name, singleBean.name);
-                helper.setText(R.id.tv_phone, singleBean.phone);
+                helper.setText(R.id.tv_phone, MyUtlis.getPhoneByVip(singleBean.phone,mUser.getGrade()));
                 helper.setText(R.id.tv_address, singleBean.address);
                 helper.setTypeface(R.id.tv_delete, MyUtlis.getTTF());
 

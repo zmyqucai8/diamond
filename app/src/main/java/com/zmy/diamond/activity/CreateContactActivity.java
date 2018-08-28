@@ -13,6 +13,8 @@ import com.zmy.diamond.base.MyBaseSwipeBackActivity;
 import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.bean.DataBean;
+import com.zmy.diamond.utli.bean.UserBean;
+import com.zmy.diamond.utli.dao.DaoUtlis;
 import com.zmy.diamond.utli.view.loading_button.customViews.CircularProgressButton;
 
 import butterknife.BindView;
@@ -77,10 +79,10 @@ public class CreateContactActivity extends MyBaseSwipeBackActivity {
             tv_back();
             return;
         }
-
+        UserBean user = DaoUtlis.getCurrentLoginUser();
         edit_name.setText(mDataBean.getName());
-        edit_phone.setText(mDataBean.getPhone());
-        edit_tel.setText(mDataBean.getTel());
+        edit_phone.setText(MyUtlis.getPhoneByVip(mDataBean.getPhone(), user.getGrade()));
+        edit_tel.setText(MyUtlis.getPhoneByVip(mDataBean.getTel(), user.getGrade()));
         edit_address.setText(mDataBean.getAddress());
         edit_note.setText(mDataBean.getSource());
     }

@@ -38,10 +38,10 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.Poi;
+import com.baidu.mapapi.model.LatLng;
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.blankj.utilcode.constant.PermissionConstants;
-import com.blankj.utilcode.constant.TimeConstants;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ConvertUtils;
@@ -50,6 +50,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.PhoneUtils;
+import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.SDCardUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ServiceUtils;
@@ -85,6 +86,7 @@ import com.zmy.diamond.utli.bean.InfoNoticeBean;
 import com.zmy.diamond.utli.bean.JsonBean_JuHeNews;
 import com.zmy.diamond.utli.bean.KeyListBean;
 import com.zmy.diamond.utli.bean.LocationBean;
+import com.zmy.diamond.utli.bean.LoginResponseBean;
 import com.zmy.diamond.utli.bean.PlatformBean;
 import com.zmy.diamond.utli.bean.TradingDataBean;
 import com.zmy.diamond.utli.bean.UserBean;
@@ -328,7 +330,7 @@ public class MyUtlis {
     public static List<VipBean> getVipItemData() {
         List<VipBean> vipBeanList = new ArrayList<>();
         String[] names = {"黄金会员", "白金会员"};
-        String[] price_des = {"1998/年，每天可采集1万条数据", "2998/年，每天可采集6万条数据"};
+        String[] price_des = {"1998/年，每天可采集1万条数据", "2998/年，每天可采集5万条数据"};
         int[] grade = {1, 2};
         int[] monthCount = {12, 12};
         int[] price = {998, 1998};
@@ -352,6 +354,41 @@ public class MyUtlis {
     /**
      * 权限被拒绝 显示提示
      */
+    public static void showRationaleDialog(Activity activity, final PermissionUtils.OnRationaleListener.ShouldRequest shouldRequest) {
+        if (activity == null) return;
+
+
+        new AlertView("提示", getString(R.string.permission_rationale_message), null, new String[]{"好的"}, new String[]{"取消"}, activity,
+                AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                LogUtils.e("position=" + position);
+                //0=好的
+                shouldRequest.again(position == 0);
+            }
+        }).show();
+
+    }
+
+    /**
+     * 权限被拒绝 显示打开appsetting页面
+     */
+    public static void showOpenAppSettingDialog(Activity activity) {
+        if (activity == null) return;
+
+        new AlertView("提示", getString(R.string.permission_denied_forever_message), null, null, new String[]{"好的"}, activity,
+                AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                LogUtils.e("position=" + position);
+                com.blankj.utilcode.util.PermissionUtils.launchAppDetailsSettings();
+            }
+        }).show();
+    }
+
+    /**
+     * 权限被拒绝 显示提示
+     */
     public static void showRationaleDialog(final PermissionUtils.OnRationaleListener.ShouldRequest shouldRequest) {
         Activity topActivity = ActivityUtils.getTopActivity();
         if (topActivity == null) return;
@@ -366,7 +403,6 @@ public class MyUtlis {
                 shouldRequest.again(position == 0);
             }
         }).show();
-
 
     }
 
@@ -1528,7 +1564,7 @@ public class MyUtlis {
 
 
     /**
-     * 更新获取的数据总量
+     * 更新获取的数据总量 (今日累计）
      *
      * @param allDataCount
      */
@@ -1544,7 +1580,7 @@ public class MyUtlis {
     /**
      * 批量添加通讯录
      */
-    public static void addContacts(final Context context, final List<DataBean> list, final OnAddContactListener listener) {
+    public static void addContacts(final Context context, final int grade, final List<DataBean> list, final OnAddContactListener listener) {
 
         if (null == list || list.isEmpty()) {
             return;
@@ -1604,7 +1640,7 @@ public class MyUtlis {
                                                     .withValueBackReference(ContactsContract.Contacts.Data.RAW_CONTACT_ID,
                                                             rawContactInsertIndex)
                                                     .withValue(ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                                                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contact.getPhone())
+                                                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MyUtlis.getPhoneByVip(contact.getPhone(), grade))
                                                     .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
                                                     .withYieldAllowed(true).build());
                                         }
@@ -1618,7 +1654,7 @@ public class MyUtlis {
                                                     .withValueBackReference(ContactsContract.Contacts.Data.RAW_CONTACT_ID,
                                                             rawContactInsertIndex)
                                                     .withValue(ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                                                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contact.getTel())
+                                                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MyUtlis.getPhoneByVip(contact.getTel(), grade))
                                                     .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_WORK_MOBILE)
                                                     .withYieldAllowed(true).build());
                                         }
@@ -2027,7 +2063,7 @@ public class MyUtlis {
      * @param dataBeanList
      * @return
      */
-    public static void exportCSVFile(final Context context, final PlatformBean platformBean, final List<DataBean> dataBeanList) {
+    public static void exportCSVFile(final Context context, final int grade, final PlatformBean platformBean, final List<DataBean> dataBeanList) {
 
         if (null == dataBeanList || null == platformBean || dataBeanList.isEmpty()) {
             showShort(context, getString(R.string.hint_no_data_2));
@@ -2076,9 +2112,9 @@ public class MyUtlis {
                                             sb.append(dataSeparator);
                                             sb.append(dataBean.name);
                                             sb.append(dataSeparator);
-                                            sb.append(isEmpty(dataBean.tel));
+                                            sb.append(getPhoneByVip(dataBean.tel, grade));
                                             sb.append(dataSeparator);
-                                            sb.append(isEmpty(dataBean.phone));
+                                            sb.append(getPhoneByVip(dataBean.phone, grade));
                                             sb.append("\t");//处理手机号码在wps office上被格式成科学计数法
                                             sb.append(dataSeparator);
                                             sb.append(isEmpty(dataBean.province));
@@ -2724,8 +2760,39 @@ public class MyUtlis {
      * 设置服务端系统时间
      */
     public static void setSystemTime(long systemTime) {
-        if (systemTime > 0)
+        if (systemTime > 0) {
             SPUtils.getInstance().put(AppConstant.SPKey.SYSTEM_TIME, systemTime);
+        }
+
+
+        //判断是否是今天
+
+        UserBean user = DaoUtlis.getCurrentLoginUser();
+        if (null == user) {
+            return;
+        }
+        long down_number_time = user.getDown_number_time();
+
+
+        boolean today = MyUtlis.isToday(down_number_time);
+
+
+        LogUtils.e("getSystemTime=" + TimeUtils.millis2String(getSystemTime()));
+        LogUtils.e("down_number_time=" + TimeUtils.millis2String(down_number_time));
+        //下载时间和服务器时间比较，不是今天
+        if (!today) {
+            ApiUtlis.downNumberUpdate(Utils.getApp(), 0, MyUtlis.getToken(), new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
+                @Override
+                public void onSuccess(Response<LoginResponseBean> response) {
+                    LogUtils.e("更新下载数量成功 setSystemTime");
+                    MyUtlis.updateAllDataCont(0);
+                }
+            });
+        } else {
+            LogUtils.e("是今天 不更新下载数量");
+        }
+
+
     }
 
     /**
@@ -2746,8 +2813,11 @@ public class MyUtlis {
      * @return {@code true}: yes<br>{@code false}: no
      */
     public static boolean isToday(final long millis) {
-        long wee = getSystemTime();
-        return millis >= wee && millis < wee + TimeConstants.DAY;
+        long time = getSystemTime();
+
+        long day = 1000 * 60 * 60 * 24;
+        //系统（当前）时间-比较的时间 ，如果小于24小时，表示今天，否则不是
+        return time - millis < day;
     }
 
     /**
@@ -2772,9 +2842,7 @@ public class MyUtlis {
     }
 
 
-
-
-    public  static void setDefaultSms(Context context){
+    public static void setDefaultSms(Context context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
             return;
         //申请成为默认短信
@@ -2786,6 +2854,7 @@ public class MyUtlis {
 
     /**
      * 判断当前应用是否为默认短信应用
+     *
      * @param context
      * @return
      */
@@ -2811,5 +2880,110 @@ public class MyUtlis {
         }
 //判断当前app是否为默认短信应用
         return packageName.equalsIgnoreCase(pName);
+    }
+
+
+    /**
+     * 根据当前用户vip身份来获取采集数量限制
+     *
+     * @return 可以采集多少条
+     */
+    public static int getVipCollectCount() {
+        UserBean user = DaoUtlis.getCurrentLoginUser();
+        if (null != user) {
+            int grade = user.getGrade();
+            if (grade == AppConstant.VIP_GRADE_1) {
+                return AppConstant.VIP_1_COLLECT_COUNT;
+            } else if (grade == AppConstant.VIP_GRADE_2) {
+                return AppConstant.VIP_2_COLLECT_COUNT;
+            }
+        }
+        return AppConstant.VIP_0_COLLECT_COUNT;
+
+    }
+
+    /**
+     * 根据vip身份获取采集数量限制，判断当前采集数量，是否超出  超出=true 没超出=false
+     *
+     * @return
+     */
+    public static boolean isVipCollectCountBeyond() {
+        UserBean user = DaoUtlis.getCurrentLoginUser();
+        if (null != user) {
+            int grade = user.getGrade();
+            if (grade == AppConstant.VIP_GRADE_1) {
+                return user.getDownNumber() >= AppConstant.VIP_1_COLLECT_COUNT;
+            } else if (grade == AppConstant.VIP_GRADE_2) {
+                return user.getDownNumber() >= AppConstant.VIP_2_COLLECT_COUNT;
+            }
+        }
+        return user.getDownNumber() >= AppConstant.VIP_0_COLLECT_COUNT;
+
+    }
+
+
+    /**
+     * @param telOrPhone tel或者phone
+     * @param grade
+     * @return
+     */
+    public static String getPhoneByVip(String telOrPhone, int grade) {
+
+
+        if (TextUtils.isEmpty(telOrPhone)) {
+            //为空直接返回无
+            return "无";
+        }
+        if (grade == AppConstant.VIP_GRADE_1 || grade == AppConstant.VIP_GRADE_2) {
+            //vip
+            return telOrPhone;
+
+        } else {
+            //novip 手机号隐藏中间四位 座机隐藏后四位
+            if (RegexUtils.isMobileSimple(telOrPhone)) {
+
+                return telOrPhone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+
+            } else {
+
+                return telOrPhone.substring(0, telOrPhone.length() - 4) + "****";
+            }
+        }
+    }
+
+    /**
+     * 上传今日累计数量
+     */
+    public static void uploadDownNumber(Context context) {
+
+        ApiUtlis.downNumberUpdate(context, DaoUtlis.getCurrentLoginUser().getDownNumber(), MyUtlis.getToken(), new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
+            @Override
+            public void onSuccess(Response<LoginResponseBean> response) {
+                if (null != response.body()) {
+                    if (response.body().getCode() == AppConstant.CODE_SUCCESS && null != response.body().getData()) {
+                        LogUtils.e("上传今日累计成功：\ngetDownNumber=" + response.body().getData().getDownNumber()
+                                + "\ngetDown_number_time=" + response.body().getData().getDown_number_time());
+                    }
+                }
+            }
+        });
+
+    }
+
+
+    /**
+     * 百度转高德
+     *
+     * @return
+     */
+    public static LatLng bdToGaoDe(LatLng bdLatLng) {
+        double[] gd_lat_lon = new double[2];
+        double PI = 3.14159265358979324 * 3000.0 / 180.0;
+        double x = bdLatLng.longitude - 0.0065, y = bdLatLng.latitude - 0.006;
+        double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * PI);
+        double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * PI);
+        gd_lat_lon[0] = z * Math.cos(theta);
+        gd_lat_lon[1] = z * Math.sin(theta);
+        return new LatLng(gd_lat_lon[0], gd_lat_lon[1]);
     }
 }

@@ -16,12 +16,15 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.zmy.diamond.R;
 import com.zmy.diamond.activity.CollectSettingActivity;
 import com.zmy.diamond.activity.TestActivity;
+import com.zmy.diamond.activity.VipActivity;
 import com.zmy.diamond.adapter.HomePagerAdapter;
 import com.zmy.diamond.base.MyBaseFragment;
 import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.MessageEvent;
 import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.bean.PlatformBean;
+import com.zmy.diamond.utli.bean.UserBean;
+import com.zmy.diamond.utli.dao.DaoUtlis;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -108,8 +111,11 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
 
     }
 
+    UserBean user;
+
     @Override
     public void initData() {
+        user = DaoUtlis.getCurrentLoginUser();
         //设置菜单点击事件
         menu.setOnMenuItemClickListener(new AnnularMenu.OnMenuItemClickListener() {
             @Override
@@ -149,12 +155,12 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
 
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
-        if (event.eventType == MessageEvent.UPDATE_HOME_DATA) {
+        if (event.eventType == MessageEvent.UPDATE_HOME_DATA || event.eventType == MessageEvent.UPDATE_LOGIN_USER_INFO) {
             LogUtils.e("首页刷新数据");
             //重置所有平台数据
+            user = DaoUtlis.getCurrentLoginUser();
             for (int i = 0; i < mFragments.size(); i++) {
                 DataFragment dataFragment = (DataFragment) mFragments.get(i);
                 dataFragment.refreshData(null);
@@ -190,6 +196,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
             MyUtlis.showShort(getActivity(), getString(R.string.hint_collect_ing));
             return;
         }
+
         String city = MyUtlis.getCollectCity();
         String key = MyUtlis.getCollectKey();
 
@@ -202,6 +209,57 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
             MyUtlis.showShort(getActivity(), getString(R.string.hint_input_collect_key));
             return;
         }
+
+        //先判断是否是今天,如果是，需要置零 ：todo:
+
+
+
+        //再判断采集限制,是否已经超出
+
+        int vipCollectCount = MyUtlis.getVipCollectCount();
+        //获取今日数量
+
+        user = DaoUtlis.getCurrentLoginUser();
+        if (null == user) {
+            return;
+        }
+        int downNumber = user.getDownNumber();
+//        downNumber = 100;
+//        vipCollectCount = 1;
+        if (downNumber >= vipCollectCount) {
+
+            //1.超出再判断vip等级
+            String content = "";
+            String[] text = null;
+            String cancelText = "";
+            if (user.getGrade() == AppConstant.VIP_GRADE_1) {
+                content = "尊敬的黄金会员\n您今日累计抓潜已超过" + AppConstant.VIP_1_COLLECT_COUNT + "条，\n请明日再来。";
+                cancelText = "好的";
+            } else if (user.getGrade() == AppConstant.VIP_GRADE_2) {
+                content = "尊敬的白金会员\n您今日累计抓潜已超过" + AppConstant.VIP_1_COLLECT_COUNT + "条，\n请明日再来。";
+                cancelText = "好的";
+            } else {
+                content = "您还不是会员，升级为会员后\n可以抓潜更多数据，是否立即前往购买？";
+                text = new String[]{"立即购买"};
+                cancelText = "取消";
+            }
+
+            new AlertView("提示", content, null, text, new String[]{cancelText}, getActivity(),
+                    AlertView.Style.Alert, new OnItemClickListener() {
+                @Override
+                public void onItemClick(Object o, int position) {
+                    if (position == 0) {
+                        VipActivity.start(getActivity());
+                    }
+                }
+            }).show();
+
+
+            return;
+
+
+        }
+
 
         hidePlatformMenu();
         isCollectIng = true;
@@ -278,11 +336,11 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
                 LogUtils.e(position);
                 if (position == 0) {
                     //导出到手机通讯录
-                    MyUtlis.addContacts(getActivity(), fragment.dataAdapter.getData(), null);
+                    MyUtlis.addContacts(getActivity(), user.getGrade(), fragment.dataAdapter.getData(), null);
                 } else if (position == 1) {
                     //导出csv文件
                     //存储到哪里.
-                    MyUtlis.exportCSVFile(getActivity(), fragment.bean, fragment.dataAdapter.getData());
+                    MyUtlis.exportCSVFile(getActivity(), user.getGrade(), fragment.bean, fragment.dataAdapter.getData());
                 }
 
             }

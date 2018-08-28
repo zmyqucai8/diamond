@@ -59,6 +59,11 @@ public class BaseApp extends Application {
     public static boolean isStopCollect = false;
 
 
+    /**
+     * 本次采集的数据量， 默认=0， 进行中会一直增加，当停止时需要请求接口，更新服务端数量。完成后归零
+     */
+    public static int currentDownloadDataCount = 0;
+
     public static LinkedList<Activity> activities = new LinkedList<>();
 
 

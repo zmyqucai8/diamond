@@ -151,7 +151,6 @@ public class ApiUtlis {
         Map<String, String> map = new TreeMap<>();
         map.put("token", token);
         map.put("downNumber", String.valueOf(downNumber));
-
         String sign = SignUtli.getSignature(map);
         OkGo.<LoginResponseBean>post(AppConstant.Api.downNumberUpdate)
                 .tag(context)

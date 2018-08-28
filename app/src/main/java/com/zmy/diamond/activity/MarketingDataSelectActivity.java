@@ -22,6 +22,7 @@ import com.zmy.diamond.utli.bean.CollectRecordBean;
 import com.zmy.diamond.utli.bean.DataBean;
 import com.zmy.diamond.utli.bean.MarketingDataSelectGroupBean;
 import com.zmy.diamond.utli.bean.MarketingDataSelectSingleBean;
+import com.zmy.diamond.utli.bean.UserBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
 
 import org.greenrobot.eventbus.EventBus;
@@ -83,7 +84,8 @@ public class MarketingDataSelectActivity extends MyBaseSwipeBackActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mAdapter = new MarketingDataSelectAdapter(new ArrayList<MultiItemEntity>(), TYPE_SELECT);
+        UserBean user = DaoUtlis.getCurrentLoginUser();
+        mAdapter = new MarketingDataSelectAdapter(user, new ArrayList<MultiItemEntity>(), TYPE_SELECT);
         mAdapter.setOnSelectListener(new MarketingDataSelectAdapter.OnSelectListener() {
             @Override
             public void onSelect() {

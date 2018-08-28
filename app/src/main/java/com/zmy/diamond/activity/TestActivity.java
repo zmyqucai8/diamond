@@ -3,14 +3,21 @@ package com.zmy.diamond.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
@@ -19,17 +26,28 @@ import com.baidu.mapapi.search.district.DistrictResult;
 import com.baidu.mapapi.search.district.DistrictSearch;
 import com.baidu.mapapi.search.district.DistrictSearchOption;
 import com.baidu.mapapi.search.district.OnGetDistricSearchResultListener;
-import com.baidu.mapapi.utils.AreaUtil;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.baidu.mapapi.utils.SpatialRelationUtil;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.zmy.diamond.R;
 import com.zmy.diamond.base.MyBaseSwipeBackActivity;
+import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.MyUtlis;
+import com.zmy.diamond.utli.bean.JsonBean_BaiDuMap;
 import com.zmy.diamond.utli.bean.LocationBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,6 +58,8 @@ import butterknife.OnClick;
  */
 
 public class TestActivity extends MyBaseSwipeBackActivity {
+
+    double margin = 0.018409; //大约2公里  1000=2000平方公里
 
 
     @BindView(R.id.tv_back)
@@ -52,7 +72,6 @@ public class TestActivity extends MyBaseSwipeBackActivity {
     EditText edit_key;
     @BindView(R.id.edit_city)
     EditText edit_city;
-
 
 
     @BindView(R.id.mmap)
@@ -82,6 +101,21 @@ public class TestActivity extends MyBaseSwipeBackActivity {
         //普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 
+
+        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                Bundle args = marker.getExtraInfo();
+
+
+                ToastUtils.showShort(args.get("siteId").toString());
+
+
+                return false;
+            }
+
+        });
 
     }
 
@@ -147,6 +181,7 @@ public class TestActivity extends MyBaseSwipeBackActivity {
     }
 
     List<List<LatLng>> polyLines;
+    LatLng centerPt;
     OnGetDistricSearchResultListener listener = new OnGetDistricSearchResultListener() {
         @Override
         public void onGetDistrictResult(DistrictResult districtResult) {
@@ -158,7 +193,7 @@ public class TestActivity extends MyBaseSwipeBackActivity {
                     return;
                 }
 
-                LatLng centerPt = districtResult.getCenterPt();//获取行政区中心坐标点
+                centerPt = districtResult.getCenterPt();//获取行政区中心坐标点
 
 
                 districtResult.getCityName();//获取行政区域名称
@@ -181,7 +216,7 @@ public class TestActivity extends MyBaseSwipeBackActivity {
 
                     List<LatLng> latLngs = polyLines.get(i);
 
-                    sb.append("第" + i + "组数据*******\n");
+//                    sb.append("第" + i + "组数据*******\n");
 
                     PolylineOptions ooPolyline11 = new PolylineOptions().width(2)
                             .points(latLngs).dottedLine(true).color(Color.RED);
@@ -189,7 +224,7 @@ public class TestActivity extends MyBaseSwipeBackActivity {
 
                     for (LatLng latLng : latLngs) {
 
-                        sb.append(latLng.longitude + "," + latLng.latitude + "\n");
+//                        sb.append(latLng.longitude + "," + latLng.latitude + "\n");
 
 //                        LogUtils.e("经度=" + latLng.longitude + " 纬度=" + latLng.latitude);
                         builder.include(latLng);
@@ -199,7 +234,7 @@ public class TestActivity extends MyBaseSwipeBackActivity {
                         .newLatLngBounds(builder.build()));
 
 
-                LogUtils.e(sb.toString());
+//                LogUtils.e(sb.toString());
 
                 LogUtils.e("中心坐标=" + centerPt.longitude + "," + centerPt.latitude);
 
@@ -211,15 +246,20 @@ public class TestActivity extends MyBaseSwipeBackActivity {
                 LogUtils.e("东北角=" + northeast.longitude + "," + northeast.latitude);
                 LogUtils.e("西南角=" + southwest.longitude + "," + southwest.latitude);
 
-                LogUtils.e("东=" + northeast.longitude);
-                LogUtils.e("南=" + southwest.latitude);
-                LogUtils.e("西=" + southwest.longitude);
-                LogUtils.e("北=" + northeast.latitude);
+//                LogUtils.e("东=" + northeast.longitude);
+//                LogUtils.e("南=" + southwest.latitude);
+//                LogUtils.e("西=" + southwest.longitude);
+//                LogUtils.e("北=" + northeast.latitude);
 
 
-                double v = AreaUtil.calculateArea(northeast, southwest);
+//                double v = AreaUtil.calculateArea(northeast, southwest);
+//
+//                LogUtils.e("面积=" + v + "平方米");
 
-                LogUtils.e("面积=" + v + "平方米");
+
+                //从中心范围扩散，不超出城市最大边界， 暂以2公里*2公里分割为一个小块，（可配置)
+                //分割的时候就以矩阵的形式分割， 然后按顺序存储到list
+                //开始记录每次获取数据的坐标，下次从那个地方再开始。
 
 
             } else {
@@ -263,14 +303,14 @@ public class TestActivity extends MyBaseSwipeBackActivity {
     public void btn_block() {
 
 
-        if (null == polyLines) {
+        if (null == centerPt) {
             ToastUtils.showShort("请先获取城市经纬度");
             return;
         }
 
         //开始切块
 
-
+        getLatLngList(centerPt);
         //方案1
         //1.获取城市的行政区域边界数据
         //2.通过固定的算法， 将区域划分为若干个小格， 暂定小格范围 2km*2km
@@ -292,6 +332,241 @@ public class TestActivity extends MyBaseSwipeBackActivity {
 
     @OnClick(R.id.btn_start)
     public void btn_start() {
+
+        for (int i = 0; i < latLngList.size(); i++) {
+
+//            http://api.map.baidu.com/place/v2/search?query=银行&bounds=39.915,116.404,39.975,116.414&output=json&ak={您的密钥} //GET请求
+
+
+//
+
+
+            List<LatLng> bounds = getBounds(latLngList.get(i));
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("http://api.map.baidu.com/place/v2/search?query=");
+            sb.append(edit_key.getText().toString().trim());
+            sb.append("&bounds=");
+
+            sb.append(bounds.get(0).latitude);
+            sb.append(",");
+            sb.append(bounds.get(0).longitude);
+            sb.append(",");
+            sb.append(bounds.get(1).latitude);
+            sb.append(",");
+            sb.append(bounds.get(1).longitude);
+            sb.append("&page_size=20");
+            sb.append("&page_num=");
+            sb.append(1);
+            sb.append("&output=json&ak=");
+            sb.append(AppConstant.Platform.KEY_BAIDU_MAP);
+            String url = sb.toString();
+            LogUtils.e(url);
+
+            OkGo.<String>get(url).execute(new StringCallback() {
+                @Override
+                public void onSuccess(Response<String> response) {
+                    LogUtils.e(response.body());
+                }
+            });
+
+
+        }
+
+
+    }
+
+
+    public void startCollet(LatLng centerPt, int pageNum) {
+        List<LatLng> bounds = getBounds(centerPt);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("http://api.map.baidu.com/place/v2/search?query=");
+        sb.append(edit_key.getText().toString().trim());
+        sb.append("&bounds=");
+
+        sb.append(bounds.get(0).latitude);
+        sb.append(",");
+        sb.append(bounds.get(0).longitude);
+        sb.append(",");
+        sb.append(bounds.get(1).latitude);
+        sb.append(",");
+        sb.append(bounds.get(1).longitude);
+        sb.append("&page_size=20");
+        sb.append("&page_num=");
+        sb.append(pageNum);
+        sb.append("&output=json&ak=");
+        sb.append(AppConstant.Platform.KEY_BAIDU_MAP);
+        String url = sb.toString();
+        LogUtils.e(url);
+
+        OkGo.<String>get(url).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+
+//                FileIOUtils.writeFileFromString(getTextFile(),)
+                JsonBean_BaiDuMap bean = new Gson().fromJson(response.body(), JsonBean_BaiDuMap.class);
+
+                bean.getStatus();
+                bean.getMessage();
+                List<JsonBean_BaiDuMap.ResultsBean> results = bean.getResults();
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < results.size(); i++) {
+
+                    JsonBean_BaiDuMap.ResultsBean poiBean = results.get(i);
+                    sb.append("名称=");
+                    sb.append(poiBean.getName());
+                    sb.append("\n地址=");
+                    sb.append(poiBean.getAddress());
+                    sb.append("\n电话=");
+                    sb.append(poiBean.getTelephone());
+                    sb.append("\n**************************************\n");
+
+                }
+                FileIOUtils.writeFileFromString(filePath, results.toString(), true);
+//                LogUtils.e(response.body());
+                //保存到文本后， 判断此次请求
+
+
+            }
+        });
+    }
+
+    String filePath;
+
+    private void getTextFile() {
+        filePath = MyUtlis.getAppFileDirPath() + File.separator + "test_data.txt";
+        if (FileUtils.isFileExists(filePath)) {
+            FileUtils.deleteFile(filePath);
+            FileUtils.createOrExistsFile(filePath);
+        }
+
+
+    }
+
+
+    public List<LatLng> latLngList;
+
+    public void getLatLngList(LatLng centerLatLng) {
+        int pNum = 0;
+        int num = 1;
+        latLngList = new ArrayList<>();
+
+        latLngList.add(centerLatLng);
+        LogUtils.e("开始=" + TimeUtils.getNowString());
+        while (pNum < 1001) {
+            for (int i = 0; i < num; i++) {
+//                y=竖=纬度=latitude  +=向上  -=向下
+//                        x=横向=经度=longitude +=向右 -=向左;
+                //在当前位置上，向右移动2公里 ， 次数=num
+                centerLatLng = new LatLng(centerLatLng.latitude, centerLatLng.longitude + margin);
+                latLngList.add(centerLatLng);
+                pNum++;
+            }
+
+            for (int i = 0; i < num; i++) {
+                //在当前位置上，向上移动2公里  次数=num
+                centerLatLng = new LatLng(centerLatLng.latitude + margin, centerLatLng.longitude);
+                latLngList.add(centerLatLng);
+                pNum++;
+            }
+            //循环 ++
+            num++;
+
+            for (int i = 0; i < num; i++) {
+                //在当前位置上，向左每次移动2公里 次数=num
+                centerLatLng = new LatLng(centerLatLng.latitude, centerLatLng.longitude - margin);
+                latLngList.add(centerLatLng);
+                pNum++;
+            }
+
+            for (int i = 0; i < num; i++) {
+                //   //在当前位置上，向下每次移动2公里 次数=num
+                centerLatLng = new LatLng(centerLatLng.latitude - margin, centerLatLng.longitude);
+                latLngList.add(centerLatLng);
+                pNum++;
+            }
+            //循环 ++
+            num++;
+        }
+
+        LogUtils.e("结束=" + TimeUtils.getNowString());
+        LogUtils.e("块数=" + latLngList.size());
+        LogUtils.e("第一块的经纬度=" + latLngList.get(0).longitude + "," + latLngList.get(0).latitude);
+        LogUtils.e("最后块的经纬度=" + latLngList.get(latLngList.size() - 1).longitude + "," + latLngList.get(latLngList.size() - 1).latitude);
+
+
+        //计算一下 0-1的距离
+        double distance = DistanceUtil.getDistance(latLngList.get(0), latLngList.get(1));
+
+        LogUtils.e("临近2点距离=" + distance + "米");
+
+
+        mBaiduMap.clear();
+//        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < latLngList.size(); i++) {
+            LatLng latLng = latLngList.get(i);
+
+            sb.append(i);
+            sb.append("=");
+            sb.append(latLng.longitude);
+            sb.append(",");
+            sb.append(latLng.latitude);
+            Log.e("", sb.toString());
+
+            BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.dot);
+
+            Bundle args = new Bundle(); //这个用于在所画的点上附加相关信息
+            args.putString("siteId", String.valueOf(i));
+            args.putString("siteName", String.valueOf(i));
+            OverlayOptions option = new MarkerOptions().position(latLng).extraInfo(args).icon(bitmap);
+//            builder.include(latLng);
+            mBaiduMap.addOverlay(option);
+
+            //现在画块看看对不对
+            List<LatLng> bounds = getBounds(latLng);
+
+            for (int x = 0; x < bounds.size(); x++) {
+                BitmapDescriptor bitmap2 = BitmapDescriptorFactory.fromResource(R.mipmap.dot2);
+                Bundle args2 = new Bundle(); //这个用于在所画的点上附加相关信息
+                args2.putString("siteId", i + "-" + x);
+                args2.putString("siteName", i + "-" + x);
+                OverlayOptions option2 = new MarkerOptions().position(bounds.get(x)).extraInfo(args2).icon(bitmap2);
+//            builder.include(latLng);
+                mBaiduMap.addOverlay(option2);
+            }
+
+
+        }
+//        PolylineOptions ooPolyline11 = new PolylineOptions().width(2)
+//                .points(latLngList).dottedLine(true).color(Color.RED);
+//        mBaiduMap.addOverlay(ooPolyline11);
+//        mBaiduMap.setMapStatus(MapStatusUpdateFactory
+//                .newLatLngBounds(builder.build()));
+
+
+        //现在已经获取到每个点的矩阵列表， 每点距离2公里
+
+
+    }
+
+
+    /**
+     * 根据当前中心点坐标，获取2km*2km的范围， 左下角坐标和右上角坐标
+     *
+     * @return LatLng[] 0=左下1=右上
+     */
+    public List<LatLng> getBounds(LatLng centerLatLng) {
+        List<LatLng> latLngs = new ArrayList<>();
+        //左下角坐标
+        LatLng lowerLeft = new LatLng(centerLatLng.latitude - margin / 2, centerLatLng.longitude - margin / 2);
+        //右上角坐标
+        LatLng upperRight = new LatLng(centerLatLng.latitude + margin / 2, centerLatLng.longitude + margin / 2);
+        latLngs.add(lowerLeft);
+        latLngs.add(upperRight);
+        return latLngs;
 
     }
 

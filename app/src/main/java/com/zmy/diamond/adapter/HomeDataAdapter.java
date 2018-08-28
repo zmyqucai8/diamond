@@ -10,6 +10,7 @@ import com.zmy.diamond.activity.CreateContactActivity;
 import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.bean.DataBean;
+import com.zmy.diamond.utli.bean.UserBean;
 
 import java.util.List;
 
@@ -23,8 +24,12 @@ public class HomeDataAdapter extends BaseQuickAdapter<DataBean, BaseViewHolder> 
     //手机固话显示类型
     public int mPhoneTelShowType = AppConstant.SHOW_TYPE_ALL;
 
-    public HomeDataAdapter(@Nullable List<DataBean> data) {
+
+    public UserBean mUser;
+
+    public HomeDataAdapter(UserBean user, @Nullable List<DataBean> data) {
         super(R.layout.item_home_data, data);
+        this.mUser = user;
     }
 
     @Override
@@ -32,8 +37,8 @@ public class HomeDataAdapter extends BaseQuickAdapter<DataBean, BaseViewHolder> 
         helper
                 .setText(R.id.tv_source, item.source)
                 .setText(R.id.tv_name, item.name)
-                .setText(R.id.tv_tel, MyUtlis.isEmpty(item.tel))
-                .setText(R.id.tv_phone, MyUtlis.isEmpty(item.phone))
+                .setText(R.id.tv_tel, MyUtlis.getPhoneByVip(item.tel, mUser.getGrade()))
+                .setText(R.id.tv_phone, MyUtlis.getPhoneByVip(item.phone, mUser.getGrade()))
                 .setText(R.id.tv_address, item.address)
                 .setText(R.id.tv_address_details, item.address_details)
                 .setText(R.id.tv_index, String.valueOf(helper.getAdapterPosition() + 1));

@@ -21,6 +21,7 @@ import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.OnAddContactListener;
 import com.zmy.diamond.utli.bean.DataBean;
 import com.zmy.diamond.utli.bean.PlatformBean;
+import com.zmy.diamond.utli.bean.UserBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
 
 import java.util.ArrayList;
@@ -85,12 +86,16 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
      */
     List<DataBean> mTelData;
 
+
+    UserBean user;
+
     @Override
     public void initData() {
         key = getIntent().getStringExtra(AppConstant.ExtraKey.KEY);
 
         city = getIntent().getStringExtra(AppConstant.ExtraKey.CITY);
 
+        user = DaoUtlis.getCurrentLoginUser();
         tv_title.setText(city.replace("市", "") + key);
 
         collectId = getIntent().getStringExtra(AppConstant.ExtraKey.COLLECT_ID);
@@ -98,7 +103,7 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
         platformId = getIntent().getIntExtra(AppConstant.ExtraKey.PLATFORM_ID, 0);
 
         mAllData = DaoUtlis.getDataByCityKey(platformId, key, city, userId);
-        mAdapter = new HomeDataAdapter(mAllData);
+        mAdapter = new HomeDataAdapter(user, mAllData);
         mAdapter.setEmptyView(MyUtlis.getEmptyView(this, "暂无数据"));
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         mRecyclerView.setAdapter(mAdapter);
@@ -124,7 +129,7 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
                     if (0 == position) {
                         dataExport();
                     } else if (1 == position) {
-                        SMSBatchActivity.start(MarketingDataActivity.this,userId,platformId,key,city);
+                        SMSBatchActivity.start(MarketingDataActivity.this, userId, platformId, key, city);
                     } else if (2 == position) {
                         dataClear();
                     }
@@ -255,10 +260,9 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
                 LogUtils.e(position);
                 if (position == 0) {
                     //导出到手机通讯录
-                    MyUtlis.addContacts(MarketingDataActivity.this, currentData, new OnAddContactListener() {
+                    MyUtlis.addContacts(MarketingDataActivity.this, user.getGrade(), currentData, new OnAddContactListener() {
                         @Override
                         public void onStart() {
-
                             showLoading(false, "正在保存...");
                         }
 
@@ -283,7 +287,7 @@ public class MarketingDataActivity extends MyBaseSwipeBackActivity {
                         platformBean.platformId = AppConstant.Platform.PLATFORM_ID[0];
                         platformBean.name = AppConstant.Platform.NAME[0];
                     }
-                    MyUtlis.exportCSVFile(MarketingDataActivity.this, platformBean, currentData);
+                    MyUtlis.exportCSVFile(MarketingDataActivity.this, user.getGrade(), platformBean, currentData);
 
                 }
 

@@ -16,6 +16,7 @@ import com.zmy.diamond.utli.MyLinearLayoutManager;
 import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.bean.DataBean;
 import com.zmy.diamond.utli.bean.PlatformBean;
+import com.zmy.diamond.utli.bean.UserBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
 import com.zmy.diamond.utli.view.MyRecyclerView;
 
@@ -67,12 +68,16 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
         recyclerView_data.setOnScrollCallback(this);
     }
 
+    UserBean user;
+
     @Override
     public void initData() {
         if (null == bean) {
             bean = (PlatformBean) getArguments().getSerializable("data");
         }
-        dataAdapter = new HomeDataAdapter(DaoUtlis.getDataByPlatformId(null != bean ? bean.platformId : 0));
+
+        user = DaoUtlis.getCurrentLoginUser();
+        dataAdapter = new HomeDataAdapter(user, DaoUtlis.getDataByPlatformId(null != bean ? bean.platformId : 0));
 //        dataAdapter = new HomeDataAdapter(new ArrayList<DataBean>());
         dataAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         dataAdapter.setEmptyView(MyUtlis.getEmptyView(getContext(), getString(R.string.hint_no_data, bean.name)));
@@ -118,17 +123,17 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
     public void startCollect(String city, String key) {
         LogUtils.e(bean.name + " 开始采集 city=" + city + " key=" + key);
 
-
+        BaseApp.currentDownloadDataCount = 0;
         isCollectIng = true;
         CollectUtlis.getInstance().startCollect(getActivity(), bean, city, key, MyUtlis.getCollectDataPhoneType(), new CollectUtlis.OnCollectListener() {
             @Override
             public void onCollect(List<DataBean> dataList) {
-                isCollectIng = true;
-                dataAdapter.addData(dataList);
-                scrollBottom(recyclerView_data);
-                MyUtlis.eventUpdatePlatfromDataCount();
-                DaoUtlis.addData(dataList);
-                MyUtlis.eventCollectComplete();
+//                isCollectIng = true;
+//                dataAdapter.addData(dataList);
+//                scrollBottom(recyclerView_data);
+//                MyUtlis.eventUpdatePlatfromDataCount();
+//                DaoUtlis.addData(dataList);
+//                MyUtlis.eventCollectComplete();
             }
 
             @Override
@@ -140,6 +145,8 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
 //                MyUtlis.eventCollectComplete();
                 MyUtlis.showShortSimple(getActivity(), getString(R.string.hint_data_collect_ok, bean.name));
                 MyUtlis.eventCollectComplete();
+
+                MyUtlis.uploadDownNumber(getContext());
             }
 
             @Override
@@ -148,6 +155,8 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
 
                 MyUtlis.showShortSimple(getActivity(), getString(R.string.hint_data_collect_no, bean.name));
                 MyUtlis.eventCollectError();
+
+
             }
         });
 
@@ -255,6 +264,8 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
     public void onMessageEvent(MessageEvent event) {
         if (event.eventType == MessageEvent.COLLECT_DATA
                 && event.intValue == bean.platformId && null != event.dataList) {
+
+            LogUtils.e(bean.name + "采集数据成功");
             //采集到了数据 ,并且platformId是当前平台的id,并且数据不为空
             //直接加入到UI显示, 不管之前是否存在, 因为在存储到本地的时候,已经进行了过滤.
             isCollectIng = true;

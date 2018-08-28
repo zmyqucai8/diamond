@@ -8,6 +8,8 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.zmy.diamond.base.BaseApp;
 import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.MyUtlis;
+import com.zmy.diamond.utli.bean.CollectCityBean;
+import com.zmy.diamond.utli.bean.CollectCityBeanDao;
 import com.zmy.diamond.utli.bean.CollectRecordBean;
 import com.zmy.diamond.utli.bean.CollectRecordBeanDao;
 import com.zmy.diamond.utli.bean.DaoSession;
@@ -394,13 +396,16 @@ public class DaoUtlis {
             LogUtils.e("添加采集记录错误");
         }
 
+        BaseApp.currentDownloadDataCount += beanList.size();
+        LogUtils.e("BaseApp.currentDownloadDataCount=" + BaseApp.currentDownloadDataCount);
+
         try {
             getDaoSession().getDataBeanDao().insertOrReplaceInTx(beanList);
 
-            //更新获取的数据总数
+//            //更新获取的数据总数
             MyUtlis.updateAllDataCont(beanList.size());
-
-
+//
+//
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -786,7 +791,42 @@ public class DaoUtlis {
             e.printStackTrace();
         }
         return false;
+    }
 
+
+    /**
+     * 获取当前采集城市的信息数据
+     *
+     * @param collectCity
+     * @param userId
+     * @return
+     */
+    public static CollectCityBean getCollectCity(String collectCity, String userId) {
+        try {
+            return getDaoSession().getCollectCityBeanDao().queryBuilder().where(CollectCityBeanDao.Properties.CollectCity.eq(collectCity), CollectCityBeanDao.Properties.UserId.eq(userId)).unique();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 插入更新采集城市的信息数据
+     *
+     * @return
+     */
+    public static boolean addCollectCity(CollectCityBean collectCityBean) {
+        try {
+            getDaoSession().getCollectCityBeanDao().insertOrReplace(collectCityBean);
+            LogUtils.e("插入更新采集城市的信息数据 成功=" + collectCityBean.getCollectCity());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtils.e("插入更新采集城市的信息数据 失败=" + collectCityBean.getCollectCity());
+            return false;
+        }
     }
 }
+
+
 

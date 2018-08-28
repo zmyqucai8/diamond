@@ -48,8 +48,9 @@ public class UserBean {
 //    private String vipTypeDes;//VIP类型描述
     private int integral;//积分
     //    private int signDay;//签到总天数
-    private int downNumber;//获取数据的累计总数
-    private int saveNumber;//保存数据的累计总数
+    private int downNumber;//今日累计
+
+    private int saveNumber;//保存到通讯录数据的累计总数 （废弃）
 
     private long lastSignTime;//最后一次签到时间
 
@@ -91,8 +92,6 @@ public class UserBean {
     private long down_number_time;//最后一次更新下今日累计的时间
 
 
-
-
     //    private String recommendedPhone;//推荐人手机号
     @ToMany(joinProperties = {
             @JoinProperty(name = "userId", referencedName = "userId")
@@ -111,11 +110,11 @@ public class UserBean {
 
     @Generated(hash = 1521059849)
     public UserBean(Long id, @NotNull String userId, String phone, String macAddress,
-            String code, double money, int grade, String recomCode, String token,
-            String openId, String nickName, String avatarUrl, String city, String province,
-            String longitudeAndLatitude, int integral, int downNumber, int saveNumber,
-            long lastSignTime, long vip_time, String vip_valid_time, long rigister_time,
-            long down_number_time) {
+                    String code, double money, int grade, String recomCode, String token,
+                    String openId, String nickName, String avatarUrl, String city, String province,
+                    String longitudeAndLatitude, int integral, int downNumber, int saveNumber,
+                    long lastSignTime, long vip_time, String vip_valid_time, long rigister_time,
+                    long down_number_time) {
         this.id = id;
         this.userId = userId;
         this.phone = phone;

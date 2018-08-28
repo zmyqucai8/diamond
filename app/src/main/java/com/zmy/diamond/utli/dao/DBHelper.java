@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.zmy.diamond.utli.MyUtlis;
+import com.zmy.diamond.utli.bean.CollectCityBeanDao;
 import com.zmy.diamond.utli.bean.CollectRecordBeanDao;
 import com.zmy.diamond.utli.bean.DaoMaster;
 
@@ -46,6 +47,10 @@ public class DBHelper extends DaoMaster.OpenHelper {
             if (oldVersion < 11) {
                 DaoMaster.dropAllTables(db, true);
                 DaoMaster.createAllTables(db, true);
+            }
+
+            if (oldVersion < 12) {
+                CollectCityBeanDao.createTable(db, true);
             }
 
 //            if (oldVersion < 4) {
