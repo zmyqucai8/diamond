@@ -10,6 +10,7 @@ import com.zmy.diamond.R;
 import com.zmy.diamond.adapter.HomeDataAdapter;
 import com.zmy.diamond.base.BaseApp;
 import com.zmy.diamond.base.MyBaseFragment;
+import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.CollectUtlis;
 import com.zmy.diamond.utli.MessageEvent;
 import com.zmy.diamond.utli.MyLinearLayoutManager;
@@ -77,8 +78,11 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
         }
 
         user = DaoUtlis.getCurrentLoginUser();
-        dataAdapter = new HomeDataAdapter(user, DaoUtlis.getDataByPlatformId(null != bean ? bean.platformId : 0));
-//        dataAdapter = new HomeDataAdapter(new ArrayList<DataBean>());
+        if (AppConstant.DATA_FRAGMENT_IS_INIT_DATA) {
+            dataAdapter = new HomeDataAdapter(user, DaoUtlis.getDataByPlatformId(null != bean ? bean.platformId : 0));
+        } else {
+            dataAdapter = new HomeDataAdapter(user, new ArrayList<DataBean>());
+        }
         dataAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         dataAdapter.setEmptyView(MyUtlis.getEmptyView(getContext(), getString(R.string.hint_no_data, bean.name)));
         dataAdapter.setHeaderAndEmpty(true);

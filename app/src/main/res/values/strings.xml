@@ -240,6 +240,11 @@
     <string name="ttf_right2">&#xe66e;</string>
     <string name="ttf_down2">&#xe639;</string>
     <string name="ttf_close">&#xe62c;</string>
+    <string name="hint_ok">好的</string>
+    <string name="hint_collect_vip_tip_1">尊敬的黄金会员\n您今日累计抓潜已超过%d条，\n请明日再来。</string>
+    <string name="hint_collect_vip_tip_2">尊敬的白金会员\n您今日累计抓潜已超过%d条，\n请明日再来。</string>
+    <string name="hint_collect_vip_tip_0">您还不是会员，每天只能抓潜%d条，\n升级为会员后，可以抓潜更多数据，\n是否立即前往购买？</string>
+    <string name="hint_immediately_buy">立即购买</string>
 
 
 </resources>

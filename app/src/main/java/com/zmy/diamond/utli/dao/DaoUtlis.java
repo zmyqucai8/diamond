@@ -403,7 +403,7 @@ public class DaoUtlis {
             getDaoSession().getDataBeanDao().insertOrReplaceInTx(beanList);
 
 //            //更新获取的数据总数
-            MyUtlis.updateAllDataCont(beanList.size());
+            MyUtlis.updateAllDataCont(beanList.size(),true);
 //
 //
             return true;

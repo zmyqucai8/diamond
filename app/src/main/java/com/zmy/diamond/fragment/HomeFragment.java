@@ -220,7 +220,6 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
         //先判断是否是今天,如果是，需要置零
 
 
-
         //再判断采集限制,是否已经超出
 
         int vipCollectCount = MyUtlis.getVipCollectCount();
@@ -240,18 +239,17 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
             String[] text = null;
             String cancelText = "";
             if (user.getGrade() == AppConstant.VIP_GRADE_1) {
-                content = "尊敬的黄金会员\n您今日累计抓潜已超过" + AppConstant.VIP_1_COLLECT_COUNT + "条，\n请明日再来。";
-                cancelText = "好的";
+                content = getString(R.string.hint_collect_vip_tip_1, AppConstant.VIP_1_COLLECT_COUNT);
+                cancelText = getString(R.string.hint_ok);
             } else if (user.getGrade() == AppConstant.VIP_GRADE_2) {
-                content = "尊敬的白金会员\n您今日累计抓潜已超过" + AppConstant.VIP_1_COLLECT_COUNT + "条，\n请明日再来。";
-                cancelText = "好的";
+                content = getString(R.string.hint_collect_vip_tip_2, AppConstant.VIP_2_COLLECT_COUNT);
+                cancelText = getString(R.string.hint_ok);
             } else {
-                content = "您还不是会员，升级为会员后\n可以抓潜更多数据，是否立即前往购买？";
-                text = new String[]{"立即购买"};
-                cancelText = "取消";
+                content = getString(R.string.hint_collect_vip_tip_0, AppConstant.VIP_0_COLLECT_COUNT);
+                text = new String[]{getString(R.string.hint_immediately_buy)};
+                cancelText = getString(R.string.hint_cancel);
             }
-
-            new AlertView("提示", content, null, text, new String[]{cancelText}, getActivity(),
+            new AlertView(getString(R.string.hint_text), content, null, text, new String[]{cancelText}, getActivity(),
                     AlertView.Style.Alert, new OnItemClickListener() {
                 @Override
                 public void onItemClick(Object o, int position) {

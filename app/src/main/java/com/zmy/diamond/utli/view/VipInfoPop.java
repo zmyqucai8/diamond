@@ -41,7 +41,6 @@ public class VipInfoPop extends PopupWindow {
 
 
         View mContentView = mInflater.inflate(R.layout.view_pop_vip_info, null);
-
         TextView tv_ttf_vip = mContentView.findViewById(R.id.tv_ttf_vip);
         TextView tv_vip_name = mContentView.findViewById(R.id.tv_vip_name);
         TextView tv_vip_time = mContentView.findViewById(R.id.tv_vip_time);

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingBottom="30dp">
+    android:paddingBottom="40dp">
 
 
     <LinearLayout
@@ -92,7 +92,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_title_recom_code"

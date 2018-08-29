@@ -330,7 +330,7 @@ public class MyUtlis {
     public static List<VipBean> getVipItemData() {
         List<VipBean> vipBeanList = new ArrayList<>();
         String[] names = {"黄金会员", "白金会员"};
-        String[] price_des = {"1998/年，每天可采集1万条数据", "2998/年，每天可采集3万条数据"};
+        String[] price_des = {"1998/年，每天可采集1万条数据", "2998/年，每天可采集4万条数据"};
         int[] grade = {1, 2};
         int[] monthCount = {12, 12};
         int[] price = {1998, 2998};
@@ -1567,10 +1567,15 @@ public class MyUtlis {
      * 更新获取的数据总量 (今日累计）
      *
      * @param allDataCount
+     * @param isAdd        是否加上原有数量 true=是 false=不是
      */
-    public static void updateAllDataCont(int allDataCount) {
+    public static void updateAllDataCont(int allDataCount, boolean isAdd) {
         UserBean user = DaoUtlis.getUser(getLoginUserId());
-        user.setDownNumber(user.getDownNumber() + allDataCount);
+        if (isAdd) {
+            user.setDownNumber(user.getDownNumber() + allDataCount);
+        } else {
+            user.setDownNumber(allDataCount);
+        }
         boolean b = DaoUtlis.addUser(user);
         if (b) {
             eventUpdateAllPlatfromDataCount(user.getDownNumber());
@@ -2765,17 +2770,14 @@ public class MyUtlis {
         }
 
 
-        //判断是否是今天
-
+        //设置判断是否是今天 对下载数据清空
         UserBean user = DaoUtlis.getCurrentLoginUser();
         if (null == user) {
             return;
         }
         long down_number_time = user.getDown_number_time();
-
-
+//       测试代码不是今天： down_number_time = TimeUtils.getNowMills() + 80000000;
         boolean today = MyUtlis.isToday(down_number_time);
-
 
         LogUtils.e("getSystemTime=" + TimeUtils.millis2String(getSystemTime()));
         LogUtils.e("down_number_time=" + TimeUtils.millis2String(down_number_time));
@@ -2785,7 +2787,7 @@ public class MyUtlis {
                 @Override
                 public void onSuccess(Response<LoginResponseBean> response) {
                     LogUtils.e("更新下载数量成功 setSystemTime");
-                    MyUtlis.updateAllDataCont(0);
+                    MyUtlis.updateAllDataCont(0, false);
                 }
             });
         } else {
@@ -2807,17 +2809,35 @@ public class MyUtlis {
     }
 
     /**
-     * Return whether it is today.
-     *
-     * @param millis The milliseconds.
-     * @return {@code true}: yes<br>{@code false}: no
+     * 根据传入的时间戳，与服务器当前时间比较，判断传入的时间是否是今天
      */
-    public static boolean isToday(final long millis) {
-        long time = getSystemTime();
+    public static boolean isToday(final long time) {
 
-        long day = 1000 * 60 * 60 * 24;
-        //系统（当前）时间-比较的时间 ，如果小于24小时，表示今天，否则不是
-        return time - millis < day;
+        //获取服务器时间
+        long serviceTime = getSystemTime();
+
+        //获取传入的年月日
+        Calendar timeCalendar = Calendar.getInstance();
+        timeCalendar.setTimeInMillis(time);
+        int timeYear = timeCalendar.get(Calendar.YEAR);
+        int timeMontn = timeCalendar.get(Calendar.MONTH);
+        int timeDay = timeCalendar.get(Calendar.DAY_OF_MONTH);
+        //获取服务器的年月日
+        Calendar serviceCalendar = Calendar.getInstance();
+        serviceCalendar.setTimeInMillis(serviceTime);
+        int serviceYear = serviceCalendar.get(Calendar.YEAR);
+        int serviceMontn = serviceCalendar.get(Calendar.MONTH);
+        int serviceDay = serviceCalendar.get(Calendar.DAY_OF_MONTH);
+        //判断传入的年月日==服务器的年月日，如果年月日都相等，表示同一天，否则不是
+
+        LogUtils.e("传入的时间年月日=" + timeYear + ":" + timeMontn + ":" + timeDay
+                + "\n" + "服务器时间年月日=" + serviceYear + ":" + serviceMontn + ":" + serviceDay);
+
+        if (timeYear == serviceYear && timeMontn == serviceMontn && timeDay == serviceDay) {
+            return true;
+        }
+        return false;
+
     }
 
     /**

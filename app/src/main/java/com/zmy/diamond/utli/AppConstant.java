@@ -44,11 +44,9 @@ public class AppConstant {
      */
     public static final int VIP_1_COLLECT_COUNT = 10000;
     /**
-     * vip 2 白金会员每天可采集5万
+     * vip 2 白金会员每天可采集4万
      */
-    public static final int VIP_2_COLLECT_COUNT = 30000;
-
-
+    public static final int VIP_2_COLLECT_COUNT = 40000;
     /**
      * 是否开启体验模式（使用时间计时限制） 默认false
      */
@@ -64,6 +62,12 @@ public class AppConstant {
      * 请求HTTP 成功的响应吗
      */
     public static final int CODE_SUCCESS = 200;
+
+    /**
+     * 首页数据DataFragment InitData首次创建时是否加载数据库数据显示
+     * ture=加载fasle=不加载
+     */
+    public static final boolean DATA_FRAGMENT_IS_INIT_DATA = false;
 
 
     /**
