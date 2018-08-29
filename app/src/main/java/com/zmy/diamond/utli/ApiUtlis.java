@@ -6,6 +6,7 @@ import android.content.Context;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.zmy.diamond.utli.bean.AboutAppBean;
 import com.zmy.diamond.utli.bean.AppVersionBean;
@@ -586,4 +587,34 @@ public class ApiUtlis {
                 .execute(callBack);
     }
 
+
+    /**
+     * 获取mapKey
+     *
+     * @param context
+     * @param token
+     * @param page
+     * @param mapType 0=百度 1=高德
+     */
+    public static void getMapKey(Context context, String token, int page, int mapType) {
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("page", String.valueOf(page));
+        map.put("map_type", String.valueOf(mapType));
+        String sign = SignUtli.getSignature(map);
+        OkGo.<String>post(AppConstant.Api.getMapKey)
+                .tag(context)
+                .params("sign", sign)
+                .params("token", token)
+                .params("page", page)
+                .params("map_type", mapType)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LogUtils.e("getMapKey=" + response.body());
+                    }
+                });
+
+    }
 }

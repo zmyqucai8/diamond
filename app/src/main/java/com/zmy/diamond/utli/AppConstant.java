@@ -311,6 +311,11 @@ public class AppConstant {
          */
         public static final String getAppVersion = HOST + "/poi/api/version";
 
+        /**
+         * 获取地图key列表
+         */
+        public static final String getMapKey = HOST + "/poi/api/getMapKey";
+
 
         /**
          * 操作发布

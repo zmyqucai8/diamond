@@ -110,6 +110,10 @@ public class MainActivity extends MyBaseActivity implements OnTabSelectListener 
     public void addListeners() {
         //Test start
 //        TestUtlis.test();
+//测试代码放这里
+        if (AppConstant.DEBUG) {
+            ApiUtlis.getMapKey(this, MyUtlis.getToken(), 0, 0);
+        }
     }
 
     @Override
