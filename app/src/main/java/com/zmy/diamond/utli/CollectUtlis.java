@@ -194,11 +194,12 @@ public class CollectUtlis {
                     @Override
                     public void onSuccess(Boolean result) {
 //                MyUtlis.eventCollectComplete();
-                        if (result) {
-                            listener.onCollectComplete();
-                        } else {
-                            listener.onCollectError();
-                        }
+//                        if (result) {
+                        listener.onCollectComplete();
+//                        }
+//                        else {
+//                            listener.onCollectError();
+//                        }
 
 
                     }
@@ -355,6 +356,10 @@ public class CollectUtlis {
             //记录更新当前点
             collectCityBean.setCurrentIndex(currentIndex);
             DaoUtlis.addCollectCity(collectCityBean);
+            if (currentIndex == 0) {
+                LogUtils.e("已采集一圈，停止采集，等待用户下次开始");
+                return true;
+            }
         } else {
             currentIndex = collectCityBean.getCurrentIndex();
         }
@@ -512,6 +517,10 @@ public class CollectUtlis {
             //记录更新当前点
             collectCityBean.setCurrentIndex(currentIndex);
             DaoUtlis.addCollectCity(collectCityBean);
+            if (currentIndex == 0) {
+                LogUtils.e("已采集一圈，停止采集，等待用户下次开始");
+                return true;
+            }
         } else {
             currentIndex = collectCityBean.getCurrentIndex();
         }
@@ -719,8 +728,6 @@ public class CollectUtlis {
 
         //子线程中, 同步请求
         String url = "http://api.map.baidu.com/place/v2/search";
-
-
         try {
             okhttp3.Response response = OkGo.<JsonBean_BaiDuMap>get(url).tag(this)
                     .params("query", key)
@@ -734,6 +741,10 @@ public class CollectUtlis {
 
 
             String result = response.body().string();
+            //todo:判断请求状态类型。
+//            JsonBean_BaiDuMap jsonBean_baiDuMap = new Gson().fromJson(result, JsonBean_BaiDuMap.class);
+
+
             return new Gson().fromJson(result, JsonBean_BaiDuMap.class);
 
         } catch (Exception e) {
@@ -813,11 +824,11 @@ public class CollectUtlis {
                     @Override
                     public void onSuccess(Boolean result) {
 //                MyUtlis.eventCollectComplete();
-                        if (result) {
-                            listener.onCollectComplete();
-                        } else {
-                            listener.onCollectError();
-                        }
+//                        if (result) {
+                        listener.onCollectComplete();
+//                        } else {
+//                            listener.onCollectError();
+//                        }
 
                     }
                 });

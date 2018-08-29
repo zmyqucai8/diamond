@@ -76,6 +76,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.zmy.diamond.BuildConfig;
 import com.zmy.diamond.R;
 import com.zmy.diamond.activity.LoginActivity;
+import com.zmy.diamond.base.BaseApp;
 import com.zmy.diamond.service.LocationService;
 import com.zmy.diamond.utli.bean.DataBean;
 import com.zmy.diamond.utli.bean.InfoBannerBean;
@@ -2976,17 +2977,19 @@ public class MyUtlis {
      */
     public static void uploadDownNumber(Context context) {
 
-        ApiUtlis.downNumberUpdate(context, DaoUtlis.getCurrentLoginUser().getDownNumber(), MyUtlis.getToken(), new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
-            @Override
-            public void onSuccess(Response<LoginResponseBean> response) {
-                if (null != response.body()) {
-                    if (response.body().getCode() == AppConstant.CODE_SUCCESS && null != response.body().getData()) {
-                        LogUtils.e("上传今日累计成功：\ngetDownNumber=" + response.body().getData().getDownNumber()
-                                + "\ngetDown_number_time=" + response.body().getData().getDown_number_time());
+        if (BaseApp.currentDownloadDataCount > 0)
+            ApiUtlis.downNumberUpdate(context, BaseApp.currentDownloadDataCount, MyUtlis.getToken(), new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
+                @Override
+                public void onSuccess(Response<LoginResponseBean> response) {
+                    if (null != response.body()) {
+                        BaseApp.currentDownloadDataCount = 0;
+                        if (response.body().getCode() == AppConstant.CODE_SUCCESS && null != response.body().getData()) {
+                            LogUtils.e("上传今日累计成功：\ngetDownNumber=" + response.body().getData().getDownNumber()
+                                    + "\ngetDown_number_time=" + response.body().getData().getDown_number_time());
+                        }
                     }
                 }
-            }
-        });
+            });
 
     }
 

@@ -283,6 +283,8 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
         if (!isCollectIng) {
             return;
         }
+        isCollectIng = false;
+        loadingView.hide();
         int currentItem = viewPager.getCurrentItem();
         DataFragment fragment = (DataFragment) mFragments.get(currentItem);
         fragment.stopCollect();

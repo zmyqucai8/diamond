@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lzy.okgo.OkGo;
 import com.zmy.diamond.R;
 import com.zmy.diamond.adapter.HomeDataAdapter;
 import com.zmy.diamond.base.BaseApp;
@@ -191,6 +192,7 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
     public void stopCollect() {
 //        MyUtlis.showShortSimple(getActivity(), getString(R.string.hint_stop_collect, bean.name));
         BaseApp.isStopCollect = true;
+        OkGo.getInstance().cancelAll();
         try {
             recyclerView_data.scrollToPosition(dataAdapter.getItemCount() - 1);
         } catch (Exception e) {
