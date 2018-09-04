@@ -53,6 +53,12 @@ public class AppConstant {
     public final static boolean isExperienceMode = false;
 
 
+    /**
+     * 更新的id 1=android 2=ios
+     */
+    public final static int update_apk_id_android = 1;
+    public final static int update_apk_id_ios = 2;
+
     //   1=黄金会员2=白金会员
     public static final int VIP_GRADE_1 = 1;
     public static final int VIP_GRADE_2 = 2;

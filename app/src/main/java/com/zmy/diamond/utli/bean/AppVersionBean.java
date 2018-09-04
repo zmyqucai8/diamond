@@ -1,5 +1,7 @@
 package com.zmy.diamond.utli.bean;
 
+import java.util.List;
+
 /**
  * Created by zhangmengyun on 2018/6/29.
  */
@@ -10,20 +12,20 @@ public class AppVersionBean {
     /**
      * msg : 成功
      * code : 200
-     * data : {"need_update":false,"down_url":"www.yscoco.com","id":1,"new_version":23,"message":"fdsfdsfdsf???"}
+     * data : [{"need_update":false,"down_url":"https://www.pgyer.com/gyyd","id":1,"new_version":24,"message":"https://www.pgyer.com/guys"},{"need_update":false,"down_url":"www.yscoco.com/ios","id":2,"new_version":44,"message":"哈哈哈"}]
      */
 
     private String msg;
     private int code;
     /**
      * need_update : false
-     * down_url : www.yscoco.com
+     * down_url : https://www.pgyer.com/gyyd
      * id : 1
-     * new_version : 23
-     * message : fdsfdsfdsf???
+     * new_version : 24
+     * message : https://www.pgyer.com/guys
      */
 
-    private DataBean data;
+    private List<DataBean> data;
 
     public String getMsg() {
         return msg;
@@ -41,11 +43,11 @@ public class AppVersionBean {
         this.code = code;
     }
 
-    public DataBean getData() {
+    public List<DataBean> getData() {
         return data;
     }
 
-    public void setData(DataBean data) {
+    public void setData(List<DataBean> data) {
         this.data = data;
     }
 

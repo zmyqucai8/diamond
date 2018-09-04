@@ -40,18 +40,21 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
 
     @Override
     public T convertResponse(Response response) throws Throwable {
-        ResponseBody body = response.body();
+        try {
+            ResponseBody body = response.body();
+            if (body == null) return null;
+            T data = null;
+            Gson gson = new Gson();
+            JsonReader jsonReader = new JsonReader(body.charStream());
+            if (type != null) data = gson.fromJson(jsonReader, type);
+            if (clazz != null) data = gson.fromJson(jsonReader, clazz);
+            LogUtils.e("JsonCallBack=" + data.toString());
 
-        if (body == null) return null;
-        T data = null;
-        Gson gson = new Gson();
-        JsonReader jsonReader = new JsonReader(body.charStream());
-
-
-        if (type != null) data = gson.fromJson(jsonReader, type);
-        if (clazz != null) data = gson.fromJson(jsonReader, clazz);
-        LogUtils.e("JsonCallBack=" + data.toString());
-        return data;
+            return data;
+        } catch (Exception e) {
+            T data2 = null;
+            return data2;
+        }
     }
 
 

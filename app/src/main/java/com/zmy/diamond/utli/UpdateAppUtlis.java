@@ -24,6 +24,8 @@ import com.zmy.diamond.R;
 import com.zmy.diamond.utli.bean.AppVersionBean;
 import com.zmy.diamond.utli.view.BaseDialog;
 
+import java.util.List;
+
 /**
  * APP更新工具类
  * Created by zhangmengyun on 2018/8/23.
@@ -42,52 +44,67 @@ public class UpdateAppUtlis {
             public void onSuccess(final Response<AppVersionBean> response) {
                 if (null != response.body()) {
                     if (response.body().getCode() == AppConstant.CODE_SUCCESS && null != response.body().getData()) {
-                        int newVersion = response.body().getData().getNew_version();
-                        int oldVersion = AppUtils.getAppVersionCode();
-                        if (oldVersion < newVersion && !TextUtils.isEmpty(response.body().getData().getDown_url())) {
-                            String updateContent = response.body().getData().getMessage();
-                            //设置更新地址更新标题更新内容
-//                            response.body().getData().setDown_url("http://test-1251233192.coscd.myqcloud.com/1_1.apk");
-                            final DownloadBuilder downloadBuilder = AllenVersionChecker
-                                    .getInstance()
-                                    .downloadOnly(
-                                            UIData.create().setDownloadUrl(response.body().getData().getDown_url())
-                                                    .setTitle("版本更新")
-                                                    .setContent(updateContent)
-                                    );
-                            if (response.body().getData().isNeed_update()) {
-                                //设置是否强制更新
-                                downloadBuilder.setForceUpdateListener(new ForceUpdateListener() {
-                                    @Override
-                                    public void onShouldForceUpdate() {
-                                        LogUtils.e("强制更新 ，取消了");
-                                    }
-                                });
-                            }
-                            //设置下载路径
-                            downloadBuilder.setDownloadAPKPath(MyUtlis.getAppFileDirPath() + "/");
-                            //设置有缓存也重新下载
-                            downloadBuilder.setForceRedownload(true);
-                            downloadBuilder.setCustomVersionDialogListener(createCustomDialogTwo(response.body().getData().isNeed_update()));
-                            downloadBuilder.setCustomDownloadingDialogListener(createCustomDownloadingDialog());
-//                            downloadBuilder.setCustomDownloadFailedListener(createCustomDownloadFailedDialog());
-                            downloadBuilder.setOnCancelListener(new OnCancelListener() {
-                                @Override
-                                public void onCancel() {
-                                    if (response.body().getData().isNeed_update()) {
-                                        //强制时取消更新
-                                        AppUtils.exitApp();
-                                    } else {
-                                        LogUtils.e("取消更新");
-//                                        ToastUtils.showShort("取消更新");
-                                    }
 
+                        List<AppVersionBean.DataBean> data = response.body().getData();
+
+                        for (int i = 0; i < data.size(); i++) {
+
+                            final AppVersionBean.DataBean dataBean = data.get(i);
+                            if (dataBean.getId() == AppConstant.update_apk_id_android) {
+
+                                int newVersion = dataBean.getNew_version();
+                                int oldVersion = AppUtils.getAppVersionCode();
+                                if (oldVersion < newVersion && !TextUtils.isEmpty(dataBean.getDown_url())) {
+                                    String updateContent = dataBean.getMessage();
+                                    //设置更新地址更新标题更新内容
+//                            response.body().getData().setDown_url("http://test-1251233192.coscd.myqcloud.com/1_1.apk");
+                                    final DownloadBuilder downloadBuilder = AllenVersionChecker
+                                            .getInstance()
+                                            .downloadOnly(
+                                                    UIData.create().setDownloadUrl(dataBean.getDown_url())
+                                                            .setTitle("版本更新")
+                                                            .setContent(updateContent)
+                                            );
+                                    if (dataBean.isNeed_update()) {
+                                        //设置是否强制更新
+                                        downloadBuilder.setForceUpdateListener(new ForceUpdateListener() {
+                                            @Override
+                                            public void onShouldForceUpdate() {
+                                                LogUtils.e("强制更新 ，取消了");
+                                            }
+                                        });
+                                    }
+                                    //设置下载路径
+                                    downloadBuilder.setDownloadAPKPath(MyUtlis.getAppFileDirPath() + "/");
+                                    //设置有缓存也重新下载
+                                    downloadBuilder.setForceRedownload(true);
+                                    downloadBuilder.setCustomVersionDialogListener(createCustomDialogTwo(dataBean.isNeed_update()));
+                                    downloadBuilder.setCustomDownloadingDialogListener(createCustomDownloadingDialog());
+//                            downloadBuilder.setCustomDownloadFailedListener(createCustomDownloadFailedDialog());
+                                    downloadBuilder.setOnCancelListener(new OnCancelListener() {
+                                        @Override
+                                        public void onCancel() {
+                                            if (dataBean.isNeed_update()) {
+                                                //强制时取消更新
+                                                AppUtils.exitApp();
+                                            } else {
+                                                LogUtils.e("取消更新");
+//                                        ToastUtils.showShort("取消更新");
+                                            }
+
+                                        }
+                                    });
+                                    downloadBuilder.excuteMission(activity);
+                                } else {
+                                    //服务端版本 等于或者小于当前版本,不更新
+                                    LogUtils.e("不需要更新");
                                 }
-                            });
-                            downloadBuilder.excuteMission(activity);
-                        } else {
-                            //服务端版本 等于或者小于当前版本,不更新
-                            LogUtils.e("不需要更新");
+
+
+                                break;
+                            }
+
+
                         }
 
 
