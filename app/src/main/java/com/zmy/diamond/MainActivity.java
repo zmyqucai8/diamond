@@ -110,9 +110,9 @@ public class MainActivity extends MyBaseActivity implements OnTabSelectListener 
     public void addListeners() {
         //Test start
 //        TestUtlis.test();
-//测试代码放这里
         if (AppConstant.DEBUG) {
-            ApiUtlis.getMapKey(this, MyUtlis.getToken(), 0, 0);
+//            ApiUtlis.getMapKey(this, MyUtlis.getToken(), AppConstant.MAP_KEY_TYPE_GAODE);
+//            ApiUtlis.getMapKey(this, MyUtlis.getToken(), AppConstant.MAP_KEY_TYPE_BAIDU);
         }
     }
 

@@ -34,7 +34,7 @@ public class JsonUtlis {
             jsonBean = new JsonBean_GaoDeMap();
             JSONObject json = new JSONObject(jsonStr);
 
-            jsonBean.setStatus(json.optString("status"));
+            jsonBean.setStatus(json.optInt("status"));
             jsonBean.setCount(json.optInt("count"));
             jsonBean.setInfo(json.optString("info"));
             jsonBean.setInfocode(json.optString("infocode"));

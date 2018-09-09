@@ -142,43 +142,49 @@ public class SplashActivity extends MyBaseActivity {
      * 登录
      */
     private void login() {
-        ApiUtlis.login(this, new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
+
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onSuccess(Response<LoginResponseBean> response) {
-                if (null != response.body()) {
-                    if (response.body().getCode() == AppConstant.CODE_SUCCESS && null != DaoUtlis.getCurrentLoginUser()) {
+            public void run() {
+
+                ApiUtlis.login(SplashActivity.this, new JsonCallBack<LoginResponseBean>(LoginResponseBean.class) {
+                    @Override
+                    public void onSuccess(Response<LoginResponseBean> response) {
+                        if (null != response.body()) {
+                            if (response.body().getCode() == AppConstant.CODE_SUCCESS && null != DaoUtlis.getCurrentLoginUser()) {
 //                        //更新本地用户信息
-                        boolean isShowGuide = SPUtils.getInstance().getBoolean(AppConstant.SPKey.IS_SHOW_GUIDE_PAGE);
-                        if (AppConstant.DEBUG) {
-                            isShowGuide = false;
-                        }
-                        if (!isShowGuide && AppConstant.isGuide) {
-                            GuideActivity.start(SplashActivity.this);
+                                boolean isShowGuide = SPUtils.getInstance().getBoolean(AppConstant.SPKey.IS_SHOW_GUIDE_PAGE);
+                                if (AppConstant.DEBUG) {
+                                    isShowGuide = false;
+                                }
+                                if (!isShowGuide && AppConstant.isGuide) {
+                                    GuideActivity.start(SplashActivity.this);
 
+                                } else {
+                                    MainActivity.start(SplashActivity.this);
+                                }
+                                ActivityUtils.finishActivity(SplashActivity.this);
+                            } else {
+                                showLoginError("\ncode=" + response.body().getCode() + "\nmsg=" + response.body().getMsg());
+                            }
                         } else {
-                            MainActivity.start(SplashActivity.this);
+                            showLoginError("");
                         }
-                        ActivityUtils.finishActivity(SplashActivity.this);
-                    } else {
-                        showLoginError("\ncode=" + response.body().getCode() + "\nmsg=" + response.body().getMsg());
                     }
-                } else {
-                    showLoginError("");
-                }
-            }
 
-            @Override
-            public void onStart(Request<LoginResponseBean, ? extends Request> request) {
-                super.onStart(request);
-                showLoading();
-            }
+                    @Override
+                    public void onStart(Request<LoginResponseBean, ? extends Request> request) {
+                        super.onStart(request);
+                        showLoading();
+                    }
 
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                hideLoading();
-            }
-        });
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        hideLoading();
+                    }
+                });
+
 
 //                                String last_login_user = SPUtils.getInstance().getString(AppConstant.SPKey.LAST_LOGIN_USER);
 ////获取最后一个登录的用户, 进行验证,判断是跳转到主页,还是登录页.
@@ -194,6 +200,8 @@ public class SplashActivity extends MyBaseActivity {
 //                                }
 //                                ActivityUtils.finishActivity(SplashActivity.this, true);
 
+            }
+        }, 500);
     }
 
 
@@ -228,5 +236,11 @@ public class SplashActivity extends MyBaseActivity {
     @Override
     public void onBackPressed() {
         ActivityUtils.startHomeActivity();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        hideLoading();
     }
 }

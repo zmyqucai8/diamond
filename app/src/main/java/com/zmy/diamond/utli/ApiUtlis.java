@@ -13,6 +13,7 @@ import com.zmy.diamond.utli.bean.AppVersionBean;
 import com.zmy.diamond.utli.bean.BankCardBean;
 import com.zmy.diamond.utli.bean.JoinVipResponseBean;
 import com.zmy.diamond.utli.bean.LoginResponseBean;
+import com.zmy.diamond.utli.bean.MapKeyJsonBean;
 import com.zmy.diamond.utli.bean.MyTradingModifyBean;
 import com.zmy.diamond.utli.bean.PublicResponseBean;
 import com.zmy.diamond.utli.bean.SystemTimeBean;
@@ -593,28 +594,59 @@ public class ApiUtlis {
      *
      * @param context
      * @param token
-     * @param page
      * @param mapType 0=百度 1=高德
      */
-    public static void getMapKey(Context context, String token, int page, int mapType) {
+    public static void getMapKey(Context context, String token, final int mapType,JsonCallBack<MapKeyJsonBean> callBack ) {
 
         Map<String, String> map = new TreeMap<>();
         map.put("token", token);
-        map.put("page", String.valueOf(page));
+        map.put("action", String.valueOf(1));
         map.put("map_type", String.valueOf(mapType));
+        map.put("status_excess", String.valueOf(false));
+        map.put("status_concurr", String.valueOf(false));
+        String sign = SignUtli.getSignature(map);
+        OkGo.<MapKeyJsonBean>post(AppConstant.Api.getMapKey)
+                .tag(context)
+                .params("sign", sign)
+                .params("token", token)
+                .params("action", 1)
+                .params("map_type", mapType)
+                .params("status_excess",false).params("status_concurr",false)
+                .execute(callBack);
+    }
+
+    /**
+     * 更新mapkey
+     * @param context
+     * @param token
+     * @param id
+     * @param status_excess 是否超额 true=超额 false=没超额
+     * @param status_concurr 是否并发 true=并发 fasle=没并发
+     */
+    public static void updateMapKey(Context context, String token, int id, boolean status_excess, boolean status_concurr) {
+
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        map.put("id", String.valueOf(id));
+        map.put("action", String.valueOf(2));
+        map.put("status_excess", String.valueOf(status_excess));
+        map.put("status_concurr", String.valueOf(status_concurr));
         String sign = SignUtli.getSignature(map);
         OkGo.<String>post(AppConstant.Api.getMapKey)
                 .tag(context)
                 .params("sign", sign)
                 .params("token", token)
-                .params("page", page)
-                .params("map_type", mapType)
+                .params("id", id)
+                .params("action", 2)
+                .params("status_excess", status_excess)
+                .params("status_concurr", status_concurr)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LogUtils.e("getMapKey=" + response.body());
+                        LogUtils.e("updateMapKey=" + response.body());
                     }
                 });
-
     }
+
+
 }

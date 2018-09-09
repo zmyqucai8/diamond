@@ -65,6 +65,13 @@ public class AppConstant {
 
 
     /**
+     * MapKey Type  0=百度 1=高德
+     */
+    public static final int MAP_KEY_TYPE_BAIDU=0;
+    public static final int MAP_KEY_TYPE_GAODE=1;
+
+
+    /**
      * 请求HTTP 成功的响应吗
      */
     public static final int CODE_SUCCESS = 200;
@@ -320,7 +327,7 @@ public class AppConstant {
         /**
          * 获取地图key列表
          */
-        public static final String getMapKey = HOST + "/poi/api/getMapKey";
+        public static final String getMapKey = HOST + "/poi/api/operaMapKey";
 
 
         /**
@@ -464,6 +471,10 @@ public class AppConstant {
      * 平台数据, 数据长度要一一对应起来
      */
     public static class Platform {
+
+
+
+
         /**
          * 平台名称
          */
@@ -477,6 +488,10 @@ public class AppConstant {
          * 平台id
          */
         public static final int[] PLATFORM_ID = {1, 2};
+
+        public static final int PLATFORM_GAODE=2;
+        public static final int PLATFORM_BAIDU=1;
+
         /**
          * 平台图标
          */

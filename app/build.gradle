@@ -19,7 +19,7 @@ android {
     }
 
     greendao {
-        schemaVersion 12
+        schemaVersion 14
     }
     buildTypes {
         release {

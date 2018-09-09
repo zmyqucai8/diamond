@@ -5,7 +5,9 @@ import android.text.TextUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.Utils;
 import com.zmy.diamond.base.BaseApp;
+import com.zmy.diamond.utli.ApiUtlis;
 import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.bean.CollectCityBean;
@@ -22,6 +24,8 @@ import com.zmy.diamond.utli.bean.InfoDataBean;
 import com.zmy.diamond.utli.bean.InfoMenuBean;
 import com.zmy.diamond.utli.bean.InfoNoticeBean;
 import com.zmy.diamond.utli.bean.LocationBean;
+import com.zmy.diamond.utli.bean.MapKeyBean;
+import com.zmy.diamond.utli.bean.MapKeyBeanDao;
 import com.zmy.diamond.utli.bean.UserBean;
 import com.zmy.diamond.utli.bean.UserBeanDao;
 
@@ -403,7 +407,7 @@ public class DaoUtlis {
             getDaoSession().getDataBeanDao().insertOrReplaceInTx(beanList);
 
 //            //更新获取的数据总数
-            MyUtlis.updateAllDataCont(beanList.size(),true);
+            MyUtlis.updateAllDataCont(beanList.size(), true);
 //
 //
             return true;
@@ -825,6 +829,132 @@ public class DaoUtlis {
             LogUtils.e("插入更新采集城市的信息数据 失败=" + collectCityBean.getCollectCity());
             return false;
         }
+    }
+
+
+    /**
+     * 添加更新mapkey
+     *
+     * @param bean
+     * @return
+     */
+    public static boolean addMapKey(List<MapKeyBean> bean) {
+        if (null == bean) {
+            return false;
+        }
+        //判断一下新的mapkey 和原来的mapKey
+//        List<MapKeyBean> oldMapKeyList= getDaoSession().getMapKeyBeanDao().queryBuilder().build().list();
+//        if(bean.size()>0&&null!=oldMapKeyList&&oldMapKeyList.size()>0){
+//
+//            for(MapKeyBean newBean:bean){
+//                for(MapKeyBean oldBean:oldMapKeyList){
+//                    if(oldBean.getMapType()==newBean.getMapType() &&oldBean.getMapKey().equals(newBean.getMapKey())){
+//
+//                        //mapType和mapkey一致认为同一个数据.使用本地的状态？不需要啊。
+//                        newBean.setStatus_concurr(oldBean.getStatus_concurr());
+//                        newBean.setStatus_excess(oldBean.getStatus_excess());
+//                    }
+//
+//
+//                }
+//
+//            }
+//
+//
+//        }
+
+        //直接删除原有key
+        getDaoSession().getMapKeyBeanDao().deleteAll();
+
+        try {
+            getDaoSession().getMapKeyBeanDao().insertOrReplaceInTx(bean);
+            LogUtils.e("addMapKey 成功=" + bean.size());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtils.e("addMapKey 失败=" + bean.size());
+            return false;
+        }
+    }
+
+    /**
+     * 获取数据库中，mapType= 且不是超额和并发状态的数据
+     *
+     * @param mapType
+     * @return
+     */
+    public static List<MapKeyBean> getMapKey(int mapType) {
+
+        //查询数据库中，mapType= 且不是超额和并发状态的数据
+        List<MapKeyBean> list = new ArrayList<>();
+        try {
+            list = getDaoSession().getMapKeyBeanDao().queryBuilder().where(MapKeyBeanDao.Properties.MapType.eq(mapType), MapKeyBeanDao.Properties.Status_concurr.eq(false), MapKeyBeanDao.Properties.Status_excess.eq(false)).build().list();
+            LogUtils.e("getMapKey 成功=" + list.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtils.e("getMapKey 失败");
+        }
+        return list;
+
+    }
+
+    /**
+     * 获取一个可用的mapkey
+     *
+     * @param mapType
+     * @return
+     */
+    public static String getMapKey2(int mapType) {
+        List<MapKeyBean> mapKeyList = getMapKey(mapType);
+        String mapKey = "";
+        if (null != mapKeyList && mapKeyList.size() > 0) {
+            mapKey = mapKeyList.get(0).getMapKey();
+        } else {
+//            mapKey = mapType == AppConstant.MAP_KEY_TYPE_BAIDU ? AppConstant.Platform.KEY_BAIDU_MAP : AppConstant.Platform.KEY_GAODE_MAP;
+        }
+        LogUtils.e("getMapKey2=" + mapKey);
+        return mapKey;
+    }
+
+    /**
+     * @param mapType
+     * @param mapKey
+     * @param Status_concurr 是否并发
+     * @param Status_excess  是否超额
+     */
+    public static void updateMapKey(int mapType, String mapKey, boolean Status_concurr, boolean Status_excess) {
+
+        try {
+            MapKeyBean keyBean = getDaoSession().getMapKeyBeanDao().queryBuilder().where(MapKeyBeanDao.Properties.MapType.eq(mapType), MapKeyBeanDao.Properties.MapKey.eq(mapKey)).build().unique();
+            keyBean.setStatus_excess(Status_excess);
+            keyBean.setStatus_concurr(Status_concurr);
+            getDaoSession().getMapKeyBeanDao().insertOrReplace(keyBean);
+            ApiUtlis.updateMapKey(Utils.getApp(), MyUtlis.getToken(), keyBean.getMapKeyId(), Status_excess, Status_concurr);
+            LogUtils.e("更新本地mapKey成功=" + mapKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtils.e("更新本地mapKey失败=" + mapKey);
+        }
+    }
+
+
+    /**
+     * 删除mapkey
+     * @param mapType
+     * @param mapKey
+     * @return
+     */
+    public static boolean deleteMapKey(int mapType, String mapKey) {
+        try {
+            MapKeyBean keyBean = getDaoSession().getMapKeyBeanDao().queryBuilder().where(MapKeyBeanDao.Properties.MapType.eq(mapType), MapKeyBeanDao.Properties.MapKey.eq(mapKey)).build().unique();
+            if (null != keyBean) {
+                getDaoSession().getMapKeyBeanDao().delete(keyBean);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
 

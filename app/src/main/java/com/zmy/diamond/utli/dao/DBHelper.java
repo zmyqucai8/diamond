@@ -8,6 +8,7 @@ import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.bean.CollectCityBeanDao;
 import com.zmy.diamond.utli.bean.CollectRecordBeanDao;
 import com.zmy.diamond.utli.bean.DaoMaster;
+import com.zmy.diamond.utli.bean.MapKeyBeanDao;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -51,6 +52,10 @@ public class DBHelper extends DaoMaster.OpenHelper {
 
             if (oldVersion < 12) {
                 CollectCityBeanDao.createTable(db, true);
+            }
+
+            if (oldVersion < 14) {
+                MapKeyBeanDao.createTable(db, true);
             }
 
 //            if (oldVersion < 4) {

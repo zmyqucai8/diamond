@@ -9,6 +9,15 @@ import java.util.List;
 public class AppVersionBean {
 
 
+    @Override
+    public String toString() {
+        return "AppVersionBean{" +
+                "msg='" + msg + '\'' +
+                ", code=" + code +
+                ", data=" + data +
+                '}';
+    }
+
     /**
      * msg : 成功
      * code : 200
@@ -26,7 +35,7 @@ public class AppVersionBean {
      */
 
     private List<DataBean> data;
-
+    
     public String getMsg() {
         return msg;
     }
@@ -52,6 +61,17 @@ public class AppVersionBean {
     }
 
     public static class DataBean {
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "need_update=" + need_update +
+                    ", down_url='" + down_url + '\'' +
+                    ", id=" + id +
+                    ", new_version=" + new_version +
+                    ", message='" + message + '\'' +
+                    '}';
+        }
+
         private boolean need_update;
         private String down_url;
         private int id;

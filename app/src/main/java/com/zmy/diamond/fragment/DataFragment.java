@@ -7,16 +7,22 @@ import android.support.v7.widget.RecyclerView;
 import com.blankj.utilcode.util.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.zmy.diamond.R;
 import com.zmy.diamond.adapter.HomeDataAdapter;
 import com.zmy.diamond.base.BaseApp;
 import com.zmy.diamond.base.MyBaseFragment;
+import com.zmy.diamond.utli.ApiUtlis;
 import com.zmy.diamond.utli.AppConstant;
 import com.zmy.diamond.utli.CollectUtlis;
+import com.zmy.diamond.utli.JsonCallBack;
 import com.zmy.diamond.utli.MessageEvent;
 import com.zmy.diamond.utli.MyLinearLayoutManager;
 import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.bean.DataBean;
+import com.zmy.diamond.utli.bean.MapKeyBean;
+import com.zmy.diamond.utli.bean.MapKeyJsonBean;
 import com.zmy.diamond.utli.bean.PlatformBean;
 import com.zmy.diamond.utli.bean.UserBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
@@ -125,8 +131,79 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
      * @param city
      * @param key
      */
-    public void startCollect(String city, String key) {
+    public void startCollect(final String city, final String key) {
         LogUtils.e(bean.name + " 开始采集 city=" + city + " key=" + key);
+
+
+        //1.每次开始采集前先从服务端获取对应平台的key
+        int mapType = -1;
+        if (bean.platformId == AppConstant.Platform.PLATFORM_BAIDU) {
+            mapType = AppConstant.MAP_KEY_TYPE_BAIDU;
+        } else if (bean.platformId == AppConstant.Platform.PLATFORM_GAODE) {
+            mapType = AppConstant.MAP_KEY_TYPE_GAODE;
+        }
+        if (mapType == -1) {
+            MyUtlis.eventCollectError();
+            return;
+        }
+
+        ApiUtlis.getMapKey(getContext(), MyUtlis.getToken(), mapType, new JsonCallBack<MapKeyJsonBean>(MapKeyJsonBean.class) {
+            @Override
+            public void onStart(Request<MapKeyJsonBean, ? extends Request> request) {
+                super.onStart(request);
+                LogUtils.e("getMapKey=onStart");
+            }
+
+            @Override
+            public void onSuccess(Response<MapKeyJsonBean> response) {
+                LogUtils.e("getMapKey=onSuccess");
+
+                //更新本地mapkey
+                if (null != response.body() && null != response.body().getData() && response.body().getData().size() > 0) {
+                    List<MapKeyBean> list = new ArrayList<MapKeyBean>();
+                    for (int i = 0; i < response.body().getData().size(); i++) {
+                        MapKeyJsonBean.DataBean dataBean = response.body().getData().get(i);
+                        MapKeyBean bean = new MapKeyBean();
+                        bean.setUserId(user.getUserId());
+                        bean.setMapKeyId(dataBean.getId());
+                        bean.setMapKey(dataBean.getMap_key());
+                        bean.setMapType(dataBean.getMap_type());
+                        bean.setStatus_concurr(dataBean.isStatus_concurr());
+                        bean.setStatus_excess(dataBean.isStatus_excess());
+                        LogUtils.e(bean.toString());
+                        list.add(bean);
+                    }
+                    DaoUtlis.addMapKey(list);
+
+                }
+            }
+
+            @Override
+            public void onError(Response<MapKeyJsonBean> response) {
+                super.onError(response);
+
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                LogUtils.e("getMapKey=onFinish");
+                collect(city,key);
+            }
+        });
+
+
+
+
+    }
+
+
+    /**
+     * 采集
+     * @param city
+     * @param key
+     */
+    private void collect(String city, String key) {
 
         BaseApp.currentDownloadDataCount = 0;
         isCollectIng = true;
@@ -150,7 +227,6 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
 //                MyUtlis.eventCollectComplete();
                 MyUtlis.showShortSimple(getActivity(), getString(R.string.hint_data_collect_ok, bean.name));
                 MyUtlis.eventCollectComplete();
-
                 MyUtlis.uploadDownNumber(getContext());
             }
 
@@ -164,8 +240,6 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
 
             }
         });
-
-
     }
 
 

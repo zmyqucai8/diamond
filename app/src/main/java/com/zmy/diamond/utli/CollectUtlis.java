@@ -687,8 +687,12 @@ public class CollectUtlis {
 //        city = city.contains(" ") ? city.substring(city.indexOf(" "), city.length()) : city;
 //        LogUtils.e("city2=" + city);
         try {
+            String mapKey = DaoUtlis.getMapKey2(AppConstant.MAP_KEY_TYPE_GAODE);
+            if (TextUtils.isEmpty(mapKey)) {
+                return null;
+            }
             okhttp3.Response response = OkGo.<JsonBean_GaoDeMap>get(url).tag(this)
-                    .params("key", AppConstant.Platform.KEY_GAODE_MAP)
+                    .params("key", mapKey)
                     .params("polygon", polygon)
                     .params("keywords", key)
                     .params("types", "")
@@ -700,9 +704,43 @@ public class CollectUtlis {
                     .execute();
 
             String result = response.body().string();
-//            LogUtils.e("高度地图=" + result);
-            return JsonUtlis.fromJsonGaoDe(result);
-//            return new Gson().fromJson(result, JsonBean_GaoDeMap.class);
+            JsonBean_GaoDeMap jsonBean_gaoDeMap = JsonUtlis.fromJsonGaoDe(result);
+
+
+            // 判断请求状态类型 是否超额，是否并发
+            //10000 请求正常
+            //10003 访问已超出日访问量
+            //10004 单位时间内访问过于频繁
+            //10016 服务器负载过高，请稍后再试
+            //10019-10023:key超额
+            switch (jsonBean_gaoDeMap.getStatus()) {
+                case 10003:
+                case 10019:
+                case 10020:
+                case 10021:
+                case 10022:
+                case 10023:
+                    //超额
+                    DaoUtlis.updateMapKey(AppConstant.MAP_KEY_TYPE_GAODE, mapKey, false, true);
+                    return httpGetGaoDeMapData(centerLatLng, city, key, pageNum);
+                case 10004:
+                case 10016:
+                    //并发
+                    DaoUtlis.updateMapKey(AppConstant.MAP_KEY_TYPE_GAODE, mapKey, true, false);
+                    return httpGetGaoDeMapData(centerLatLng, city, key, pageNum);
+                case 10000:
+                    //正常
+                    return jsonBean_gaoDeMap;
+                default:
+                    //其他错误 ，删掉本地的key，继续取本地下一个key
+                    LogUtils.e("请求地图API 错误=" + jsonBean_gaoDeMap.getStatus());
+                    boolean b = DaoUtlis.deleteMapKey(AppConstant.MAP_KEY_TYPE_GAODE, mapKey);
+                    if (b) {
+                        return httpGetGaoDeMapData(centerLatLng, city, key, pageNum);
+                    }
+
+                    return null;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -729,23 +767,54 @@ public class CollectUtlis {
         //子线程中, 同步请求
         String url = "http://api.map.baidu.com/place/v2/search";
         try {
+            String mapKey = DaoUtlis.getMapKey2(AppConstant.MAP_KEY_TYPE_BAIDU);
+            if (TextUtils.isEmpty(mapKey)) {
+                return null;
+            }
             okhttp3.Response response = OkGo.<JsonBean_BaiDuMap>get(url).tag(this)
                     .params("query", key)
-                    //                .params("bounds", bounds)
                     .params("bounds", bounds)
                     .params("output", "json")
                     .params("page_size", 20)//每页数据量
                     .params("page_num", pageNum)
-                    .params("ak", AppConstant.Platform.KEY_BAIDU_MAP)
+                    .params("ak", mapKey)
                     .execute();
 
-
             String result = response.body().string();
-            //todo:判断请求状态类型。
-//            JsonBean_BaiDuMap jsonBean_baiDuMap = new Gson().fromJson(result, JsonBean_BaiDuMap.class);
+            // 判断请求状态类型 是否超额，是否并发
+            JsonBean_BaiDuMap jsonBean_baiDuMap = new Gson().fromJson(result, JsonBean_BaiDuMap.class);
 
+//            301 	永久配额超限，限制访问 	配额超限，如果想增加配额请联系我们
+//            302 	天配额超限，限制访问 	配额超限，如果想增加配额请联系我们
+//            401 	当前并发量已经超过约定并发配额，限制访问 	并发控制超限，请控制并发量或联系我们
+//            402 	当前并发量已经超过约定并发配额，并且服务总并发量也已经超过设定的总并发配额，限制访问 	并发控制超限，请控制并发量或联系我们
+            switch (jsonBean_baiDuMap.getStatus()) {
+                case 301:
+                case 302:
+                    //超额
+                    DaoUtlis.updateMapKey(AppConstant.MAP_KEY_TYPE_BAIDU, mapKey, false, true);
 
-            return new Gson().fromJson(result, JsonBean_BaiDuMap.class);
+                    return httpGetBaiDuMapData(bounds, city, key, pageNum);
+                case 401:
+                case 402:
+                    //并发
+                    DaoUtlis.updateMapKey(AppConstant.MAP_KEY_TYPE_BAIDU, mapKey, true, false);
+                    return httpGetBaiDuMapData(bounds, city, key, pageNum);
+
+                case 0:
+                    //正常
+                    return jsonBean_baiDuMap;
+                default:
+                    //其他错误 ，删掉本地的key，继续取本地下一个key
+                    LogUtils.e("请求地图API 错误=" + jsonBean_baiDuMap.getStatus());
+                    boolean b = DaoUtlis.deleteMapKey(AppConstant.MAP_KEY_TYPE_BAIDU, mapKey);
+                    if (b) {
+                        return httpGetBaiDuMapData(bounds, city, key, pageNum);
+                    }
+
+                    return null;
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

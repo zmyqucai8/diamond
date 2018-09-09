@@ -264,8 +264,6 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
 
 
         }
-
-
         hidePlatformMenu();
         isCollectIng = true;
         loadingView.show();
