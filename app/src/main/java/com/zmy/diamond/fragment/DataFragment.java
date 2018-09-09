@@ -111,6 +111,13 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
         MyUtlis.eventUpdatePlatfromDataCount();
     }
 
+    public void reLoad(UserBean user) {
+
+        this.user=user;
+        dataAdapter.setUser(user);
+        dataAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void addListeners() {
 
@@ -188,11 +195,9 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
             public void onFinish() {
                 super.onFinish();
                 LogUtils.e("getMapKey=onFinish");
-                collect(city,key);
+                collect(city, key);
             }
         });
-
-
 
 
     }
@@ -200,6 +205,7 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
 
     /**
      * 采集
+     *
      * @param city
      * @param key
      */

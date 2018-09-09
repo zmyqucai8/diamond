@@ -162,7 +162,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
-        if (event.eventType == MessageEvent.UPDATE_HOME_DATA || event.eventType == MessageEvent.UPDATE_LOGIN_USER_INFO) {
+        if (event.eventType == MessageEvent.UPDATE_HOME_DATA) {
             LogUtils.e("首页刷新数据");
             //重置所有平台数据
             user = DaoUtlis.getCurrentLoginUser();
@@ -187,6 +187,13 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
         } else if (event.eventType == MessageEvent.COLLECT_ERROR) {
             isCollectIng = false;
             loadingView.hide();
+        } else if (event.eventType == MessageEvent.UPDATE_LOGIN_USER_INFO) {
+            //刷新用户信息了
+            user = DaoUtlis.getCurrentLoginUser();
+            for (int i = 0; i < mFragments.size(); i++) {
+                DataFragment dataFragment = (DataFragment) mFragments.get(i);
+                dataFragment.reLoad(user);
+            }
         }
     }
 
@@ -232,8 +239,8 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
         int downNumber = user.getDownNumber();
 //        downNumber = 100;
 //        vipCollectCount = 1;
-        if (downNumber >= vipCollectCount) {
-
+//        if (downNumber >= vipCollectCount) {
+        if (true) {
             //1.超出再判断vip等级
             String content = "";
             String[] text = null;

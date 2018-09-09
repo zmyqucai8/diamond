@@ -32,6 +32,7 @@ public class HomeDataAdapter extends BaseQuickAdapter<DataBean, BaseViewHolder> 
         this.mUser = user;
     }
 
+
     @Override
     protected void convert(BaseViewHolder helper, final DataBean item) {
         helper
@@ -79,5 +80,9 @@ public class HomeDataAdapter extends BaseQuickAdapter<DataBean, BaseViewHolder> 
      */
     public void setPhoneTelShowType(int showType) {
         this.mPhoneTelShowType = showType;
+    }
+
+    public void setUser(UserBean user) {
+        this.mUser = user;
     }
 }

@@ -686,11 +686,12 @@ public class CollectUtlis {
 //        LogUtils.e("city1=" + city);
 //        city = city.contains(" ") ? city.substring(city.indexOf(" "), city.length()) : city;
 //        LogUtils.e("city2=" + city);
+        String mapKey = DaoUtlis.getMapKey2(AppConstant.MAP_KEY_TYPE_GAODE);
+        if (TextUtils.isEmpty(mapKey)) {
+            return null;
+        }
         try {
-            String mapKey = DaoUtlis.getMapKey2(AppConstant.MAP_KEY_TYPE_GAODE);
-            if (TextUtils.isEmpty(mapKey)) {
-                return null;
-            }
+
             okhttp3.Response response = OkGo.<JsonBean_GaoDeMap>get(url).tag(this)
                     .params("key", mapKey)
                     .params("polygon", polygon)
@@ -706,6 +707,9 @@ public class CollectUtlis {
             String result = response.body().string();
             JsonBean_GaoDeMap jsonBean_gaoDeMap = JsonUtlis.fromJsonGaoDe(result);
 
+            if (null == jsonBean_gaoDeMap) {
+                jsonBean_gaoDeMap = new JsonBean_GaoDeMap();
+            }
 
             // 判断请求状态类型 是否超额，是否并发
             //10000 请求正常
@@ -744,6 +748,12 @@ public class CollectUtlis {
 
         } catch (Exception e) {
             e.printStackTrace();
+            //其他错误 ，删掉本地的key，继续取本地下一个key
+            LogUtils.e("请求高德数据错误");
+            boolean b = DaoUtlis.deleteMapKey(AppConstant.MAP_KEY_TYPE_GAODE, mapKey);
+            if (b) {
+                return httpGetGaoDeMapData(centerLatLng, city, key, pageNum);
+            }
         }
 
         return null;
@@ -766,11 +776,11 @@ public class CollectUtlis {
 
         //子线程中, 同步请求
         String url = "http://api.map.baidu.com/place/v2/search";
+        String mapKey = DaoUtlis.getMapKey2(AppConstant.MAP_KEY_TYPE_BAIDU);
+        if (TextUtils.isEmpty(mapKey)) {
+            return null;
+        }
         try {
-            String mapKey = DaoUtlis.getMapKey2(AppConstant.MAP_KEY_TYPE_BAIDU);
-            if (TextUtils.isEmpty(mapKey)) {
-                return null;
-            }
             okhttp3.Response response = OkGo.<JsonBean_BaiDuMap>get(url).tag(this)
                     .params("query", key)
                     .params("bounds", bounds)
@@ -818,6 +828,14 @@ public class CollectUtlis {
 
         } catch (Exception e) {
             e.printStackTrace();
+
+            LogUtils.e("请求百度地图错误");
+            boolean b = DaoUtlis.deleteMapKey(AppConstant.MAP_KEY_TYPE_BAIDU, mapKey);
+            if (b) {
+                return httpGetBaiDuMapData(bounds, city, key, pageNum);
+            }
+
+
         }
 
         return null;

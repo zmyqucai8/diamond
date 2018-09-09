@@ -2929,6 +2929,7 @@ public class MyUtlis {
      * @return
      */
     public static boolean isVipCollectCountBeyond() {
+//        return false;
         UserBean user = DaoUtlis.getCurrentLoginUser();
         if (null != user) {
             int grade = user.getGrade();
