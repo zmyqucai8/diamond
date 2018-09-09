@@ -329,6 +329,11 @@ public class AppConstant {
          */
         public static final String getMapKey = HOST + "/poi/api/operaMapKey";
 
+        /**
+         * 获取vip价格
+         */
+        public static final String getVipPrice = HOST + "/poi/api/getVipPrice";
+
 
         /**
          * 操作发布
@@ -427,6 +432,10 @@ public class AppConstant {
          * 登录token
          */
         public static final String TOKEN = "token";
+        /**
+         * 签名key
+         */
+        public static final String SIGN_KEY = "sign_key";
         /**
          * 最后一个选择的平台索引, 注意不是id
          */

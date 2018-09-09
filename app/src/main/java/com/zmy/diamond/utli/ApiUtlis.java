@@ -20,6 +20,7 @@ import com.zmy.diamond.utli.bean.SystemTimeBean;
 import com.zmy.diamond.utli.bean.TradingDataBean;
 import com.zmy.diamond.utli.bean.UserBean;
 import com.zmy.diamond.utli.bean.VipOrderQueryBean;
+import com.zmy.diamond.utli.bean.VipPriceJsonBean;
 import com.zmy.diamond.utli.bean.WalletDetailsBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
 
@@ -43,6 +44,7 @@ public class ApiUtlis {
         String macAddress = DeviceUtils.getMacAddress();
         LogUtils.e("macAddress=" + macAddress);
 
+//        macAddress="50:04:b8:78:ab:c1";
         OkGo.<LoginResponseBean>post(AppConstant.Api.login)
                 .tag(context)
 //                .params("sign", SignUtli.getSignature(new String[]{macAddress}))
@@ -78,6 +80,7 @@ public class ApiUtlis {
                         if (addUser) {
                             MyUtlis.setLoginUserId(userBean.getUserId());
                             MyUtlis.setToken(userBean.getToken());
+                            MyUtlis.setSignKey(data.getSign_key());
                             callback.onSuccess(response);
                         } else {
 ////                        login();
@@ -596,7 +599,7 @@ public class ApiUtlis {
      * @param token
      * @param mapType 0=百度 1=高德
      */
-    public static void getMapKey(Context context, String token, final int mapType,JsonCallBack<MapKeyJsonBean> callBack ) {
+    public static void getMapKey(Context context, String token, final int mapType, JsonCallBack<MapKeyJsonBean> callBack) {
 
         Map<String, String> map = new TreeMap<>();
         map.put("token", token);
@@ -611,16 +614,17 @@ public class ApiUtlis {
                 .params("token", token)
                 .params("action", 1)
                 .params("map_type", mapType)
-                .params("status_excess",false).params("status_concurr",false)
+                .params("status_excess", false).params("status_concurr", false)
                 .execute(callBack);
     }
 
     /**
      * 更新mapkey
+     *
      * @param context
      * @param token
      * @param id
-     * @param status_excess 是否超额 true=超额 false=没超额
+     * @param status_excess  是否超额 true=超额 false=没超额
      * @param status_concurr 是否并发 true=并发 fasle=没并发
      */
     public static void updateMapKey(Context context, String token, int id, boolean status_excess, boolean status_concurr) {
@@ -646,6 +650,26 @@ public class ApiUtlis {
                         LogUtils.e("updateMapKey=" + response.body());
                     }
                 });
+    }
+
+
+    /**
+     * 获取vip价格
+     *
+     * @param context
+     */
+
+    public static void getVipPrice(Context context, JsonCallBack<VipPriceJsonBean> callBack) {
+
+        String token = MyUtlis.getToken();
+        Map<String, String> map = new TreeMap<>();
+        map.put("token", token);
+        String sign = SignUtli.getSignature(map);
+        OkGo.<VipPriceJsonBean>post(AppConstant.Api.getVipPrice)
+                .tag(context)
+                .params("sign", sign)
+                .params("token", token)
+                .execute(callBack);
     }
 
 

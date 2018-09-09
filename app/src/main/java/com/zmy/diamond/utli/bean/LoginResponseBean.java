@@ -92,6 +92,16 @@ public class LoginResponseBean {
                     '}';
         }
 
+
+        public String getSign_key() {
+            return sign_key;
+        }
+
+        public void setSign_key(String sign_key) {
+            this.sign_key = sign_key;
+        }
+
+        private String sign_key;
         private long vip_time;
         private long sigin_time;
         private long rigister_time;

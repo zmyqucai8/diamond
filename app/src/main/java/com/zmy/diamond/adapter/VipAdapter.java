@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zmy.diamond.R;
 import com.zmy.diamond.utli.MyUtlis;
-import com.zmy.diamond.utli.bean.VipBean;
+import com.zmy.diamond.utli.bean.VipPriceJsonBean;
 
 import java.util.List;
 
@@ -15,17 +15,17 @@ import java.util.List;
  * Created by zhangmengyun on 2018/6/13.
  */
 
-public class VipAdapter extends BaseQuickAdapter<VipBean, BaseViewHolder> {
+public class VipAdapter extends BaseQuickAdapter<VipPriceJsonBean.DataBean, BaseViewHolder> {
 
-    public VipAdapter(@Nullable List<VipBean> data) {
+    public VipAdapter(@Nullable List<VipPriceJsonBean.DataBean> data) {
         super(R.layout.item_vip, data);
     }
 
     @Override
-    protected void convert(final BaseViewHolder helper, final VipBean item) {
+    protected void convert(final BaseViewHolder helper, final VipPriceJsonBean.DataBean item) {
         helper
-                .setText(R.id.tv_name, item.name)
-                .setText(R.id.tv_price_des, item.price_des)
+                .setText(R.id.tv_name, item.getMessage())
+                .setText(R.id.tv_price_des, item.getPrice())
                 .setTypeface(R.id.tv_ttf_vip_r, MyUtlis.getTTF());
     }
 }

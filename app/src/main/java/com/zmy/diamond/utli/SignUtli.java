@@ -21,7 +21,7 @@ public class SignUtli {
      * @return
      */
     public static String getSignature(Map<String, String> paramMap) {
-        String signStr = API_KEY;
+        String signStr = MyUtlis.getSignKey();
         for (String value : paramMap.values()) {
 //            System.out.println(value);
             signStr = signStr + value;

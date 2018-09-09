@@ -91,7 +91,6 @@ import com.zmy.diamond.utli.bean.LoginResponseBean;
 import com.zmy.diamond.utli.bean.PlatformBean;
 import com.zmy.diamond.utli.bean.TradingDataBean;
 import com.zmy.diamond.utli.bean.UserBean;
-import com.zmy.diamond.utli.bean.VipBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
 import com.zmy.diamond.utli.view.loading_button.customViews.CircularProgressButton;
 import com.zmy.diamond.utli.view.loading_button.interfaces.OnAnimationEndListener;
@@ -328,28 +327,28 @@ public class MyUtlis {
      *
      * @return
      */
-    public static List<VipBean> getVipItemData() {
-        List<VipBean> vipBeanList = new ArrayList<>();
-        String[] names = {"黄金会员", "白金会员"};
-        String[] price_des = {"1998/年，每天可采集1万条数据", "2998/年，每天可采集4万条数据"};
-        int[] grade = {1, 2};
-        int[] monthCount = {12, 12};
-        int[] price = {1998, 2998};
-        for (int i = 0; i < names.length; i++) {
-            VipBean bean = new VipBean();
-            bean.name = names[i];
-            bean.price_des = price_des[i];
-            bean.grade = grade[i];
-            bean.price = price[i];
-            bean.monthCount = monthCount[i];
-            if (i == 0) {
-                bean.isCheck = true;
-            }
-            vipBeanList.add(bean);
-        }
-        return vipBeanList;
-
-    }
+//    public static List<VipBean> getVipItemData() {
+//        List<VipBean> vipBeanList = new ArrayList<>();
+//        String[] names = {"黄金会员", "白金会员"};
+//        String[] price_des = {"1998/年，每天可采集1万条数据", "2998/年，每天可采集4万条数据"};
+//        int[] grade = {1, 2};
+//        int[] monthCount = {12, 12};
+//        int[] price = {1998, 2998};
+//        for (int i = 0; i < names.length; i++) {
+//            VipBean bean = new VipBean();
+//            bean.name = names[i];
+//            bean.price_des = price_des[i];
+//            bean.grade = grade[i];
+//            bean.price = price[i];
+//            bean.monthCount = monthCount[i];
+//            if (i == 0) {
+//                bean.isCheck = true;
+//            }
+//            vipBeanList.add(bean);
+//        }
+//        return vipBeanList;
+//
+//    }
 
 
     /**
@@ -1402,6 +1401,19 @@ public class MyUtlis {
         SPUtils.getInstance().put(AppConstant.SPKey.TOKEN, token);
     }
 
+    /**
+     * 设置SignKey
+     */
+    public static void setSignKey(String signKey) {
+        SPUtils.getInstance().put(AppConstant.SPKey.SIGN_KEY, signKey);
+    }
+
+    /**
+     * 获取SignKey
+     */
+    public static String getSignKey() {
+        return SPUtils.getInstance().getString(AppConstant.SPKey.SIGN_KEY, "");
+    }
 
     /**
      * 采集数据event

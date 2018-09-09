@@ -2,7 +2,6 @@ package com.zmy.diamond.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,19 +9,27 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.zmy.diamond.R;
 import com.zmy.diamond.adapter.VipAdapter;
 import com.zmy.diamond.base.MyBaseSwipeBackActivity;
+import com.zmy.diamond.utli.ApiUtlis;
 import com.zmy.diamond.utli.AppConstant;
+import com.zmy.diamond.utli.JsonCallBack;
 import com.zmy.diamond.utli.MessageEvent;
 import com.zmy.diamond.utli.MyUtlis;
 import com.zmy.diamond.utli.bean.UserBean;
+import com.zmy.diamond.utli.bean.VipPriceJsonBean;
 import com.zmy.diamond.utli.dao.DaoUtlis;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,44 +59,72 @@ public class VipActivity extends MyBaseSwipeBackActivity {
         EventBus.getDefault().register(this);
         tv_back.setTypeface(MyUtlis.getTTF());
         tv_title.setText(getString(R.string.title_vip));
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-    }
 
+
+        vipAdapter = new VipAdapter(new ArrayList<VipPriceJsonBean.DataBean>());
+        vipAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        vipAdapter.addHeaderView(getVipHeadView());
+        recyclerView.setAdapter(vipAdapter);
+        setVip();
+        vipAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                PayActivity.start(VipActivity.this, vipAdapter.getData().get(position).getGrade());
+
+            }
+        });
+
+
+    }
 
 
     @Override
     public void initData() {
 
 
-        user = DaoUtlis.getCurrentLoginUser();
-
-        vipAdapter = new VipAdapter(MyUtlis.getVipItemData());
-        vipAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-        vipAdapter.addHeaderView(getVipHeadView());
-        new Handler().postDelayed(new Runnable() {
+        ApiUtlis.getVipPrice(this, new JsonCallBack<VipPriceJsonBean>(VipPriceJsonBean.class) {
             @Override
-            public void run() {
-                recyclerView.setAdapter(vipAdapter);
+            public void onSuccess(Response<VipPriceJsonBean> response) {
+
+
+                if (null != response.body()) {
+
+                    if (response.body().getCode() == AppConstant.CODE_SUCCESS && null != response.body().getData()) {
+                        vipAdapter.setNewData(response.body().getData());
+                    } else {
+
+                        ToastUtils.showShort(response.body().getMsg());
+
+                    }
+
+                }
+
+
             }
-        }, 0);
 
-        vipAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onStart(Request<VipPriceJsonBean, ? extends Request> request) {
+                super.onStart(request);
+//                showLoading();
+            }
 
-                PayActivity.start(VipActivity.this, vipAdapter.getData().get(position).grade);
-
+            @Override
+            public void onFinish() {
+                super.onFinish();
+//                hideLoading();
             }
         });
 
-
-        setVip();
     }
 
     //1=黄金会员2=白金会员
     private void setVip() {
+        user = DaoUtlis.getCurrentLoginUser();
         if (null != user) {
 
             int grade = user.getGrade();
@@ -115,9 +150,7 @@ public class VipActivity extends MyBaseSwipeBackActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
         if (event.eventType == MessageEvent.UPDATE_LOGIN_USER_INFO) {
-
             LogUtils.e("VIP页面刷新数据");
-            user = DaoUtlis.getCurrentLoginUser();
             setVip();
         }
     }

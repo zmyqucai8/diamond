@@ -239,8 +239,7 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
         int downNumber = user.getDownNumber();
 //        downNumber = 100;
 //        vipCollectCount = 1;
-//        if (downNumber >= vipCollectCount) {
-        if (true) {
+        if (downNumber >= vipCollectCount) {
             //1.超出再判断vip等级
             String content = "";
             String[] text = null;
@@ -285,9 +284,9 @@ public class HomeFragment extends MyBaseFragment implements OnTabSelectListener,
      * 停止采集
      */
     public void stopCollect() {
-        if (!isCollectIng) {
-            return;
-        }
+//        if (!isCollectIng) {
+//            return;
+//        }
         isCollectIng = false;
         loadingView.hide();
         int currentItem = viewPager.getCurrentItem();
