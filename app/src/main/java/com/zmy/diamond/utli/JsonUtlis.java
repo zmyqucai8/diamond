@@ -37,7 +37,7 @@ public class JsonUtlis {
             jsonBean.setStatus(json.optInt("status"));
             jsonBean.setCount(json.optInt("count"));
             jsonBean.setInfo(json.optString("info"));
-            jsonBean.setInfocode(json.optString("infocode"));
+            jsonBean.setInfocode(json.optInt("infocode"));
             JSONObject suggestionObj = json.optJSONObject("suggestion");
             JsonBean_GaoDeMap.SuggestionBean suggestion = new JsonBean_GaoDeMap.SuggestionBean();
 

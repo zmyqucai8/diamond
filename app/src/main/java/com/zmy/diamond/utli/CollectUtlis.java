@@ -713,7 +713,7 @@ public class CollectUtlis {
             //10004 单位时间内访问过于频繁
             //10016 服务器负载过高，请稍后再试
             //10019-10023:key超额
-            switch (jsonBean_gaoDeMap.getStatus()) {
+            switch (jsonBean_gaoDeMap.getInfocode()) {
                 case 10003:
                 case 10019:
                 case 10020:

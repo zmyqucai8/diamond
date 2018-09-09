@@ -21,7 +21,7 @@ public class JsonBean_GaoDeMap {
     private int  status;
     private int  count;
     private String info;
-    private String infocode;
+    private int infocode;
     private SuggestionBean suggestion;
     /**
      * id : B0FFHR5LRA
@@ -92,11 +92,11 @@ public class JsonBean_GaoDeMap {
         this.info = info;
     }
 
-    public String getInfocode() {
+    public int getInfocode() {
         return infocode;
     }
 
-    public void setInfocode(String infocode) {
+    public void setInfocode(int infocode) {
         this.infocode = infocode;
     }
 
