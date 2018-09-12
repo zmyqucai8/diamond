@@ -160,7 +160,7 @@ public class PayActivity extends MyBaseSwipeBackActivity {
     }
 
     /**
-     * 开始支付
+     * 启动支付
      *
      * @param grade
      * @param recomCode
@@ -169,23 +169,14 @@ public class PayActivity extends MyBaseSwipeBackActivity {
         ApiUtlis.joinVIP(PayActivity.this, MyUtlis.getToken(), grade, recomCode, new JsonCallBack<JoinVipResponseBean>(JoinVipResponseBean.class) {
             @Override
             public void onSuccess(Response<JoinVipResponseBean> response) {
-
-
                 if (null != response.body()) {
-
                     if (response.body().getCode() == AppConstant.CODE_SUCCESS) {
                         //开启支付
                         orderId = response.body().getData().getOrder_id();
-//                        startPay(joinVipResponseBean);
-//                        WebViewActivity.start2(PayActivity.this, response.body().getData());
-
                         pay(response.body().getData());
-
-
                     } else {
                         hideLoading();
                         MyUtlis.showShortNo(PayActivity.this, response.body().getMsg());
-
                     }
                 }
 

@@ -113,7 +113,7 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
 
     public void reLoad(UserBean user) {
 
-        this.user=user;
+        this.user = user;
         dataAdapter.setUser(user);
         dataAdapter.notifyDataSetChanged();
     }
@@ -165,13 +165,16 @@ public class DataFragment extends MyBaseFragment implements MyRecyclerView.OnScr
             public void onSuccess(Response<MapKeyJsonBean> response) {
                 LogUtils.e("getMapKey=onSuccess");
 
+                if (null == user) {
+                    user = DaoUtlis.getCurrentLoginUser();
+                }
                 //更新本地mapkey
                 if (null != response.body() && null != response.body().getData() && response.body().getData().size() > 0) {
                     List<MapKeyBean> list = new ArrayList<MapKeyBean>();
                     for (int i = 0; i < response.body().getData().size(); i++) {
                         MapKeyJsonBean.DataBean dataBean = response.body().getData().get(i);
                         MapKeyBean bean = new MapKeyBean();
-                        bean.setUserId(user.getUserId());
+                        bean.setUserId(null == user ? MyUtlis.getLoginUserId() : user.getUserId());
                         bean.setMapKeyId(dataBean.getId());
                         bean.setMapKey(dataBean.getMap_key());
                         bean.setMapType(dataBean.getMap_type());

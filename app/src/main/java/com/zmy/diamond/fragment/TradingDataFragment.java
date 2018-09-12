@@ -1,6 +1,7 @@
 package com.zmy.diamond.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -132,7 +133,7 @@ public class TradingDataFragment extends MyBaseFragment implements BaseQuickAdap
     public void autoRefresh() {
         if (isAutoInitData) {
             isAutoInitData = false;
-            swipeRefreshLayout.postDelayed(new Runnable() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     swipeRefreshLayout.setRefreshing(true);
@@ -150,7 +151,7 @@ public class TradingDataFragment extends MyBaseFragment implements BaseQuickAdap
     private void getData() {
 
         //模拟网络获取数据
-        ApiUtlis.getTrade(getActivity(),MyUtlis.getToken(), dataType, mPages, new JsonCallBack<TradingDataBean>(TradingDataBean.class) {
+        ApiUtlis.getTrade(getActivity(), MyUtlis.getToken(), dataType, mPages, new JsonCallBack<TradingDataBean>(TradingDataBean.class) {
             @Override
             public void onSuccess(Response<TradingDataBean> response) {
 

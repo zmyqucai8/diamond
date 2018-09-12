@@ -1,5 +1,7 @@
 package com.zmy.diamond.utli;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,9 +14,8 @@ import java.util.Map;
 
 public class SignUtli {
 
-    public static String API_KEY = "b4b6e77c-5974-4cc6-924a-7d279d64c921";
-
-
+//    public static String API_KEY = "b4b6e77c-5974-4cc6-924a-7d279d64c921";
+    
     /**
      * 获取签名
      *
@@ -22,6 +23,7 @@ public class SignUtli {
      */
     public static String getSignature(Map<String, String> paramMap) {
         String signStr = MyUtlis.getSignKey();
+        LogUtils.e("signStr="+signStr);
         for (String value : paramMap.values()) {
 //            System.out.println(value);
             signStr = signStr + value;

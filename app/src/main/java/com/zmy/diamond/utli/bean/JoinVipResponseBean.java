@@ -8,6 +8,14 @@ import java.io.Serializable;
 
 public class JoinVipResponseBean {
 
+    @Override
+    public String toString() {
+        return "JoinVipResponseBean{" +
+                "msg='" + msg + '\'' +
+                ", code=" + code +
+                ", data=" + (null==data?"null":data.toString())+
+                '}';
+    }
 
     /**
      * msg : 成功
