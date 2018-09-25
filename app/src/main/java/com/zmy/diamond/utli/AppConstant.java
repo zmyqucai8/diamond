@@ -380,6 +380,12 @@ public class AppConstant {
          * webview data  value =object
          */
         public static final String DATA = "data";
+        /**
+         * VIP减免价格
+         */
+        public static final String VIP_GRADE_HASCODE = "vip_grade_hascode";
+
+
 
         /**
          * data bean

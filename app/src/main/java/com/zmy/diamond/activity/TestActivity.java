@@ -567,8 +567,12 @@ public class TestActivity extends MyBaseSwipeBackActivity {
         latLngs.add(lowerLeft);
         latLngs.add(upperRight);
         return latLngs;
-
     }
+
+
+
+
+
 
 
 }

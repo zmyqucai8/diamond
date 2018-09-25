@@ -25,7 +25,7 @@ public class VipAdapter extends BaseQuickAdapter<VipPriceJsonBean.DataBean, Base
     protected void convert(final BaseViewHolder helper, final VipPriceJsonBean.DataBean item) {
         helper
                 .setText(R.id.tv_name, item.getMessage())
-                .setText(R.id.tv_price_des, item.getPrice())
+                .setText(R.id.tv_price_des, item.getPrice() + " 每天可采集" + MyUtlis.getVipCollectCount(item.getGrade()) + "条数据")
                 .setTypeface(R.id.tv_ttf_vip_r, MyUtlis.getTTF());
     }
 }

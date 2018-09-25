@@ -159,6 +159,8 @@ public class SMSBatchActivity extends MyBaseSwipeBackActivity {
         MarketingDataSelectActivity.start(this, AppConstant.SHOW_TYPE_PHONE, "已选择的数据");
     }
 
+    AlertView alertView;
+
     @OnClick(R.id.btn_send)
     public void btn_send() {
 //        ToastUtils.showShort("发送");
@@ -176,11 +178,11 @@ public class SMSBatchActivity extends MyBaseSwipeBackActivity {
         }
 
 
-        new AlertView("选择发送模式", null, "取消", new String[]{}, new String[]{"本机发送", "平台短信通道"}, this,
+        alertView = new AlertView("选择发送模式", null, "取消", new String[]{}, new String[]{"本机发送", "平台短信通道"}, this,
                 AlertView.Style.ActionSheet, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {
-
+                alertView.dismissImmediately();
                 if (0 == position) {
                     sendSMS(receiverPhone, smsContent);
                 } else if (1 == position) {
@@ -188,7 +190,9 @@ public class SMSBatchActivity extends MyBaseSwipeBackActivity {
                 }
 
             }
-        }).show();
+        });
+
+        alertView.show();
     }
 
 

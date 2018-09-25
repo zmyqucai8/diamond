@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.zmy.diamond.R;
@@ -66,7 +67,7 @@ public class OpinionActivity extends MyBaseSwipeBackActivity {
             @Override
             public void onSuccess(Response<PublicResponseBean> response) {
                 if (null != response.body()) {
-                    MyUtlis.showShort(OpinionActivity.this, response.body().getMsg());
+                    ToastUtils.showShort(response.body().getMsg());
                     if (response.body().getCode() == AppConstant.CODE_SUCCESS) {
                         tv_back();
 //                        ActivityUtils.finishActivity(OpinionActivity.this);

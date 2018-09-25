@@ -67,11 +67,23 @@ public class VipPriceJsonBean {
                     "price='" + price + '\'' +
                     ", grade=" + grade +
                     ", message='" + message + '\'' +
+                    ", hascode_price=" + hascode_price + '\'' +
                     '}';
         }
 
         private int grade;
         private String message;
+
+
+        public String getHascode_price() {
+            return hascode_price;
+        }
+
+        public void setHascode_price(String hascode_price) {
+            this.hascode_price = hascode_price;
+        }
+
+        private String hascode_price;
 
         public String getPrice() {
             return price;

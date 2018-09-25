@@ -74,7 +74,7 @@ public class VipActivity extends MyBaseSwipeBackActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                PayActivity.start(VipActivity.this, vipAdapter.getData().get(position).getGrade());
+                PayActivity.start(VipActivity.this, vipAdapter.getData().get(position).getGrade(),vipAdapter.getData().get(position).getHascode_price());
 
             }
         });

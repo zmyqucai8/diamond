@@ -81,13 +81,13 @@ public class PayActivity extends MyBaseSwipeBackActivity {
     public void initData() {
 
         grade = getIntent().getIntExtra(AppConstant.ExtraKey.DATA, 0);
-
+        String vip_grade_hascode = getIntent().getStringExtra(AppConstant.ExtraKey.VIP_GRADE_HASCODE);
         if (grade == AppConstant.VIP_GRADE_1) {
 //白金
-            tv_tip.setText("黄金会员输入推荐码可减免1000元费用");
+            tv_tip.setText("黄金会员输入推荐码可减免" + vip_grade_hascode + "元费用");
         } else if (grade == AppConstant.VIP_GRADE_2) {
             //黄金
-            tv_tip.setText("白金会员输入推荐码可减免1000元费用");
+            tv_tip.setText("白金会员输入推荐码可减免" + vip_grade_hascode + "元费用");
         }
 
 
@@ -306,9 +306,10 @@ public class PayActivity extends MyBaseSwipeBackActivity {
      * @param context
      * @param grade   会员类型
      */
-    public static void start(Context context, int grade) {
+    public static void start(Context context, int grade, String getHascode_price) {
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra(AppConstant.ExtraKey.DATA, grade);
+        intent.putExtra(AppConstant.ExtraKey.VIP_GRADE_HASCODE, getHascode_price);
         context.startActivity(intent);
     }
 

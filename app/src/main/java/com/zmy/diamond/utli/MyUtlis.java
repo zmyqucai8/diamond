@@ -2922,18 +2922,44 @@ public class MyUtlis {
      * @return 可以采集多少条
      */
     public static int getVipCollectCount() {
-        UserBean user = DaoUtlis.getCurrentLoginUser();
-        if (null != user) {
-            int grade = user.getGrade();
-            if (grade == AppConstant.VIP_GRADE_1) {
-                return AppConstant.VIP_1_COLLECT_COUNT;
-            } else if (grade == AppConstant.VIP_GRADE_2) {
-                return AppConstant.VIP_2_COLLECT_COUNT;
+//        UserBean user = DaoUtlis.getCurrentLoginUser();
+//        if (null != user) {
+//            int grade = user.getGrade();
+//            if (grade == AppConstant.VIP_GRADE_1) {
+//                return AppConstant.VIP_1_COLLECT_COUNT;
+//            } else if (grade == AppConstant.VIP_GRADE_2) {
+//                return AppConstant.VIP_2_COLLECT_COUNT;
+//            }
+//        }
+//        return AppConstant.VIP_0_COLLECT_COUNT;
+
+        return getVipCollectCount(-1);
+    }
+
+
+    /**
+     * 获取vip采集数量
+     *
+     * @param grade
+     * @return
+     */
+    public static int getVipCollectCount(int grade) {
+        //如果grade=-1则取当前用户的grade，否则直接根据grade返回
+        if (grade == -1) {
+            UserBean user = DaoUtlis.getCurrentLoginUser();
+            if (null != user) {
+                grade = user.getGrade();
             }
         }
+        if (grade == AppConstant.VIP_GRADE_1) {
+            return AppConstant.VIP_1_COLLECT_COUNT;
+        } else if (grade == AppConstant.VIP_GRADE_2) {
+            return AppConstant.VIP_2_COLLECT_COUNT;
+        }
         return AppConstant.VIP_0_COLLECT_COUNT;
-
     }
+
+    ;
 
     /**
      * 根据vip身份获取采集数量限制，判断当前采集数量，是否超出  超出=true 没超出=false

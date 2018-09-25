@@ -670,6 +670,17 @@ public class ApiUtlis {
                 .params("sign", sign)
                 .params("token", token)
                 .execute(callBack);
+
+        OkGo.<String>post(AppConstant.Api.getVipPrice)
+                .tag(context)
+                .params("sign", sign)
+                .params("token", token)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LogUtils.e(response.body());
+                    }
+                });
     }
 
 
