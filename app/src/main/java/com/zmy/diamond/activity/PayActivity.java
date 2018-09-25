@@ -303,7 +303,7 @@ public class PayActivity extends MyBaseSwipeBackActivity {
 
 
     /**
-     * @param context
+     * @param contexts
      * @param grade   会员类型
      */
     public static void start(Context context, int grade, String getHascode_price) {
